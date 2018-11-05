@@ -73,24 +73,22 @@ export default [
   // Member Profile Pages
   // Show all members -- alias for directory maybe?
   { path: '/u/:id', name: 'members.show.public', component: MembersProfileView },
+
   // Alias for above url
   { path: '/u/:username', name: 'members.show.public.username', component: MembersProfileView },
+
   // View public profile as auth'd user
   { path: '/members/profile', name: 'members.profile', component: MembersProfileView },
+
   // Edit profile as auth'd user
   { path: '/members/profile/edit', name: 'members.profile.edit', component: MembersProfileEdit },
   { path: '/members/directory', name: 'members.directory', component: MembersDirectory },
   { path: '/members/dashboard', name: 'members.dashboard', component: MembersDashboard },
 
-  // User Account Paes
-  { path: '/members/settings',
-    component: MembersSettings,
-    children: [
-      { path: '', redirect: { name: 'members.settings.password' } },
-      { path: '/members/settings/profile', name: 'members.settings.profile', component: MembersProfile },
-      { path: '/members/settings/password', name: 'members.settings.password', component: MembersPassword }
-    ],
-    name: 'members.settings' },
+  // Member settings
+  { path: '/members/settings', name: 'members.settings', component: MembersSettings },
+  { path: '/members/settings/profile', name: 'members.settings.profile', component: MembersProfile },
+  { path: '/members/settings/password', name: 'members.settings.password', component: MembersPassword },
 
     // { path: '/users', name: 'users', component: Users },
 

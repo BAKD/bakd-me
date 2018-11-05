@@ -1,53 +1,23 @@
 <template>
-  <div class="columns">
-    <div class="column is-3">
-      <panel :title="$t('settings')" class="settings-card">
-        <ul class="nav flex-column nav-pills">
-          <li v-for="tab in tabs" :key="tab.route" class="nav-item">
-            <router-link :to="{ name: tab.route }" class="nav-link" active-class="active">
-              <fa :icon="tab.icon" fixed-width/>
-              {{ tab.name }}
-            </router-link>
-          </li>
-        </ul>
-      </panel>
-    </div>
+  <panel :title="$t('Member Settings')">
+    <div style="min-height: 400px; margin: 40px 10px; padding: 120px 50px 50px 50px;" class="has-text-centered is-100">
 
-    <div class="column is-9">
-      <transition name="fade" mode="out-in">
-        <router-view/>
-      </transition>
+      <div class="is-v-centered">
+        <fa icon="exclamation-triangle" class="has-text-red is-danger has-text-danger fa-2x"/>
+        <br/>
+        <h3 class="is-bold">In Development</h3>
+      </div>
+
     </div>
-  </div>
+  </panel>
 </template>
 
 <script>
 export default {
   layout: 'account',
   
-  middleware: 'auth',
-
-  computed: {
-    tabs () {
-      return [
-        {
-          icon: 'user',
-          name: this.$t('profile'),
-          route: 'settings.profile'
-        },
-        {
-          icon: 'lock',
-          name: this.$t('password'),
-          route: 'settings.password'
-        }
-      ]
-    }
+  metaInfo () {
+    return { title: this.$t('Member Settings') }
   }
 }
 </script>
-
-<style>
-.settings-card .card-body {
-  padding: 0;
-}
-</style>

@@ -15,11 +15,15 @@
         <ul class="menu-list">
           <li><a class="is-active">Dashboard</a></li>
           <!-- <li><a>Messages</a></li> -->
-          <li><a>Edit Profile</a></li>
-          <li><a>Account Settings</a></li>
+          <li>
+            <router-link :to="{ name: 'members.settings.profile' }">Edit Profile</router-link>
+          </li>
+            <router-link :to="{ name: 'members.settings.password' }">Change Password</router-link>
           <li><a>Privacy Settings</a></li>
-          <!-- <li><a>My Followers</a></li> -->
-          <!-- <li><a>My Bounties</a></li> -->
+          <li><a>My Followers</a></li>
+          <li>
+            <router-link :to="{ name: 'bounties.dashboard' }">My Bounties</router-link>
+          </li>
         </ul>
         <p class="menu-label">
           Projects
