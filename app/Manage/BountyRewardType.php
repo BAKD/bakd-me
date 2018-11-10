@@ -1,21 +1,25 @@
 <?php
 
-namespace BAKD\Nova;
+namespace BAKD\Manage;
 
 use Laravel\Nova\Fields\ID;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Gravatar;
-use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\HasOne;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Markdown;
+use Illuminate\Http\Request;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class BountyRewardType extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'BAKD\\User';
+    public static $model = 'BAKD\BountyRewardType';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -25,12 +29,19 @@ class User extends Resource
     public static $title = 'name';
 
     /**
+     * Eager loading
+     *
+     * @var string
+     */
+     public static $with = ['bounty'];
+
+    /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'name', 'description'
     ];
 
     /**
@@ -42,24 +53,10 @@ class User extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
-
-            Gravatar::make(),
-
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
-
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:6')
-                ->updateRules('nullable', 'string', 'min:6'),
+            ID::make('ID', 'id')->sortable(),
+            Text::make('Name', 'name')->sortable()->rules('required'),
+            Text::make('Description', 'description')->sortable()->rules('required'),
+            HasMany::make('Bounty')->sortable(),
         ];
     }
 
@@ -105,5 +102,36 @@ class User extends Resource
     public function actions(Request $request)
     {
         return [];
+    }
+
+
+    /**
+     * Get the displayble label of the resource.
+     *
+     * @return string
+     */
+    public static function label()
+    {
+        return 'Bounty Reward Types';
+    }
+
+    /**
+     * Get the displayble singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel()
+    {
+        return 'Bounty Reward Type';
+    }
+
+    /**
+     * Get the search result subtitle for the resource.
+     *
+     * @return string
+     */
+    public function subtitle()
+    {
+        return 'BAKD Bounty Reward Types';
     }
 }
