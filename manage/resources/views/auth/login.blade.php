@@ -15,22 +15,22 @@
         {{ __('Welcome Back!') }}
     @endcomponent
 
-    @if (!empty($errors) && $errors->any())
+    @if (isset($errors) && $errors->any())
     <p class="text-center font-semibold text-danger my-3">
         @if ($errors->has('email'))
             {{ $errors->first('email') }}
         @else
             {{ $errors->first('password') }}
         @endif
-        </p>
+    </p>
     @endif
 
-    <div class="mb-6 {{!empty($errors) && $errors->has('email') ? ' has-error' : '' }}">
+    <div class="mb-6 {{ isset($errors) && $errors->has('email') ? ' has-error' : '' }}">
         <label class="block font-bold mb-2" for="email">{{ __('Email Address') }}</label>
         <input class="form-control form-input form-input-bordered w-full" id="email" type="email" name="email" value="{{ old('email') }}" required autofocus>
     </div>
 
-    <div class="mb-6 {{ !empty($errors) && $errors->has('password') ? ' has-error' : '' }}">
+    <div class="mb-6 {{ isset($errors) && $errors->has('password') ? ' has-error' : '' }}">
         <label class="block font-bold mb-2" for="password">{{ __('Password') }}</label>
         <input class="form-control form-input form-input-bordered w-full" id="password" type="password" name="password" required>
     </div>

@@ -37,13 +37,13 @@ return [
 
         'single' => [
             'driver' => 'single',
-            'path' => storage_path('logs/laravel.log'),
+            'path' => storage_path('logs/bakd.log'),
             'level' => 'debug',
         ],
 
         'daily' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/laravel.log'),
+            'path' => storage_path('logs/bakd.log'),
             'level' => 'debug',
             'days' => 7,
         ],
@@ -51,7 +51,7 @@ return [
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
-            'username' => 'Laravel Log',
+            'username' => 'BAKD Slack Logger',
             'emoji' => ':boom:',
             'level' => 'critical',
         ],

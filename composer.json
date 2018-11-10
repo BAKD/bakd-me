@@ -6,12 +6,19 @@
     "type": "project",
     "require": {
         "php": "^7.1.3",
+        "doctrine/dbal": "^2.8",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
+        "laravel/nova": "*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
+        "maatwebsite/laravel-nova-excel": "^1.0",
+        "sentry/sentry-laravel": "^0.11.0",
+        "spatie/laravel-permission": "^2.20",
+        "spatie/nova-backup-tool": "^1.0",
         "tymon/jwt-auth": "^1.0.0-rc.2",
-        "laravel/nova": "*"
+        "vyuldashev/nova-permission": "^1.3",
+        "webpatser/laravel-uuid": "^3.0"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
@@ -19,7 +26,9 @@
         "laravel/dusk": "^3.0",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^7.0",
+        "barryvdh/laravel-debugbar": "^3.2",
+        "beyondcode/laravel-dump-server": "^1.0"
     },
     "autoload": {
         "classmap": [

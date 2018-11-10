@@ -2,7 +2,6 @@
     <panel-item :field="field" :field-name="field.resourceLabel">
         <template slot="value">
             <router-link
-                v-if="field.value"
                 :to="{name: 'detail', params: {
                     resourceName: field.resourceName,
                     resourceId: field.morphToId
@@ -11,7 +10,6 @@
             >
                 {{ field.value }}
             </router-link>
-            <p v-else>&mdash;</p>
         </template>
     </panel-item>
 </template>

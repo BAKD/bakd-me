@@ -40,13 +40,7 @@
                 @change="selectResourceFromSelectControl"
                 :disabled="isLocked"
             >
-                <option
-                    value=""
-                    selected
-                    :disabled="!field.nullable"
-                >
-                    &mdash;
-                </option>
+                <option value="" disabled selected>{{__('Choose')}} {{ field.name }}</option>
 
                 <option
                     v-for="resource in availableResources"
@@ -160,12 +154,10 @@ export default {
          * Fill the forms formData with details from this field
          */
         fill(formData) {
-            formData.append(
-                this.field.attribute,
-                this.selectedResource ? this.selectedResource.value : ''
-            )
-
-            formData.append(this.field.attribute + '_trashed', this.withTrashed)
+            if (this.selectedResource) {
+                formData.append(this.field.attribute, this.selectedResource.value)
+                formData.append(this.field.attribute + '_trashed', this.withTrashed)
+            }
         },
 
         /**

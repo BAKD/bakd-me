@@ -51,14 +51,36 @@ class LoginController extends Controller
     {
         $this->clearLoginAttempts($request);
 
-        $token = (string) $this->guard()->getToken();
-        $expiration = $this->guard()->getPayload()->get('exp');
+        if (! $this->isNovaRequest($request)) {
+            $token = (string) $this->guard()->getToken();
+            $expiration = $this->guard()->getPayload()->get('exp');
 
-        return [
-            'token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => $expiration - time(),
-        ];
+            return [
+                'token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => $expiration - time(),
+            ];
+        } else {
+            $request->session()->regenerate();
+
+            return $this->authenticated($request, $this->guard()->user())
+                    ?: redirect()->intended($this->redirectPath());
+        }
+    }
+
+    /**
+     * Determine if the given request is intended for Nova.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    protected function isNovaRequest($request)
+    {
+        $path = trim(\Nova::path(), '/') ?: '/';
+
+        return $request->is($path) ||
+               $request->is(trim($path.'/*', '/')) ||
+               $request->is('nova-api/*');
     }
 
     /**

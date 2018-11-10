@@ -31,7 +31,8 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('nova.guest:'.config('nova.guard'))->except('logout');
+        // TODO: Fix me, can't leave this here, going to get overwritten on next update.
+        $this->middleware(['nova.guest:'.config('nova.guard'), 'manage'])->except('logout');
     }
 
     /**

@@ -10,13 +10,7 @@
                 @change="refreshResourcesForTypeChange"
                 class="block w-full form-control form-input form-input-bordered form-select mb-3"
             >
-                <option
-                    value=""
-                    selected
-                    :disabled="!field.nullable"
-                >
-                    {{__('Choose Type')}}
-                </option>
+                <option value="" disabled selected>{{__('Choose Type')}}</option>
 
                 <option
                     v-for="option in field.morphToTypes"
@@ -71,11 +65,8 @@
                 >
                     <option
                         value=""
-                        :disabled="!field.nullable"
-                        :selected="selectedResourceId == ''"
-                    >
-                        {{__('Choose')}} {{ fieldTypeName }}
-                    </option>
+                        disabled
+                        :selected="selectedResourceId == ''">{{__('Choose')}} {{ fieldTypeName }}</option>
 
                     <option
                         v-for="resource in availableResources"
@@ -162,15 +153,11 @@ export default {
          * Fill the forms formData with details from this field
          */
         fill(formData) {
-            if (this.selectedResource && this.resourceType) {
+            if (this.selectedResource) {
                 formData.append(this.field.attribute, this.selectedResource.value)
                 formData.append(this.field.attribute + '_type', this.resourceType)
-            } else {
-                formData.append(this.field.attribute, '')
-                formData.append(this.field.attribute + '_type', '')
+                formData.append(this.field.attribute + '_trashed', this.withTrashed)
             }
-
-            formData.append(this.field.attribute + '_trashed', this.withTrashed)
         },
 
         /**
@@ -225,7 +212,7 @@ export default {
             this.determineIfSoftDeletes()
             // }
 
-            if (!this.isSearchable && this.resourceType) {
+            if (!this.isSearchable) {
                 this.getAvailableResources()
             }
         },
