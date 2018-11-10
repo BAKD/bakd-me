@@ -23,7 +23,7 @@
 
     @include('nova::auth.partials.errors')
 
-    <div class="mb-6 {{ $errors->has('email') ? ' has-error' : '' }}">
+    <div class="mb-6 {{ isset($errors) && $errors->has('email') ? ' has-error' : '' }}">
         <label class="block font-bold mb-2" for="email">{{ __('Email Address') }}</label>
         <input class="form-control form-input form-input-bordered w-full" id="email" type="email" name="email" value="{{ old('email') }}" required>
     </div>

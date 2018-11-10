@@ -49,7 +49,7 @@ Route::group(['middleware' => 'guest:api'], function () {
 // -----------------
 // PRE-DEFINED ROUTES
 // -----------------
-Auth::routes();
+// Auth::routes();
 
 // -----------------
 // FRONTEND ROUTES

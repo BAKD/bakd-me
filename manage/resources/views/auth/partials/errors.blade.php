@@ -1,9 +1,9 @@
-@if ($errors->any())
+@if (isset($errors) && $errors->any())
 <p class="text-center font-semibold text-danger my-3">
-    @if ($errors->has('email'))
-        {{ $errors->first('email') }}
+    @if (isset($errors) && $errors->has('email'))
+        {{ isset($errors) ? $errors->first('email') : '' }}
     @else
-        {{ $errors->first('password') }}
+        {{ isset($errors) ? $errors->first('password') : '' }}
     @endif
     </p>
 @endif
