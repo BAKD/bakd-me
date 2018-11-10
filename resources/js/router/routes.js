@@ -90,6 +90,9 @@ export default [
   { path: '/members/settings/profile', name: 'members.settings.profile', component: MembersProfile },
   { path: '/members/settings/password', name: 'members.settings.password', component: MembersPassword },
 
+  // { path: '/manage', name: 'admin',  },
+
+
     // { path: '/users', name: 'users', component: Users },
 
   { path: '*', component: NotFound }

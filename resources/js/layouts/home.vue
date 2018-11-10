@@ -30,6 +30,12 @@ export default {
     hasHeader: true
   }),
 
+  methods: {
+    afterEnter () {
+      this.$root.$emit('scrollAfterEnter');
+    },
+  },
+  
   components: {
     Navbar,
     NavbarHeader,

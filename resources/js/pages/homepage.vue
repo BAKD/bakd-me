@@ -67,35 +67,35 @@
 
     <bakd-featured-members/>
 
-    <section class="section how-it-works">
-      <bakd-section-title title="How it Works" subtitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias natus nulla asperiores incidunt."/>
-        <div class="container">
-          <div class="tile wow fadeInUp" v-for="n in 3" :key="n">
-            <article class="media">
-              <figure class="media-left">
-                <img src="https://via.placeholder.com/120" />
-              </figure>
-              <div class="media-content is-v-centered">
-                <p class="title is-size-5 is-bold is-marginless">
-                  Step {{ n }} - Lorem ipsum dolor sit amet
-                </p>
-                <p style="line-height: 26px;">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic necessitatibus sit soluta, odit aspernatur eos iste laborum ipsa harum quidem itaque aliquid modi quis, dolores impedit odio, ipsam, id incidunt. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit iusto sit modi quam officiis dolore consequatur officia accusantium? Voluptates magni quia ex praesentium illum facilis harum iste ut possimus neque!
-                </p>
-              </div>
-            </article>
-            <hr/>
+    <section class="section newsletter-section" style="margin-top: -40px;">
+      <div class="container">
+        
+        <div class="level">
+          <div class="level-left has-text-centered is-margin-centered is-v-centered">
+            <img src="https://via.placeholder.com/150" style="padding-right: 20px; margin: 20px 0;" />
           </div>
-          <div class="buttons has-text-centered is-100">
-            <router-link :to="{ name: 'campaigns.create' }" class="button is-large is-primary is-wide is-rounded is-margin-centered">
-              <span class="is-size-6">Start a Campaign</span>
+          <div class="level-content is-v-centered">
+            <span style="font-size: 72px;"></span>
+            <p class="title is-size-4" style="margin-top: 20px;">
+              Free Resources
+            </p>
+            <p style="padding-right: 20px; margin: 0 0 20px 0;">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem, veniam, eius. Quam temporibus quisquam veritatis cupiditate saepe rerum dicta recusandae. Nam, blanditiis, voluptatum. Aperiam sequi, ipsum at temporibus labore magni. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus mollitia molestiae qui sunt asperiores deserunt, doloremque maiores consequatur vel vero, ratione corrupti voluptatum obcaecati, neque cupiditate magni velit dolorum nisi.
+            </p>
+          </div>
+          <div class="level-right has-text-centered is-v-centered is-margin-centered">
+            <router-link :to="{ name: 'resources.index' }" class="button is-outlined has-shadow is-rounded is-large is-primary is-wide is-margin-centered" style="margin: 20px 0;">
+              <span class="is-size-6"><i class="la la-book is-size-5" /> Resource Directory</span>
             </router-link>
           </div>
-          <br />
         </div>
-      </section>
 
+      </div>
+    </section>
 
+    <bakd-how-it-works/>
+
+    <bakd-site-stats/>
 
   </div>
 </template>
@@ -106,11 +106,11 @@ import { mapGetters } from 'vuex'
 
 // Main Components/Partials
 import BakdPostMessage from '~/components/common/BakdPostMessage'
-import BakdSectionTitle from '~/components/common/BakdSectionTitle'
 import BakdFeaturedProject from '~/components/common/BakdFeaturedProject'
 import BakdPostedMessage from '~/components/common/BakdPostedMessage'
 import BakdFeaturedMembers from '~/components/common/BakdFeaturedMembers'
 import BakdMainSearchbar from '~/components/common/BakdMainSearchbar'
+import BakdHowItWorks from '~/components/common/BakdHowItWorks'
 
 // Elements
 import BakdInput from '~/components/elements/BakdInput'
@@ -134,6 +134,7 @@ import HomepageRealtimeTab from '~/pages/partials/HomepageRealtimeTab'
 export default {
   layout: 'home',
   hasHeader: true,
+  scrollToTop: true,
 
   components: {
     BakdInput,
@@ -146,7 +147,6 @@ export default {
     BakdTrendingCampaignsWidget,
     BakdPostedMessage,
     BakdFeaturedProject,
-    BakdSectionTitle,
     HomepageRealtimeTab,
     HomepageCampaignsTab,
     HomepageMembersTab,
@@ -154,6 +154,7 @@ export default {
     BakdFeaturedMembers,
     BakdHomepageMenuWidget,
     BakdMainSearchbar,
+    BakdHowItWorks,
     BackToTop
   },
 
@@ -213,5 +214,14 @@ hr {
     width: 100%;
     margin-bottom: 70px;
   }
+}
+.how-it-works {
+  // display: block;
+  // height: 100%;
+  // width: 100%;
+  // background-color: #fff;
+  // background-image: url('/images/footer-bg-sm.png');
+  // background-size: contain;
+  // background-position: center;
 }
 </style>

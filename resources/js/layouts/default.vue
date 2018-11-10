@@ -2,7 +2,9 @@
   <div class="main-layout">
     <navbar/>
     <div class="container-fluid" style="padding-top: 65px;">
-      <child/>
+      <transition name="page" mode="out-in" @after-enter="afterEnter" appear>
+        <child/>
+      </transition>
     </div>
     <back-to-top></back-to-top>
     <bakd-footer/>
@@ -20,7 +22,8 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'MainLayout',
-
+  scrollToTop: true,
+  
   // props: {
   //   hasHeader: {
   //     type: Boolean,
@@ -35,6 +38,12 @@ export default {
   data: () => ({
     hasHeader: true
   }),
+
+  methods: {
+    afterEnter () {
+      this.$root.$emit('scrollAfterEnter');
+    },
+  },
 
   components: {
     Navbar,

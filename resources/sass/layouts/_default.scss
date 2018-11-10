@@ -18,6 +18,10 @@ body {
   border-top: 2px solid $primary !important;
 }
 
+.dropdown-menu {
+	min-width: 14rem !important;
+}
+
 .has-hand-cursor {
 	&:hover {
 		cursor: pointer;
@@ -32,9 +36,100 @@ body {
 	}
 }
 
+.columns {
+	// margin: unset;
+}
+
+.section.section-white {
+	border-top: 2px solid rgb(205, 205, 205); 
+	border-bottom: 2px solid rgb(205, 205, 205); 
+	background: rgb(255, 255, 255); 
+	margin: 0px 0px 40px; 
+	min-height: 400px; 
+	padding: 50px 10px;
+}
+
+.has-white-bg {
+	background-color: #fff;
+}
+
+aside.menu {
+
+	a {
+		&:hover,
+		&:focus,
+		&:active {
+			transition: all .2s ease;
+			background: $primary;
+			color: $white;
+		}
+	}
+}
 
 .panel-block {
 	background-color: $white;
+}
+
+.has-bakd-coins:after {
+    white-space: nowrap;
+    background-image: url(/images/icon.png);
+    background-size: 16px 16px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    height: 16px;
+    width: 16px;
+    margin-left: 6px;
+    position: relative;
+    top: 2px;
+    content: '';
+    display: inline-block;
+}
+
+.is-bakd-coins {
+    white-space: nowrap;
+    background-image: url(/images/icon.png);
+    background-size: 16px 16px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    height: 16px;
+    width: 16px;
+    margin-left: 6px;
+    position: relative;
+    top: 2px;
+    content: '';
+    display: inline-block;
+
+	&.is-2x {
+		height: 24px;
+		width: 24px;
+	    background-size: 24px 24px;
+	}
+
+	&.is-3x {
+		height: 32px;
+		width: 32px;
+	    background-size: 32px 32px;
+	}
+
+	&.is-4x {
+		height: 48px;
+		width: 48px;
+	    background-size: 48px 48px;
+	}
+
+	&.is-5x {
+		height: 56px;
+		width: 56px;
+    	background-size: 56px 56px;
+	}
+
+	&.is-6x {
+		height: 64px;
+		width: 64px;
+	    background-size: 64px 64px;
+	}
 }
 
 .main-layout {
@@ -179,4 +274,115 @@ body {
 
 .widget {
 	margin-bottom: 30px;
+}
+
+
+
+
+
+.odometer.odometer-auto-theme, .odometer.odometer-theme-default {
+  display: inline-block;
+  // vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+  position: relative;
+}
+.odometer.odometer-auto-theme .odometer-digit, .odometer.odometer-theme-default .odometer-digit {
+  display: inline-block;
+  // vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+  position: relative;
+}
+.odometer.odometer-auto-theme .odometer-digit .odometer-digit-spacer, .odometer.odometer-theme-default .odometer-digit .odometer-digit-spacer {
+  display: inline-block;
+  // vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+  visibility: hidden;
+}
+.odometer.odometer-auto-theme .odometer-digit .odometer-digit-inner, .odometer.odometer-theme-default .odometer-digit .odometer-digit-inner {
+  text-align: left;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+.odometer.odometer-auto-theme .odometer-digit .odometer-ribbon, .odometer.odometer-theme-default .odometer-digit .odometer-ribbon {
+  display: block;
+}
+.odometer.odometer-auto-theme .odometer-digit .odometer-ribbon-inner, .odometer.odometer-theme-default .odometer-digit .odometer-ribbon-inner {
+  display: block;
+  -webkit-backface-visibility: hidden;
+}
+.odometer.odometer-auto-theme .odometer-digit .odometer-value, .odometer.odometer-theme-default .odometer-digit .odometer-value {
+  display: block;
+  -webkit-transform: translateZ(0);
+}
+.odometer.odometer-auto-theme .odometer-digit .odometer-value.odometer-last-value, .odometer.odometer-theme-default .odometer-digit .odometer-value.odometer-last-value {
+  position: absolute;
+}
+.odometer.odometer-auto-theme.odometer-animating-up .odometer-ribbon-inner, .odometer.odometer-theme-default.odometer-animating-up .odometer-ribbon-inner {
+  -webkit-transition: -webkit-transform 2s;
+  -moz-transition: -moz-transform 2s;
+  -ms-transition: -ms-transform 2s;
+  -o-transition: -o-transform 2s;
+  transition: transform 2s;
+}
+.odometer.odometer-auto-theme.odometer-animating-up.odometer-animating .odometer-ribbon-inner, .odometer.odometer-theme-default.odometer-animating-up.odometer-animating .odometer-ribbon-inner {
+  -webkit-transform: translateY(-100%);
+  -moz-transform: translateY(-100%);
+  -ms-transform: translateY(-100%);
+  -o-transform: translateY(-100%);
+  transform: translateY(-100%);
+}
+.odometer.odometer-auto-theme.odometer-animating-down .odometer-ribbon-inner, .odometer.odometer-theme-default.odometer-animating-down .odometer-ribbon-inner {
+  -webkit-transform: translateY(-100%);
+  -moz-transform: translateY(-100%);
+  -ms-transform: translateY(-100%);
+  -o-transform: translateY(-100%);
+  transform: translateY(-100%);
+}
+.odometer.odometer-auto-theme.odometer-animating-down.odometer-animating .odometer-ribbon-inner, .odometer.odometer-theme-default.odometer-animating-down.odometer-animating .odometer-ribbon-inner {
+  -webkit-transition: -webkit-transform 2s;
+  -moz-transition: -moz-transform 2s;
+  -ms-transition: -ms-transform 2s;
+  -o-transition: -o-transform 2s;
+  transition: transform 2s;
+  -webkit-transform: translateY(0);
+  -moz-transform: translateY(0);
+  -ms-transform: translateY(0);
+  -o-transform: translateY(0);
+  transform: translateY(0);
+}
+
+.odometer.odometer-auto-theme, .odometer.odometer-theme-default {
+  // font-family: "Helvetica Neue", sans-serif;
+  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  // line-height: 1.1em;
+}
+.odometer.odometer-auto-theme .odometer-value, .odometer.odometer-theme-default .odometer-value {
+  text-align: center;
+}
+
+
+// .dropdown-content {
+// 	padding-bottom: 0;
+// 	padding-top: 0;
+// }
+// 
+.navbar-messages-dropdown .dropdown-content {
+	padding-bottom: 0;
+	padding-top: 0;
+}
+
+.navbar-notifications-dropdown .dropdown-content {
+	padding-bottom: 0;
+	padding-top: 0;
 }

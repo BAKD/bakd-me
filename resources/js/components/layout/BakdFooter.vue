@@ -121,8 +121,8 @@
                               v-model="form.email" />
                             
                             <!-- Submit Button -->
-                            <v-button class="is-rounded is-medium is-fullwidth" :loading="form.busy" style="margin-bottom: 10px;">
-                                <span class="is-size-6">Subscribe</span>
+                            <v-button class="is-rounded is-primary is-medium is-fullwidth" :loading="form.busy" style="margin: 10px auto; max-width: 320px;">
+                                <span class="is-size-6"><i class="la la-envelope" /> Subscribe</span>
                             </v-button>
                         </div>
                         
@@ -178,6 +178,9 @@ export default {
         background: #fff;
         z-index: 9;
         position: relative;
+        // background-image: url('/images/footer-bg-sm.png');
+        // background-size: contain;
+        // background-position: center;
     }
 
     .footer-columns {

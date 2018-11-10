@@ -1,6 +1,6 @@
 <template>
 
-  <section class="section level" style="border-top: 2px solid #cdcdcd; border-bottom: 2px solid #cdcdcd; background: #fff; margin: 0 0 40px 0; min-height: 400px; padding: 50px 10px;">
+  <section class="featured-members-section has-white-bg section level" style="border-top: 2px solid #cdcdcd; border-bottom: 2px solid #cdcdcd; margin: 0 0 40px 0; min-height: 400px; padding: 50px 10px;">
     <div class="container has-text-centered">
 
 
@@ -95,3 +95,16 @@ export default {
 
 }
 </script>
+
+
+<style lang="scss" scoped>
+.featured-members-section {
+    // display: block;
+    // height: 100%;
+    // width: 100%;
+    // background-color: #fff;
+    // background-image: url('/images/footer-bg-sm.png');
+    // background-size: contain;
+    // background-position: center;
+}
+</style>

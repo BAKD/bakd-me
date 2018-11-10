@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <loading ref="loading"/>
-    <transition name="page" mode="out-in">
+    <transition name="page" mode="out-in" @after-enter="afterEnter" appear>
       <component v-if="layout" :is="layout" :has-header="hasHeader" />
     </transition>
   </div>
@@ -49,6 +49,9 @@ export default {
   },
 
   methods: {
+    afterEnter () {
+      this.$root.$emit('scrollAfterEnter');
+    },
     /**
      * Set the application layout.
      *

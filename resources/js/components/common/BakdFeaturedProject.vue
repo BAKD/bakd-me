@@ -4,7 +4,7 @@
     <div class="panel-heading wow fadeIn">
       <div class="columns is-mobile is-v-centered level">
         <div class="column is-6 is-half-mobile is-bold" style="white-space: nowrap;">
-          <fa icon="star" class="is-primary"/> Featured Campaign 
+          <i class="la la-star is-primary"></i> Featured Campaign 
         </div>
         <div class="column is-6 is-half-mobile">
 
@@ -72,7 +72,7 @@
 
             <b-dropdown class="dropdown-trigger-icon" position="is-bottom-left" style="margin-top: 4px;">
               <div class="icon is-v-centered" slot="trigger">
-                <fa icon="ellipsis-v"/>
+                <i class="la la-ellipsis-v" style="font-size: 30px;" />
               </div>
               <b-dropdown-item><fa icon="eye"/> View</b-dropdown-item>
               <b-dropdown-item><fa icon="chart-bar"/> Contribute</b-dropdown-item>

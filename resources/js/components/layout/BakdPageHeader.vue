@@ -35,6 +35,7 @@ export default {
         background-image: url('/images/backgrounds/desk-header.jpg'); 
         background-position: center; 
         background-size: cover; 
+        background-attachment: fixed;
         background-repeat: no-repeat;
         overflow: hidden;
         max-height: 700px;

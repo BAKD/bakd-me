@@ -21,7 +21,7 @@
               <b-tooltip label="Add Image" type="is-dark">
                 <a class="button">
                   <span class="icon is-small is-size-6">
-                    <i class="fas fa-image"></i>
+                    <i class="la la-image"></i>
                   </span>
                 </a>
               </b-tooltip>
@@ -30,7 +30,7 @@
               <b-tooltip label="Add Link" type="is-dark">
                 <a class="button">
                   <span class="icon is-small">
-                    <i class="fas fa-link"></i>
+                    <i class="la la-link"></i>
                   </span>
                 </a>
               </b-tooltip>
@@ -39,7 +39,7 @@
               <b-tooltip label="Add Video" type="is-dark">
                 <a class="button">
                   <span class="icon is-small">
-                    <i class="fas fa-video"></i>
+                    <i class="la la-camera"></i>
                   </span>
                 </a>
               </b-tooltip>
@@ -48,7 +48,7 @@
               <b-tooltip label="Add Chart" type="is-dark">
                 <a class="button">
                   <span class="icon is-small">
-                    <i class="fas fa-chart-bar"></i>
+                    <i class="la la-bar-chart"></i>
                   </span>
                 </a>
               </b-tooltip>
@@ -67,8 +67,8 @@
 
           <div class="level-right">
             <div class="level-item">
-              <a href="#" class="button is-rounded is-primary is-fullwidth is-normal">
-                <span class="is-size-7">Post Message</span>
+              <a href="#" class="button is-primary is-rounded is-wide is-fullwidth is-normal">
+                <span class="is-size-7"><i class="la la-check" /> Post Message</span>
               </a>
             </div>
           </div>

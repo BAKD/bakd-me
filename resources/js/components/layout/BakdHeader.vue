@@ -9,7 +9,7 @@
             <div class="button-wrapper">
                 <template v-if="authenticated">
                     <router-link class="button is-rounded is-wide is-primary is-large has-shadow wow fadeInUp" :to="{ name: 'campaigns.create' }">
-                        <span class="is-size-6">{{ $t('Start a Campaign') }}</span>
+                        <span class="is-size-6"><i class="la la-bar-chart" /> {{ $t('Start a Campaign') }}</span>
                     </router-link>
                 </template>
 
@@ -52,6 +52,7 @@ export default {
         background-image: url('/images/backgrounds/desk-header.jpg'); 
         background-position: center; 
         background-size: cover; 
+        background-attachment: fixed;
         background-repeat: no-repeat;
         overflow: hidden;
         max-height: 700px;

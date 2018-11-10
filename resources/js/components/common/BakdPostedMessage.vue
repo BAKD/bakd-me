@@ -47,28 +47,24 @@
 
         <!-- MAIN POST CONTENT -->
         <div class="media-content">
-          <div class="fielsd level">
+          <div class="level">
 
-            <p class="is-start">
+            <div class="level-left">
               <span class="is-bold">Tom Grenier</span>&nbsp;&nbsp;<span class="is-size-7">1 minute ago...</span>
-            </p>
+            </div>
 
-            <p class="level-item is-size-7 has-text-right is-end">
+            <div class="level-right is-size-7 has-text-right">
+              <p class="is-size-7" style="max-width: 30px;">
+                <b-tooltip label="View Conversation"type="is-dark" position="is-left">
+                  <fa icon="chevron-down" />
+                </b-tooltip>
+              </p>
+            </div>
 
-
-
-
-              <!-- <fa icon="clock" class="icon" />&nbsp;&nbsp;1 minute ago... -->
-            </p>
-
-            <p class="level-item is-size-7 is-end" style="max-width: 30px;">
-              <!-- <fa icon="ellipsis-v" /> -->
-              <b-tooltip label="View Conversation" type="is-dark" position="is-left">
-                <fa icon="chevron-down" />
-              </b-tooltip>
-            </p>
           </div>
 
+
+          <!-- Main Message Section -->
           <div class="field" style="margin-bottom: 0;">
             <p class="control" style="padding-top: 0px;">
               <slot/>
@@ -77,7 +73,7 @@
 
 
           <!-- FOOTER ICONS -->
-          <nav class="level">
+          <nav class="level" style="margin-top: 5px;">
             <div class="level-item has-text-left">
               <div class="is-size-7">
 
@@ -93,7 +89,7 @@
             <div class="media-right">
 
 
-              <ul class="is-grouped field">
+              <ul class="is-grouped field is-end is-clipped">
 
 
 <!-- 
@@ -122,7 +118,8 @@
                   <b-tooltip label="Comment" type="is-dark">
                     <a href="#" class="has-text-dark">
                       <div class="icon">
-                        <fa icon="comment" />
+                        <!-- <fa icon="comment" /> -->
+                        <i class="la la-comment is-size-5" />
                       </div>
                     </a>
                   </b-tooltip>
@@ -131,7 +128,8 @@
                   <b-tooltip label="Reshare" type="is-dark">
                     <a href="#" class="has-text-dark">
                       <div class="icon">
-                        <fa icon="share" />
+                        <!-- <fa icon="share" /> -->
+                        <i class="la la-share is-size-5" />
                       </div>
                     </a>
                   </b-tooltip>
@@ -141,10 +139,11 @@
                   <b-tooltip label="More" type="is-dark">
                     <b-dropdown class="dropdown-trigger-icon" position="is-bottom-left">
                       <div class="icon is-v-centered" slot="trigger">
-                        <fa icon="ellipsis-v"/>
+                        <!-- <fa icon="ellipsis-v"/> -->
+                        <i class="la la-ellipsis-v is-size-5" />
                       </div>
-                      <b-dropdown-item><fa icon="ban"/> Mute Member</b-dropdown-item>
-                      <b-dropdown-item><fa icon="bell"/> Report Message</b-dropdown-item>
+                      <b-dropdown-item><i class="la la-ban"/> Mute Member</b-dropdown-item>
+                      <b-dropdown-item><i class="la la-bell"/> Report Message</b-dropdown-item>
                     </b-dropdown>
                   </b-tooltip>
 
@@ -164,4 +163,6 @@
   .posted-message {
     margin: 0 0 20px 0;
   }
+
+
 </style>

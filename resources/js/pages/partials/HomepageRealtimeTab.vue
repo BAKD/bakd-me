@@ -40,8 +40,8 @@
 		</div>
 
 		<div class="button-wrapper has-text-centered" style="margin-bottom: 40px;">
-		  <a class="button is-rounded is-wide is-primary is-medium wow fadeInUp">
-		    <span class="is-size-6">Load More...</span>
+		  <a class="button is-wide is-primary is-rounded is-medium wow fadeInUp" style="max-width: 220px;">
+		    <span class="is-size-6"><i class="la la-refresh" /> Load More...</span>
 		  </a>
 		</div>
 

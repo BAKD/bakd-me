@@ -17,8 +17,10 @@
         Lorem ipsum dolor sit amet, consectetur adipisicing elit.
       </h3>
 
-      <p class="is-bold is-size-3 is-bakd-coins">
-        200,000
+      <p class="is-size-3">
+        <span class="is-bold">
+          200,000<i class="is-bakd-coins is-2x"/>
+        </span>
       </p>
 
       <p class="subtitle is-size-7 is-bold">
@@ -26,8 +28,8 @@
       </p>
 
       <div class="box-footer">
-        <a href="#" class="button is-rounded is-primary is-fullwidth is-normal" style="max-width: 140px; margin: 20px auto 5px;">
-          <span class="is-size-7">View Bounty</span>
+        <a href="#" class="button is-primary is-fullwidth is-rounded is-outlined--off is-normal" style="max-width: 140px; margin: 20px auto 5px;">
+          <span class="is-size-7"><i class="la la-plus" /> View Bounty</span>
         </a>
       </div>
 

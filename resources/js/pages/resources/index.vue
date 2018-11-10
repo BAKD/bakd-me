@@ -1,6 +1,10 @@
 <template>
-	<section class="section">
-		<div class="container">
+	<section>
+      <bakd-page-header size="is-small" class="has-text-centered">
+       <h1 class="title is-white wow fadeInRight is-size-2">Resources <span class="is-primary">Directory</span></h1>
+       <!-- <h2 class="hidden-mobile subtitle is-white is-size-5 wow fadeInLeft">Earn <span style="font-weight: 700;">BAKD</span> Coins for participating in bounties for a limited time only!</h2> -->
+      </bakd-page-header>
+		<div class="section container">
 			<panel :title="$t('Resources')">
 				<div style="min-height: 400px; margin: 40px 10px; padding: 120px 50px 50px 50px;" class="has-text-centered is-100">
 

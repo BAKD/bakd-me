@@ -26,11 +26,16 @@ $polyfills = [
 
   <title>{{ config('app.name') }}</title>
 
+
   <script defer src="https://use.fontawesome.com/releases/v5.4.2/js/all.js" integrity="sha384-wp96dIgDl5BLlOXb4VMinXPNiB32VYBSoXOoiARzSTXY+tsK8yDTYfvdTyqzdGGN" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css">  
+
+  <link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" />  
   
-  <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+  <link rel="stylesheet" href="/vendor/line-awesome/css/line-awesome.css" />
+  <link rel="stylesheet" href="/vendor/line-awesome/css/line-awesome-font-awesome.css" />
+  
+  <link rel="stylesheet" href="{{ mix('css/app.css') }}" />
 </head>
 <body>
   <div id="app"></div>
@@ -49,5 +54,7 @@ $polyfills = [
     <script src="{{ mix('js/vendor.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
   @endif
+  
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5bb15accd6e1b973"></script>
 </body>
 </html>

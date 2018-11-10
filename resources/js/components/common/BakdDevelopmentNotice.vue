@@ -11,6 +11,12 @@
 	</b-message>
 </template>
 
+<script>
+export default {
+	name: 'BakdDevelopmentNotice'
+}
+</script>
+
 <style lang="scss" scoped>
 	span.is-bold {
 		padding: 0 5px;

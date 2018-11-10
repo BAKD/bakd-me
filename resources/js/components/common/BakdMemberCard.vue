@@ -3,18 +3,18 @@
 		<div class="card has-shadow has-hover member-card-wrapper wow fadeIn">
 		  <div class="card-image">
 		    <figure class="image is-16x9">
-		      <img src="https://via.placeholder.com/1280x960">
+		      <img src="https://via.placeholder.com/400x180">
 		    </figure>
 		  </div>
 		  <div class="card-content">
 		    <div class="media">
 		      <div class="media-left">
 		        <figure class="image is-48x48">
-		          <img src="https://via.placeholder.com/96">
+		          <img src="/images/no-avatar.png" />
 		        </figure>
 		      </div>
 		      <div class="media-content">
-		        <p class="title is-4">Tom Grenier</p>
+		        <p class="title is-5">Tom Grenier</p>
 		        <p class="subtitle is-6">@tomgren</p>
 		      </div>
 		    </div>
