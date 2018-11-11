@@ -55,9 +55,11 @@ class Handler extends ExceptionHandler
         // Convert all non-http exceptions to a proper 500 http exception
         // if we don't do this exceptions are shown as a default template
         // instead of our own view in resources/views/errors/500.blade.php
-        // if ($this->shouldReport($exception) && !$this->isHttpException($exception) && !config('app.debug')) {
-        //     $exception = new HttpException(500, 'Whoops!');
-        // }
+        if (\BAKD\Alpha::isNovaRequest($request)) {
+            if ($this->shouldReport($exception) && !$this->isHttpException($exception) && !config('app.debug')) {
+                $exception = new HttpException(500, 'Whoops!');
+            }
+        }
         
         if ($exception instanceof Tymon\JWTAuth\Exceptions\TokenExpiredException) {
             return response()->json(['token_expired'], $exception->getStatusCode());

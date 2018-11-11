@@ -2,10 +2,9 @@
 
 namespace BAKD;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Campaign extends Model
+class Campaign extends Alpha
 {
     use Traits\Uuids,
         SoftDeletes;

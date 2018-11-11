@@ -95,6 +95,7 @@ import BakdFooterCopyright from '~/components/layout/BakdFooterCopyright'
 
 export default {
   name: 'AccountLayout',
+  middleware: 'auth',
 
   methods: {
     afterEnter () {

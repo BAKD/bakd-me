@@ -32,6 +32,7 @@ class LoginController extends Controller
     public function __construct()
     {
         // TODO: Fix me, can't leave this here, going to get overwritten on next update.
+        // $this->middleware('manage')->except('logout');
         $this->middleware(['nova.guest:'.config('nova.guard'), 'manage'])->except('logout');
     }
 
@@ -57,7 +58,8 @@ class LoginController extends Controller
 
         $request->session()->invalidate();
 
-        return redirect($this->redirectPath());
+         return redirect($this->redirectPath());
+        // return redirect('/manage/login');
     }
 
     /**

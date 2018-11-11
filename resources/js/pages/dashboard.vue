@@ -13,7 +13,8 @@
 <script>
 export default {
   layout: 'account',
-	
+  middleware: 'auth',
+
   metaInfo () {
     return { title: this.$t('Member Dashboard') }
   }

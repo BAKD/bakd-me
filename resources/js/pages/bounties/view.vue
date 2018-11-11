@@ -112,6 +112,7 @@ import BakdBountyStakesStats from '~/components/bounty/BakdBountyStakesStats'
 
 export default {
   layout: 'default',
+  middleware: 'auth',
 
   components: {
   	BakdPageHeader,

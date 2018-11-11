@@ -13,7 +13,7 @@ use \Spatie\Permission\Traits\HasPermissions;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasRoles;
+    // use HasRoles;
     use Notifiable;
 
     /**

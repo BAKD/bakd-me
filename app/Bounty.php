@@ -2,11 +2,10 @@
 
 namespace BAKD;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
-class Bounty extends Model
+class Bounty extends Alpha
 {
     use Traits\Uuids,
         SoftDeletes;

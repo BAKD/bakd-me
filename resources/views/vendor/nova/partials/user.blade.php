@@ -9,6 +9,11 @@
 <dropdown-menu slot="menu" width="200" direction="rtl">
     <ul class="list-reset">
         <li>
+            <a href="{{ route('spa', '/') }}" class="block no-underline text-90 hover:bg-30 p-3" target="_blank">
+                {{ __('View Site') }}
+            </a>
+        </li>
+        <li>
             <a href="{{ route('nova.logout') }}" class="block no-underline text-90 hover:bg-30 p-3">
                 {{ __('Logout') }}
             </a>

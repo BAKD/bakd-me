@@ -19,11 +19,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        if (! $this->isNovaRequest($request)) {
-            $this->middleware(['guest', 'manage'])->except('logout');
-        } else {
-            $this->middleware('guest')->except('logout');
-        }
+        $this->middleware('guest')->except('logout');
     }
 
     /**
@@ -67,24 +63,11 @@ class LoginController extends Controller
         } else {
             $request->session()->regenerate();
 
+            $this->clearLoginAttempts($request);
+
             return $this->authenticated($request, $this->guard()->user())
                     ?: redirect()->intended($this->redirectPath());
         }
-    }
-
-    /**
-     * Determine if the given request is intended for Nova.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return bool
-     */
-    protected function isNovaRequest($request)
-    {
-        $path = trim(\Nova::path(), '/') ?: '/';
-
-        return $request->is($path) ||
-               $request->is(trim($path.'/*', '/')) ||
-               $request->is('nova-api/*');
     }
 
     /**
@@ -97,8 +80,11 @@ class LoginController extends Controller
     {
         $this->guard()->logout();
 
-        // $request->session()->invalidate();
+        if (\BAKD\Alpha::isNovaRequest($request)) {
+            $request->session()->invalidate();
+            $this->redirectPath();
+        }
 
-        // return redirect($this->redirectPath());
+         return redirect('/');
     }
 }

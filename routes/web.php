@@ -14,4 +14,5 @@ $except = [
 // Catchall for any Vue related requests.
 Route::get('{segments}', 'SiteController@handleVueRequests')
 	->where('segments', '^((?!' . implode('|', $except) . ').)*$')
-	->middleware('spa');
+	->middleware('spa')
+	->name('spa');

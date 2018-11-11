@@ -4,7 +4,7 @@ namespace BAKD;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OAuthProvider extends Model
+class OAuthProvider extends Alpha
 {
     /**
      * The table associated with the model.

@@ -2,10 +2,9 @@
 
 namespace BAKD;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BountyClaimUser extends Model
+class BountyClaimUser extends Alpha
 {
     use Traits\Uuid;
 

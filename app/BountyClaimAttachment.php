@@ -2,10 +2,9 @@
 
 namespace BAKD;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BountyClaimAttachment extends Model
+class BountyClaimAttachment extends Alpha
 {
     /**
      * The table associated with the model.
