@@ -75,34 +75,26 @@
 
 				<div class="column is-9">
 
-					<div v-for="n in 5" :key="n" style="margin-bottom: 20px;">
+					<div v-for="bounty in bounties" :key="bounty.id" style="margin-bottom: 20px;">
 
 						<router-link :to="{ name: 'bounties.view', params: { id: 1 } }" class="bounty-card">
 							<div class="box has-hover">
 								<div class="level is-fullwidth">
 									<div class="level-item is-margin-centered" style="max-width: 120px;">
-										<img src="/images/bounties/twitter.png" style="height: auto; width: 100%; max-width: 100px;" /> 
+										<img :src="`/storage/${bounty.image}`" style="height: auto; width: 100%; max-width: 100px;" /> 
 									</div>
 									<div class="level-content is-100 has-text-left has-text-centered-mobile is-v-centered control bounty-card-info" style="padding: 0 20px;">
 										<p class="title is-4 is-marginless">
-											Translate the Onepager
-											<span class="tag is-small is-green">
-												ACTIVE
-											</span>
+											{{ bounty.name }}
 										</p>
-										<p class="subtitle is-marginless is-6">Thursday, June 12th, 2018</p>
+										<p class="subtitle is-marginless is-6"><i class="la la-clock-o"/> Ends {{ bounty.end_date | fromNow }}</p>
 									</div>
-									<!-- <div class="level-content is-100 control is-v-centered">
-										<p class="is-bold">
-											Ends in 2 weeks...
-										</p>
-									</div> -->
 									<div class="level-right is-v-centered has-text-centered" style="display: block;">
 										<p class="is-bold">
-											<span class="is-size-2">500,000<i class="is-bakd-coins is-3x" /></span>
+											<span class="is-size-2">{{ bounty.reward_total.toLocaleString() }}<i class="is-bakd-coins is-3x" /></span>
 										</p>
 										<p class="is-bold" style="display: block;">
-											STAKES BOUNTY
+											{{ bounty.bounty_reward_type.name.toUpperCase() }} BOUNTY
 										</p>
 									</div>
 								</div>
@@ -113,7 +105,7 @@
 
 					<br />
 
-			        <b-pagination
+			        <!-- <b-pagination
 			        	class="is-centered"
 			            :total="total"
 			            :current.sync="current"
@@ -122,7 +114,7 @@
 			            :simple="isSimple"
 			            :rounded="isRounded"
 			            :per-page="perPage">
-			        </b-pagination>
+			        </b-pagination> -->
 
 			        <br />
 
@@ -138,6 +130,7 @@
 <script>
 import BakdPageHeader from '~/components/layout/BakdPageHeader'
 import BakdBountiesSearchBar from '~/components/common/BakdBountiesSearchBar'
+import axios from 'axios'
 
 export default {
   layout: 'default',
@@ -147,20 +140,31 @@ export default {
   	BakdBountiesSearchBar
   },
 
-  data() {
+  data () {
 	return {
-	    total: 200,
-	    current: 1,
-	    perPage: 20,
-	    order: '',
-	    size: 'is-medium',
-	    isSimple: false,
-	    isRounded: false
+	    bounties: [],
+	    // total: 200,
+	    // current: 1,
+	    // perPage: 20,
+	    // order: '',
+	    // size: 'is-medium',
+	    // isSimple: true,
+	    // isRounded: false,
 	}
   },
 	
   metaInfo () {
     return { title: this.$t('All Bounties') }
+  },
+
+  mounted () {
+  	var self = this;
+    axios
+      .get('/api/bounties')
+      .then(function(response) {
+      	console.log(response.data.data.active)
+      	self.bounties = response.data.data.active
+      })
   }
 }
 </script>

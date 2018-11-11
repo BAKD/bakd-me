@@ -28,7 +28,7 @@
         "jquery": "^3.2.0",
         "laravel-mix": "^1.0",
         "lodash": "^4.17.0",
-        "tailwindcss": "^0.6.0",
+        "tailwindcss": "^0.6.6",
         "vue": "^2.5.0",
         "vue-jest": "^2.6.0",
         "vue-router": "^3.0.1",

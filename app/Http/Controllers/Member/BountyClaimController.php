@@ -16,7 +16,12 @@ class BountyClaimController extends MemberController
         $view = [];
         $bountyId = $request->id;
         $view['bounty'] = \BAKD\Bounty::find($bountyId);
-        return view('member/bounty/claims/create', $view);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched bounty data.',
+            'data' => $view
+        ]);
+        // return response()->json($view);
     }
 
     /**
@@ -53,12 +58,17 @@ class BountyClaimController extends MemberController
         $bountyClaim->confirmed = 0; // Pending Status
 
         if ($bountyClaim->save()) {
-            \MemberHelper::success('You successfully submitted a claim for this bounty!');
+            return response()->json([
+                'status' => 'success',
+                'message' => 'You successfully submitted a claim for this bounty!',
+                'data' => $bountyClaim,
+            ]);
         } else {
-            \MemberHelper::error('Unable to submit a claim for this bounty!');
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unable to submit a claim for this bounty!',
+            ]);
         }
-
-        return redirect()->route('member.bounty.home');
     }
 
     /**
@@ -71,7 +81,11 @@ class BountyClaimController extends MemberController
     {
         $view = [];
         $view['claim'] = \BAKD\BountyClaim::findOrFail($id);
-        return view('member/bounty/claims/show', $view);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched bounty claim data.',
+            'data' => $view
+        ]);
     }
 
     /**
@@ -85,7 +99,11 @@ class BountyClaimController extends MemberController
         $view = [];
         $view['claim'] = \BAKD\BountyClaim::findOrFail($id);
         $view['bounty'] = $view['claim']->bounty;
-        return view('member/bounty/claims/edit', $view);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched bounty claim data.',
+            'data' => $view
+        ]);
     }
 
     /**
@@ -107,14 +125,23 @@ class BountyClaimController extends MemberController
 
         // Check if user trying to edit claim, is the original creator of said claim
         if ($user->id !== $bountyClaim->user_id) {
-            \MemberHelper::error('You cannot edit a claim that does not belong to you.');
-            return redirect()->route('member.bounty.show', $bountyClaim->bounty->id);
+            // \MemberHelper::error('You cannot edit a claim that does not belong to you.');
+            // return redirect()->route('member.bounty.show', $bountyClaim->bounty->id);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You cannot edit a claim that does not belong to you.',
+            ]);
         }
 
         // Check if this claim was already approved. We don't want to allow people to edit already approved claims.
         if ($bountyClaim->isApproved()) {
-            \MemberHelper::error('Your bounty claim was already approved.');
-            return redirect()->route('member.bounty.show', $bountyClaim->bounty->id);
+            // \MemberHelper::error('Your bounty claim was already approved.');
+            // return redirect()->route('member.bounty.show', $bountyClaim->bounty->id);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Your bounty claim was already approved.',
+                'data' => $bountyClaim,
+            ]);
         }
 
         // Set the new model values
@@ -130,15 +157,27 @@ class BountyClaimController extends MemberController
         // Try to save/update the claim
         if ($bountyClaim->update()) {
             if ($rejectUpdated) {
-                \MemberHelper::success('Your bounty claim was successfully updated and changed from Rejected to Pending status.');
+                // \MemberHelper::success('Your bounty claim was successfully updated and changed from Rejected to Pending status.');
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Your bounty claim was successfully updated and changed from Rejected to Pending status.',
+                    'data' => $bountyClaim,
+                ]);
             } else {
-                \MemberHelper::success('Your bounty claim was successfully updated and is currently Pending.');
+                // \MemberHelper::success('Your bounty claim was successfully updated and is currently Pending.');
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Your bounty claim was successfully updated and is currently Pending.',
+                    'data' => $bountyClaim,
+                ]);
             }
         } else {
-            \MemberHelper::error('There was an error saving your updated bounty to the database. Please try again or contact an administrator.');
+            // \MemberHelper::error('There was an error saving your updated bounty to the database. Please try again or contact an administrator.');
+            return response()->json([
+                'status' => 'error',
+                'message' => 'There was an error saving your updated bounty to the database. Please try again or contact an administrator.',
+            ]);
         }
-
-        return redirect()->route('member.bounty.show', $bountyClaim->bounty->id);
     }
 
     /**
@@ -153,23 +192,39 @@ class BountyClaimController extends MemberController
         $resourceTitle = $request->query('resource') ?: 'resource';
 
         if ($claim->user_id !== \Auth::user()->id) {
-            \MemberHelper::error('Unable to delete items that do not belong to you. Please contact an administrator if the problem persists and believe it is an error.');
-            return redirect()->back();
+            // \MemberHelper::error('Unable to delete items that do not belong to you. Please contact an administrator if the problem persists and believe it is an error.');
+            // return redirect()->back();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unable to delete items that do not belong to you. Please contact an administrator if the problem persists and believe it is an error.',
+            ]);
         }
 
         // Check if it exists, may have already been deleted, never existed, malicious, etc.
         if (!$claim) {
-            \MemberHelper::error('Unable to locate ' . ucwords($resourceTitle) . '.');
-            return redirect()->back();
+            // \MemberHelper::error('Unable to locate ' . ucwords($resourceTitle) . '.');
+            // return redirect()->back();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unable to locate ' . ucwords($resourceTitle) . '.',
+            ]);
         }
 
         // Try to delete the resource.
         if ($claim->delete()) {
-            \MemberHelper::success('Successfully deleted this ' . ucwords($resourceTitle) . '.');
-            return redirect()->back();
+            // \MemberHelper::success('Successfully deleted this ' . ucwords($resourceTitle) . '.');
+            // return redirect()->back();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Successfully deleted this ' . ucwords($resourceTitle) . '.',
+            ]);
         } else {
-            \MemberHelper::error('The ' . ucwords($resourceTitle) . ' has already deleted or does not exist.');
-            return redirect()->back();
+            // \MemberHelper::error('The ' . ucwords($resourceTitle) . ' has already deleted or does not exist.');
+            // return redirect()->back();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'The ' . ucwords($resourceTitle) . ' has already deleted or does not exist.',
+            ]);
         }
     }
 }

@@ -27,7 +27,11 @@ class PageController extends FrontendController
         $view = [];
         $view['randomBounty'] = \BAKD\Bounty::inRandomOrder()->limit(1)->first();
         $view['newUsers'] = \BAKD\User::orderBy('created_at', 'desc')->limit(5)->get();
-        return view('frontend/index', $view);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched homepage data.',
+            'data' => $view
+        ]);
     }
 
 
@@ -38,7 +42,7 @@ class PageController extends FrontendController
      */
     public function about()
     {
-        return view('frontend/about');
+        // return view('frontend/about');
     }
 
 
@@ -49,7 +53,7 @@ class PageController extends FrontendController
      */
     public function privacy()
     {
-        return view('frontend/privacy');
+        // return view('frontend/privacy');
     }
 
 
@@ -60,7 +64,7 @@ class PageController extends FrontendController
      */
     public function terms()
     {
-        return view('frontend/terms');
+        // return view('frontend/terms');
     }
 
 
@@ -71,7 +75,7 @@ class PageController extends FrontendController
      */
     public function contact()
     {
-        return view('frontend/contact');
+        // return view('frontend/contact');
     }
 
 
@@ -103,8 +107,13 @@ class PageController extends FrontendController
 
         \Mail::to(env('SUPPORT_EMAIL', 'tom@bakd.io'))->send(new \BAKD\Mail\ContactUs($emailData));
 
-        \BAKD\Helpers\FrontendHelper::success('Your message was sent successfully!');
-        return redirect()->back();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Your message was sent successfully!',
+        ]);
+
+        // \BAKD\Helpers\FrontendHelper::success('Your message was sent successfully!');
+        // return redirect()->back();
     }
 
 
@@ -120,7 +129,7 @@ class PageController extends FrontendController
         $view = [];
         
         // TODO: Move these to bounty model
-        $view['active'] = \BAKD\Bounty::where(function ($query) use ($now) {
+        $view['active'] = \BAKD\Bounty::with('type', 'bountyRewardType')->where(function ($query) use ($now) {
             $query->whereDate('start_date', '<', $now);
             $query->orWhereNull('start_date');
         })->where(function ($query) use ($now) {
@@ -142,7 +151,14 @@ class PageController extends FrontendController
         })->get();
         
         $view['all'] = \BAKD\Bounty::all();
-        return view('frontend/bounties', $view);
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched bounty data.',
+            'data' => $view
+        ]);
+
+        // return view('frontend/bounties', $view);
     }
 
 
@@ -157,11 +173,17 @@ class PageController extends FrontendController
 
         $view['members'] = \BAKD\User::orderBy('created_at', 'DESC')->paginate(12);
 
-        if ($request->ajax()) {
-            return view('frontend/members-results', $view);
-        }
+        // if ($request->ajax()) {
+        //     return view('frontend/members-results', $view);
+        // }
 
-        return view('frontend/members', $view);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched member data.',
+            'data' => $view
+        ]);
+
+        // return view('frontend/members', $view);
     }
 
 
@@ -174,7 +196,12 @@ class PageController extends FrontendController
     {
         $view = [];
         $view['member'] = \BAKD\User::findOrFail($id);
-        return view('frontend/profile/index', $view);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched member data.',
+            'data' => $view
+        ]);
+        // return view('frontend/profile/index', $view);
     }
 
 
@@ -186,7 +213,12 @@ class PageController extends FrontendController
     public function campaigns()
     {
         $view = [];
-        // $view['campaigns'] = \BAKD\Campaign::all();
-        return view('frontend/campaigns', $view);
+        $view['campaigns'] = \BAKD\Campaign::all();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched campaign data.',
+            'data' => $view
+        ]);
+        // return view('frontend/campaigns', $view);
     }
 }

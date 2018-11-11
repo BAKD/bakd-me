@@ -24,6 +24,6 @@ class PageController extends MemberController
      */
     public function index()
     {
-        return view('member/index');
+        // return view('member/index');
     }
 }

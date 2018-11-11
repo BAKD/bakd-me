@@ -13,6 +13,7 @@ import Odometer from 'odometer'
 
 import '~/plugins'
 import '~/components'
+import '~/filters'
 
 // console.log(Odometer);
 

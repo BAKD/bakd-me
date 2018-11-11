@@ -25,7 +25,8 @@
             <div class="min-h-screen flex-none pt-header min-h-screen w-sidebar bg-grad-sidebar px-6">
                 <a href="{{ Nova::path() }}">
                     <div class="absolute pin-t pin-l pin-r bg-logo flex items-center w-sidebar h-header px-6 text-white">
-                       @include('nova::partials.logo')
+                       {{-- @include('nova::partials.logo') --}}
+                       <img src="/images/branding/logo-white.png" style="width: 100%; max-width: 140px; height: auto; padding: 10px;" />
                     </div>
                 </a>
 
@@ -54,11 +55,11 @@
                     @yield('content')
 
                     <p class="mt-8 text-center text-xs text-80">
-                        <a href="http://nova.laravel.com" class="text-primary dim no-underline">Laravel Nova</a>
+                        <a href="https://bakd.me" class="text-primary dim no-underline"><strong>BAKD Crowdfunding</strong></a>
                         <span class="px-1">&middot;</span>
-                        &copy; {{ date('Y') }} Laravel LLC - By Taylor Otwell, David Hemphill, and Steve Schoger.
+                        &copy; {{ date('Y') }} BAKD Solutions - All rights reserved 
                         <span class="px-1">&middot;</span>
-                        v{{ Laravel\Nova\Nova::version() }}
+                        v{{ BAKD\Alpha::version() }}
                     </p>
                 </div>
             </div>

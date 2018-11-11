@@ -49,22 +49,22 @@ class BountyClaim extends Model
 
     public function user()
     {
-        return $this->belongsTo('BAKD\User');
+        return $this->belongsTo(\BAKD\User::class);
     }
 
     public function bounty()
     {
-        return $this->belongsTo('BAKD\Bounty')->withTrashed();
+        return $this->belongsTo(\BAKD\Bounty::class)->withTrashed();
     }
 
     public function attachments()
     {
-        return $this->hasMany('BAKD\BountyClaimAttachment');
+        return $this->hasMany(\BAKD\BountyClaimAttachment::class);
     }
 
     public function confirmedBy()
     {
-        return $this->hasOne('BAKD\User', 'confirmed_by_id');
+        return $this->hasOne(\BAKD\User::class, 'confirmed_by_id');
     }
 
     public function isApproved()

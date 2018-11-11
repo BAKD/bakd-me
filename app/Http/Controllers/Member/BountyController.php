@@ -18,7 +18,12 @@ class BountyController extends MemberController
         $view['approvedClaims'] = \BAKD\BountyClaim::where('user_id', \Auth::user()->id)->where('confirmed', 1)->orderBy('id', 'DESC')->get();
         $view['rejectedClaims'] = \BAKD\BountyClaim::where('user_id', \Auth::user()->id)->where('confirmed', 2)->orderBy('id', 'DESC')->get();
         $view['pendingClaims'] = \BAKD\BountyClaim::where('user_id', \Auth::user()->id)->where('confirmed', 0)->orderBy('id', 'DESC')->get();
-        return view('member/bounty/index', $view);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched bounty data.',
+            'data' => $view
+        ]);
     }
 
     /**
@@ -53,7 +58,11 @@ class BountyController extends MemberController
         $view = [];
         $view['bounty'] = \BAKD\Bounty::findOrFail($id);
         $view['myClaims'] = $view['bounty']->claims()->where('user_id', \Auth::user()->id)->get();
-        return view('member/bounty/show', $view);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched bounty data.',
+            'data' => $view
+        ]);
     }
 
     /**

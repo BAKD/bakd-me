@@ -68,7 +68,7 @@ class Bounty extends Resource
             DateTime::make('End Date', 'end_date')->hideFromIndex()->sortable(),
             BelongsTo::make('Bounty Type', 'type'),
             BelongsTo::make('Bounty Reward Type', 'bountyRewardType'),
-            Number::make('Reward Amount', 'reward')->min(0)->step(1)->rules('required')->sortable(),
+            Number::make('Reward Amount', 'reward')->min(0)->step(1)->sortable(),
             Number::make('Total Reward Pool', 'reward_total')->min(0)->step(1)->rules('required')->sortable(),
             Markdown::make('Description', 'description')->rules('required'),
             Text::make('Bounty UUID', 'uuid')->sortable()->onlyOnDetail(),

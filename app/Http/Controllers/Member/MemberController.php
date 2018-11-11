@@ -15,7 +15,7 @@ class MemberController extends \BAKD\Http\Controllers\Controller
     {
         // All member routes and controllers extending this base controller
         // must be run through the auth middleware
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -26,6 +26,6 @@ class MemberController extends \BAKD\Http\Controllers\Controller
      */
     public function index()
     {
-        return view('member.dashboard.index');
+        // return view('member.dashboard.index');
     }
 }

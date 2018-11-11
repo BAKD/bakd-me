@@ -28,13 +28,6 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewareGroups = [
-        'web' => [
-            // ...
-        ],
-        
-        'spa' => [
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        ],
 
         'manage' => [
             \BAKD\Http\Middleware\EncryptCookies::class,
@@ -43,6 +36,14 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \BAKD\Http\Middleware\VerifyCsrfToken::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ],
+        
+        'web' => [
+            // ...
+        ],
+        
+        'spa' => [
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
@@ -66,7 +67,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \BAKD\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'jwt.auth' => 'Tymon\JWTAuth\Middleware\GetUserFromToken',
-        'jwt.refresh' => 'Tymon\JWTAuth\Middleware\RefreshToken',
+        'jwt.auth' => Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+        'jwt.refresh' => Tymon\JWTAuth\Middleware\RefreshToken::class,
     ];
 }

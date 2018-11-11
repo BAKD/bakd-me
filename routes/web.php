@@ -7,7 +7,8 @@ $except = [
 	'nova-api',
 	'backup-statuses',
 	'backups',
-	'_debugbar'
+	'_debugbar',
+	'storage'
 ];
 
 // Catchall for any Vue related requests.

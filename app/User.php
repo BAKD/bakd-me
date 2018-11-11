@@ -102,12 +102,12 @@ class User extends Authenticatable implements JWTSubject
     // TODO: Rename me
     public function bountyClaims()
     {
-        return $this->hasMany('BAKD\BountyClaim');
+        return $this->hasMany(\BAKD\BountyClaim::class);
     }
 
     public function bounties()
     {
-        return $this->belongsTo('BAKD\Bounty');
+        return $this->belongsTo(\BAKD\Bounty::class);
     }
 
     // Getters/setters/helpers

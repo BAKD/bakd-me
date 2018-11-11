@@ -17,6 +17,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+        
+        Nova::style('bakd-admin', asset('css/bakd-admin.css'));
     }
 
     /**

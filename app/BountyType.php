@@ -47,6 +47,6 @@ class BountyType extends Model
 
     public function bounty()
     {
-        return $this->hasMany('BAKD\Bounty', 'type_id');
+        return $this->hasMany(\BAKD\Bounty::class, 'type_id');
     }
 }
