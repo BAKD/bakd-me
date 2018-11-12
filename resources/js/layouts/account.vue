@@ -73,7 +73,7 @@
               <li class="is-active"><a href="#" aria-current="page">Dashboard</a></li>
             </ul>
           </div>
-          <child/>
+          <child @after-enter="afterEnter" />
         </div>
         <!-- END MAIN -->
 

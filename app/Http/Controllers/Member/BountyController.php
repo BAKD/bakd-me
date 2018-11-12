@@ -27,6 +27,18 @@ class BountyController extends MemberController
     }
 
     /**
+     * Display the member's bounty dashboard
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function random()
+    {
+        $limit = request()->get('limit', 1);
+        $data = \BAKD\Bounty::with('type', 'bountyRewardType')->limit($limit)->inRandomOrder()->get();
+        return response()->json($data);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -55,14 +67,19 @@ class BountyController extends MemberController
      */
     public function show($id)
     {
-        $view = [];
-        $view['bounty'] = \BAKD\Bounty::findOrFail($id);
-        $view['myClaims'] = $view['bounty']->claims()->where('user_id', \Auth::user()->id)->get();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Successfully fetched bounty data.',
-            'data' => $view
-        ]);
+        $bounty = \BAKD\Bounty::with('type', 'bountyRewardType')->findOrFail($id);
+
+        $bountyClaims = [];
+        if ($bounty && $bounty->claims()) {
+            $bountyClaims = $bounty->claims()->where('user_id', \Auth::user()->id)->get();
+        }
+
+        $data = [
+            'bounty' => $bounty,
+            'claims' => $bountyClaims
+        ];
+
+        return response()->json($data);
     }
 
     /**

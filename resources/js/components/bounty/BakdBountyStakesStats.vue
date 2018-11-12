@@ -42,39 +42,71 @@
 </template>
 
 <script>
-	export default {
-		
-  methods: {
-    onBountyViewStatsWaypoint ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN) {
-        var $myStakesOdometer = $('.my-stakes-odometer');
-        var $distributedStakesOdometer = $('.distributed-stakes-odometer');
-        var $pendingRewardOdometer = $('.pending-reward-odometer');
-        var $prizeShareOdometer = $('.prize-share-odometer');
+import axios from 'axios'
+import swal from 'sweetalert2'
 
-        var myStakesOd = new Odometer({
-          el: $myStakesOdometer.get(0),
-        });
-        
-        var distributedStakesOd = new Odometer({
-          el: $distributedStakesOdometer.get(0),
-        });
+export default {
 
-        var pendingRewardOd = new Odometer({
-          el: $pendingRewardOdometer.get(0),
-        });
+	props: {
+		bounty: {
+			type: Object,
+			required: true
+		}
+	},
 
-        var prizeShareOd = new Odometer({
-          el: $prizeShareOdometer.get(0),
-        });
+	data() {
+		return {
+			isReady: false,
+			isLoading: true,
+			stats: []
+		}
+	},
 
-        // TODO: Fix these
-        myStakesOd.update($myStakesOdometer.data('my-stakes'))
-        distributedStakesOd.update($distributedStakesOdometer.data('distributed-stakes'))
-        pendingRewardOd.update($pendingRewardOdometer.data('pending-reward'))
-        prizeShareOd.update($prizeShareOdometer.data('prize-share'))
-      }
-    }
-  },
-	}
+	mounted() {
+		this.fetchStats()
+	},
+
+	methods: {
+		fetchStats: function () {
+			var self = this;
+			axios.post('/api/bounty/stats', { params: { id: self.bounty.id } })
+				.then(function (response) {
+					self.isLoading = false
+					self.isReady = true
+					self.stats = response.data.stats
+				})
+		},
+
+		onBountyViewStatsWaypoint ({ going, direction }) {
+			if (going === this.$waypointMap.GOING_IN) {
+			    var $myStakesOdometer = $('.my-stakes-odometer');
+			    var $distributedStakesOdometer = $('.distributed-stakes-odometer');
+			    var $pendingRewardOdometer = $('.pending-reward-odometer');
+			    var $prizeShareOdometer = $('.prize-share-odometer');
+
+			    var myStakesOd = new Odometer({
+			      el: $myStakesOdometer.get(0),
+			    });
+			    
+			    var distributedStakesOd = new Odometer({
+			      el: $distributedStakesOdometer.get(0),
+			    });
+
+			    var pendingRewardOd = new Odometer({
+			      el: $pendingRewardOdometer.get(0),
+			    });
+
+			    var prizeShareOd = new Odometer({
+			      el: $prizeShareOdometer.get(0),
+			    });
+
+			    // TODO: Fix these
+			    myStakesOd.update($myStakesOdometer.data('my-stakes'))
+			    distributedStakesOd.update($distributedStakesOdometer.data('distributed-stakes'))
+			    pendingRewardOd.update($pendingRewardOdometer.data('pending-reward'))
+			    prizeShareOd.update($prizeShareOdometer.data('prize-share'))
+		  	}
+		}
+	},
+}
 </script>

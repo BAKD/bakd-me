@@ -10,16 +10,12 @@
 
 		<section class="featured-section">
 			<div class="container">
-
-				<template v-for="n in 3">
-					<div class="columns">
-						<template v-for="n in 4">
-							<div class="column is-one-quarter">
-								<bakd-member-card/>
-							</div>
-						</template>
-					</div>
-				</template>
+				
+				<div class="columns is-multiline">
+				    <div class="column is-one-quarter" v-for="member in members">
+				    	<bakd-member-card :member="member" />
+				    </div> 
+				</div>
 
 				<br />
 
@@ -31,7 +27,8 @@
 		            :size="size"
 		            :simple="isSimple"
 		            :rounded="isRounded"
-		            :per-page="perPage">
+		            :per-page="perPage"
+		            @change="fetchMembers($event)">
 		        </b-pagination>
 
 			</div>
@@ -48,6 +45,7 @@
 
 
 <script>
+import axios from 'axios'
 
 // Common
 import BakdSectionTitle from '~/components/common/BakdSectionTitle'
@@ -59,35 +57,62 @@ import BakdMemberCard from '~/components/common/BakdMemberCard'
 import BakdPageHeader from '~/components/layout/BakdPageHeader'
 
 export default {
-  layout: 'default',  
+	layout: 'default',  
 
-  components: {
-  	BakdSectionTitle,
-  	BakdFeaturedProject,
-  	BakdPageHeader,
-  	BakdMemberSearchbar,
-  	BakdMemberCard
-  },
+	components: {
+		BakdSectionTitle,
+		BakdFeaturedProject,
+		BakdPageHeader,
+		BakdMemberSearchbar,
+		BakdMemberCard
+	},
 
-  data() {
-	return {
-	    total: 200,
-	    current: 1,
-	    perPage: 20,
-	    order: '',
-	    size: 'is-medium',
-	    isSimple: false,
-	    isRounded: false
+	data() {
+		return {
+			isReady: false,
+			isLoading: true,
+			members: [],
+		    total: 0,
+		    current: 1,
+		    perPage: 16,
+		    order: 'desc',
+		    size: 'is-medium',
+		    isSimple: false,
+		    isRounded: false
+		}
+	},
+
+	metaInfo () {
+		return { title: this.$t('Members Directory') }
+	},
+
+	mounted () {
+		new WOW().init()
+		this.fetchMembers()
+	},
+
+	methods: {
+		fetchMembers: function (event, limit = 16) {
+			var self = this;
+			var page = event
+			var order = this.order
+
+			axios
+				.post('/api/users', { limit, page, order })
+				.then(function(response) { 
+					self.members = response.data.data
+					self.current = response.data.current_page
+					self.perPage = limit
+					self.total = response.data.total
+					self.isLoading = false
+					self.isReady = true
+				    window.smoothscroll()
+				})
+			}
+		},
+
+		changePage: function (page) {
+			self.fetchMembers(limit, page, offset)
+		}
 	}
-  },
-
-  metaInfo () {
-    return { title: this.$t('Members Directory') }
-  },
-
-  mounted () {
-	new WOW().init()  	
-  }
-
-}
 </script>

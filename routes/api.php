@@ -29,18 +29,19 @@ Route::name('api.')->group(function () {
         Route::get('members', 'Frontend\PageController@members')->name('members');
         Route::get('u/{id}', 'Frontend\PageController@profile')->name('members.profile');
 
+        // Get the currently logged in user
+        Route::get('/user', 'UserController@current')->name('users.current');
+
+        // Get a specific user based on the param passed
+        Route::post('/user', 'UserController@show')->name('users.show');
+        
+        Route::post('/users', 'UserController@all')->name('users.all');
+        Route::post('/bounty/random', 'Member\BountyController@random')->name('bounty.random');
+
         // Auth'd API Routes
         Route::middleware(['auth:api', 'throttle'])->group(function () {
             // Logout
             Route::post('logout', 'Auth\LoginController@logout');
-
-            // TODO: Fix me, put in dedicated UserController 
-            Route::get('/user', function (Request $request) {
-                return $request->user();
-            });
-            Route::get('/users', function (Request $request) {
-                return \BAKD\User::all();
-            });
 
             // User Settings
             Route::patch('settings/profile', 'Settings\ProfileController@update');

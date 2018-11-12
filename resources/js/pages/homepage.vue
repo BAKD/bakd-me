@@ -159,7 +159,7 @@ export default {
   },
 
   metaInfo () {
-    return { title: this.$t('home') }
+    return { title: this.$t('Home') }
   },
 
   data: () => ({

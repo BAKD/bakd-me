@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <loading ref="loading"/>
+    <b-loading animation="fade" :is-full-page="true" :active.sync="isLoading" :can-cancel="false" style="z-index: 9999;" />
     <transition name="page" mode="out-in" @after-enter="afterEnter" appear>
       <component v-if="layout" :is="layout" :has-header="hasHeader" />
     </transition>
@@ -31,6 +32,7 @@ export default {
 
   data: () => ({
     layout: null,
+    isLoading: true,
     defaultLayout: 'default',
     hasHeader: false
   }),
@@ -51,6 +53,7 @@ export default {
   methods: {
     afterEnter () {
       this.$root.$emit('scrollAfterEnter');
+      this.isLoading = false;
     },
     /**
      * Set the application layout.
@@ -61,7 +64,7 @@ export default {
       if (!layout || !layouts[layout]) {
         layout = this.defaultLayout
       }
-
+      this.isLoading = true;
       this.layout = layouts[layout]
     }
   }

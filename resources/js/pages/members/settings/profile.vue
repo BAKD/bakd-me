@@ -70,6 +70,10 @@ export default {
       this.form[key] = this.user[key]
     })
   },
+  
+  mounted() {
+    this.$root.isLoading = false;
+  },
 
   methods: {
     async update () {

@@ -42,6 +42,7 @@ export default {
   methods: {
     afterEnter () {
       this.$root.$emit('scrollAfterEnter');
+      this.$root.isLoading = false;
     },
   },
 

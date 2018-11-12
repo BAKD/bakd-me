@@ -11,13 +11,13 @@
 					<nav style="width: 100%; margin-top: 40px;" class="panel has-shadow">
 					    <div class="panel-heading wow fadeIn">
 					      <div class="columns is-mobile is-v-centered level">
-					        <div class="column is-6 is-half-mobile is-bold" style="white-space: nowrap;">
-					          <fa icon="trophy" class="is-primary"/> &nbsp;Social Bounty
+					        <div class="column is-6 is-half-mobile is-bold" style="white-space: nowrap;" v-if="isReady">
+					          <fa icon="trophy" class="is-primary"/> &nbsp;{{ bounty.type.name }} Bounty
 					        </div>
 					        <div class="column is-6 is-half-mobile">
 					          <div class="field is-grouped is-end project-stats-tags level-item">
-								<div class="control is-small">
-				              		<span class="tag is-success is-bold is-small">ACTIVE</span>
+								<div class="control is-small is-bold" v-if="isReady">
+									{{ reward }}<i class="has-bakd-coins"/>
 				            	</div>
 					            <b-dropdown class="dropdown-trigger-icon" position="is-bottom-left" style="margin-top: 4px;">
 					              <div class="icon is-v-centered" slot="trigger">
@@ -33,22 +33,20 @@
 						</div>
 					</div>
 				    <div class="panel-block">
-						<div class="columns is-100 is-marginless is-fullwidth">
+						<div class="columns is-100 is-marginless is-fullwidth" v-if="isReady">
 							<div class="column is-3 is-12-mobile is-margin-centered has-text-centered">
-								<img src="/images/bounties/twitter.png" style="max-width: 300px; width: 100%; padding: 15px;" class="image has-text-centered is-margin-centered" /> 
+								<img :src="'/storage/' + bounty.image" style="max-width: 300px; width: 100%; padding: 15px;" class="image has-text-centered is-margin-centered" /> 
 								<div class="addthis_inline_share_toolbox"></div>
 							</div>
 							<div class="column is-9 is-12-mobile has-text-centered-mobile" style="padding: 20px;">
 								
 								<!-- BOUNTY TITLE -->
 								<p class="title is-size-3">
-									Bounty Name
+									{{ bounty.name }}
 								</p>
 								
 								<!-- BOUNTY MAIN DESCRIPTION -->
-								<p class="subtitle is-size-6">
-									Bounty information subtitle goes here
-								</p>
+								<p class="subtitle is-size-6" v-html="bounty.description"></p>
 
 								<!-- BOUNTY TAGS -->
 								<ul class="tags is-grouped field has-text-centered-mobile" style="display: block;">
@@ -84,23 +82,28 @@
 			</div>
 			<!-- END BOUNTY INFO -->
 				
-				<bakd-bounty-stakes-stats/>
-				
-				<bakd-bounty-stats/>
+			<bakd-bounty-stakes-stats :bounty="bounty" />
+			
+			<bakd-bounty-stats :bounty="bounty" :reward="reward" :is-ready="isReady" />
 
-				<bakd-bounty-reward-types/>
-				
-				<bakd-bounty-claim-instructions/>
+			<bakd-bounty-my-claims v-if="hasClaims" :claims="claims" :is-ready="isReady" />
 
-				<br />
+			<bakd-bounty-reward-types/>
+			
+			<bakd-bounty-claim-instructions/>
 
-			</div>
+			<br />
+
+		</div>
 
 		</div>
 	</section>
 </template>
 
 <script>
+import axios from 'axios'
+import swal from 'sweetalert2'
+
 import BakdPageHeader from '~/components/layout/BakdPageHeader'
 import BakdMyAccountWidget from '~/widgets/BakdMyAccountWidget'
 
@@ -109,6 +112,7 @@ import BakdBountyStats from '~/components/bounty/BakdBountyStats'
 import BakdBountyClaimInstructions from '~/components/bounty/BakdBountyClaimInstructions'
 import BakdBountyRewardTypes from '~/components/bounty/BakdBountyRewardTypes'
 import BakdBountyStakesStats from '~/components/bounty/BakdBountyStakesStats'
+import BakdBountyMyClaims from '~/components/bounty/BakdBountyMyClaims'
 
 export default {
   layout: 'default',
@@ -120,7 +124,8 @@ export default {
   	BakdBountyStats,
   	BakdBountyClaimInstructions,
   	BakdBountyRewardTypes,
-  	BakdBountyStakesStats
+  	BakdBountyStakesStats,
+  	BakdBountyMyClaims
   },
 
   mounted () {
@@ -129,6 +134,57 @@ export default {
 	
   metaInfo () {
     return { title: this.$t('View Bounty') }
+  },
+
+  data() {
+    return {
+      isReady: false,
+      isLoading: true,
+      hasClaims: false,
+      bounty: {},
+      claims: []
+    }
+  },
+
+  computed: {
+    reward: function () {
+      if (this.isReady && this.bounty.bounty_reward_type.name.toLowerCase() === 'stakes') {
+        return this.bounty.reward_total.toLocaleString()
+      }
+
+      return this.isReady ? this.bounty.reward.toLocaleString() : '-'
+    }
+  },
+
+  methods: {
+    fetchData: function () {
+      var self = this;
+      this.isLoading = true;
+      axios
+        .get('/api/bounty/' + self.$route.params.id)
+        .then(function(response) { 
+          console.log(response.data)
+          self.bounty = response.data.bounty
+          self.claims = response.data.claims
+
+          if (self.claims.length !== 0) {
+          	self.hasClaims = true
+          }
+
+          self.isLoading = false
+          self.isReady = true
+        })
+    },
+  },
+
+  beforeMount () {
+    this.fetchData()
   }
 }
 </script>
+
+<style lang="scss" scoped">
+  #random-bounty {
+    transition: all .2s ease;
+  }
+</style>

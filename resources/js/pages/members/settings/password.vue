@@ -63,6 +63,10 @@ export default {
     })
   }),
 
+  mounted() {
+    this.$root.isLoading = false;
+  },
+
   methods: {
     update () {
       this.form.patch('/api/settings/password')

@@ -7,7 +7,6 @@
 <script>
 export default {
   layout: 'account',
-	
   middleware: 'auth',
 
   metaInfo () {

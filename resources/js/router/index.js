@@ -183,11 +183,9 @@ function scrollBehavior (to, from, savedPosition) {
 
   router.app.$root.$once('scrollAfterEnter', () => {
     return window.scrollTo({ top: 0, behavior: 'smooth' });
-    // alert('wtf')
     resolve()
   });
 
-  // return { x: 0, y: 0 }
 }
 
 /**

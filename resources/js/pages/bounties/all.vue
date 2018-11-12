@@ -19,19 +19,19 @@
 				      <ul class="menu-list">
 				        <li>
 				        	<a class="is-active">
-				                Active Bounties <span class="is-pulled-right"><span class="tag is-rounded is-bold is-grey">0</span></span>
+				                Active Bounties <span class="is-pulled-right"><span class="tag is-rounded is-bold is-grey">{{ activeBountiesCount }}</span></span>
 	  				        </a>
 				        </li>
 				        <li>
 			              <a>
 			              	Upcoming Bounties
-			              	<span class="is-pulled-right"><span class="tag is-rounded is-bold is-grey">0</span></span>
+			              	<span class="is-pulled-right"><span class="tag is-rounded is-bold is-grey">{{ upcomingBountiesCount }}</span></span>
 			              </a>
 				        </li>
 				        <li>
 			              <a>
 			              	Completed Bounties
-			              	<span class="is-pulled-right"><span class="tag is-rounded is-bold is-grey">0</span></span>
+			              	<span class="is-pulled-right"><span class="tag is-rounded is-bold is-grey">{{ pastBountiesCount }}</span></span>
 			              </a>
 				        </li>
 			        </ul>
@@ -75,9 +75,9 @@
 
 				<div class="column is-9">
 
-					<div v-for="bounty in bounties" :key="bounty.id" style="margin-bottom: 20px;">
+					<div v-for="bounty in bounties.active" :key="bounty.id" style="margin-bottom: 20px;">
 
-						<router-link :to="{ name: 'bounties.view', params: { id: 1 } }" class="bounty-card">
+						<router-link :to="{ name: 'bounties.view', params: { id: bounty.id } }" class="bounty-card">
 							<div class="box has-hover">
 								<div class="level is-fullwidth">
 									<div class="level-item is-margin-centered" style="max-width: 120px;">
@@ -103,11 +103,12 @@
 
 					</div>
 
-					<br />
+					<!-- <br /> -->
 
 			        <!-- <b-pagination
 			        	class="is-centered"
-			            :total="total"
+			        	:data="bounties"
+			            :total="allBountiesCount"
 			            :current.sync="current"
 			            :order="order"
 			            :size="size"
@@ -116,7 +117,7 @@
 			            :per-page="perPage">
 			        </b-pagination> -->
 
-			        <br />
+			        <!-- <br /> -->
 
 				</div>
 				
@@ -143,14 +144,45 @@ export default {
   data () {
 	return {
 	    bounties: [],
-	    // total: 200,
-	    // current: 1,
-	    // perPage: 20,
-	    // order: '',
-	    // size: 'is-medium',
-	    // isSimple: true,
-	    // isRounded: false,
+	    total: 0,
+	    current: 1,
+	    perPage: 5,
+	    order: '',
+	    size: 'is-medium',
+	    isSimple: true,
+	    isRounded: false,
 	}
+  },
+
+  computed: {
+  	allBountiesCount: function() {
+  		if (typeof this.bounties.all !== 'undefined') {
+  			return this.bounties.all.length
+  		} else {
+  			return 0;
+  		}
+  	},
+  	activeBountiesCount: function() {
+  		if (typeof this.bounties.active !== 'undefined') {
+  			return this.bounties.active.length
+  		} else {
+  			return 0;
+  		}
+  	},
+  	upcomingBountiesCount: function() {
+  		if (typeof this.bounties.upcoming !== 'undefined') {
+  			return this.bounties.upcoming.length
+  		} else {
+  			return 0;
+  		}
+  	},
+  	pastBountiesCount: function() {
+  		if (typeof this.bounties.past !== 'undefined') {
+  			return this.bounties.past.length
+  		} else {
+  			return 0;
+  		}
+  	},
   },
 	
   metaInfo () {
@@ -161,10 +193,7 @@ export default {
   	var self = this;
     axios
       .get('/api/bounties')
-      .then(function(response) {
-      	console.log(response.data.data.active)
-      	self.bounties = response.data.data.active
-      })
+      .then(function(response) { self.bounties = response.data.data })
   }
 }
 </script>
