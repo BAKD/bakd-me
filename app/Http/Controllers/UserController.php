@@ -51,6 +51,22 @@ class UserController extends Controller
     public function show($id)
     {
         $data = \BAKD\User::findOrFail($id);
+        $data = array_merge($data, ['organization' => [
+            'id' => 1,
+            'name' => 'Test Organization',
+        ]]);
+        return response()->json($data);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function posts($id)
+    {
+        $data = \BAKD\Post::where('user_id', $id)->orderBy('id', 'desc')->paginate(20);
         return response()->json($data);
     }
 
@@ -60,7 +76,10 @@ class UserController extends Controller
      */
     public function current()
     {
-        return response()->json(request()->user());
+        return response()->json(array_merge(request()->user()->toArray(), ['organization' => [
+            'id' => 1,
+            'name' => 'Test Organization',
+        ]]));
     }
 
 

@@ -1,5 +1,5 @@
 <template>
-    <section :size="size" class="hero page-hero-header is-primary has-text-centered">
+    <section :size="size" class="hero page-hero-header is-primary has-text-centered" :style="background ? `background-image: url('${background}')` : ''">
       <div class="hero-body">
         <div class="container">
          <slot/>
@@ -16,6 +16,10 @@ export default {
         size: {
             type: String,
             default: 'is-medium'
+        },
+
+        background: {
+            type: String
         }
     },
     

@@ -21,7 +21,6 @@ class BountyClaimController extends MemberController
             'message' => 'Successfully fetched bounty data.',
             'data' => $view
         ]);
-        // return response()->json($view);
     }
 
     /**
@@ -35,8 +34,13 @@ class BountyClaimController extends MemberController
         $bountyId = $request->id;
         $claimDescription = $request->input('description');
 
+        $request->validate([
+            'description' => 'bail|required|min:10|max:5000',
+        ]);
+        
         // TODO: Validation
-        $bounty = \BAKD\Bounty::findOrFail($bountyId);
+        // $bounty = \BAKD\Bounty::findOrFail($bountyId);
+        $bounty = \BAKD\Bounty::find($bountyId);
         $user = \Auth::user();
 
         // Check if user already has an approved claim
@@ -89,6 +93,94 @@ class BountyClaimController extends MemberController
     }
 
     /**
+     * Display the auth'd users bounty claim stats
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function stats()
+    {
+        $user = auth()->user();
+        $view = [];
+        $view['stats'] = [
+            'earned' => $user->totalCoinsEarned(),
+            'stakes' => $user->totalStakesEarned(),
+            'claims' => $user->totalClaimsApproved(),
+        ];
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched users bounty claim statistics data.',
+            'data' => $view
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function pending()
+    {
+        $view = [];
+        $view['claims'] = \BAKD\BountyClaim::with(['bounty', 'bounty.bountyRewardType'])->where('user_id', \Auth::user()->id)->where('confirmed', 0)->orderBy('id', 'DESC')->get();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched pending bounty claim data.',
+            'data' => $view
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function approved()
+    {
+        $view = [];
+        $view['claims'] = \BAKD\BountyClaim::with(['bounty', 'bounty.bountyRewardType'])->where('user_id', \Auth::user()->id)->where('confirmed', 1)->orderBy('id', 'DESC')->get();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched approved bounty claim data.',
+            'data' => $view
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function rejected()
+    {
+        $view = [];
+        $view['claims'] = \BAKD\BountyClaim::with(['bounty', 'bounty.bountyRewardType'])->where('user_id', \Auth::user()->id)->where('confirmed', 2)->orderBy('id', 'DESC')->get();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched rejected bounty claim data.',
+            'data' => $view
+        ]);
+    }
+
+    /**
+     * Display all claims for a single bounty
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function bounty($id)
+    {
+        $view = [];
+        $data['claims'] = \BAKD\BountyClaim::where('bounty_id', $id)->where('user_id', request()->user()->id)->orderBy('id', 'desc')->get();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched bounty claims.',
+            'data' => $data
+        ]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -118,30 +210,33 @@ class BountyClaimController extends MemberController
         $rejectUpdated = false;
         $claimId = $request->id;
         $claimDescription = $request->input('description');
+        
+        $request->validate([
+            'description' => 'bail|required|max:5000',
+        ]);
 
-        // TODO: Validation
         $bountyClaim = \BAKD\BountyClaim::findOrFail($claimId);
         $user = \Auth::user();
 
         // Check if user trying to edit claim, is the original creator of said claim
         if ($user->id !== $bountyClaim->user_id) {
-            // \MemberHelper::error('You cannot edit a claim that does not belong to you.');
-            // return redirect()->route('member.bounty.show', $bountyClaim->bounty->id);
             return response()->json([
                 'status' => 'error',
-                'message' => 'You cannot edit a claim that does not belong to you.',
-            ]);
+                'errors' => [
+                    'description' => [ 'You cannot edit a claim that does not belong to you.' ]
+                ]
+            ], 422);
         }
 
         // Check if this claim was already approved. We don't want to allow people to edit already approved claims.
         if ($bountyClaim->isApproved()) {
-            // \MemberHelper::error('Your bounty claim was already approved.');
-            // return redirect()->route('member.bounty.show', $bountyClaim->bounty->id);
             return response()->json([
                 'status' => 'error',
-                'message' => 'Your bounty claim was already approved.',
                 'data' => $bountyClaim,
-            ]);
+                'errors' => [
+                    'description' => [ 'Your bounty claim was already approved.' ]
+                ]
+            ], 422);
         }
 
         // Set the new model values
@@ -157,14 +252,12 @@ class BountyClaimController extends MemberController
         // Try to save/update the claim
         if ($bountyClaim->update()) {
             if ($rejectUpdated) {
-                // \MemberHelper::success('Your bounty claim was successfully updated and changed from Rejected to Pending status.');
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Your bounty claim was successfully updated and changed from Rejected to Pending status.',
                     'data' => $bountyClaim,
                 ]);
             } else {
-                // \MemberHelper::success('Your bounty claim was successfully updated and is currently Pending.');
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Your bounty claim was successfully updated and is currently Pending.',
@@ -172,11 +265,14 @@ class BountyClaimController extends MemberController
                 ]);
             }
         } else {
-            // \MemberHelper::error('There was an error saving your updated bounty to the database. Please try again or contact an administrator.');
             return response()->json([
                 'status' => 'error',
-                'message' => 'There was an error saving your updated bounty to the database. Please try again or contact an administrator.',
-            ]);
+                'errors' => [
+                    'description' => [ 
+                        'There was an error saving your updated bounty to the database. Please try again or contact an administrator.'  
+                    ]
+                ]
+            ], 422);
         }
     }
 
@@ -192,18 +288,14 @@ class BountyClaimController extends MemberController
         $resourceTitle = $request->query('resource') ?: 'resource';
 
         if ($claim->user_id !== \Auth::user()->id) {
-            // \MemberHelper::error('Unable to delete items that do not belong to you. Please contact an administrator if the problem persists and believe it is an error.');
-            // return redirect()->back();
             return response()->json([
                 'status' => 'error',
-                'message' => 'Unable to delete items that do not belong to you. Please contact an administrator if the problem persists and believe it is an error.',
+                'message' => 'Unable to delete items that do not belong to you. Please contact an administrator if the problem persists and you believe it is an error.',
             ]);
         }
 
         // Check if it exists, may have already been deleted, never existed, malicious, etc.
         if (!$claim) {
-            // \MemberHelper::error('Unable to locate ' . ucwords($resourceTitle) . '.');
-            // return redirect()->back();
             return response()->json([
                 'status' => 'error',
                 'message' => 'Unable to locate ' . ucwords($resourceTitle) . '.',
@@ -212,15 +304,11 @@ class BountyClaimController extends MemberController
 
         // Try to delete the resource.
         if ($claim->delete()) {
-            // \MemberHelper::success('Successfully deleted this ' . ucwords($resourceTitle) . '.');
-            // return redirect()->back();
             return response()->json([
                 'status' => 'success',
                 'message' => 'Successfully deleted this ' . ucwords($resourceTitle) . '.',
             ]);
         } else {
-            // \MemberHelper::error('The ' . ucwords($resourceTitle) . ' has already deleted or does not exist.');
-            // return redirect()->back();
             return response()->json([
                 'status' => 'error',
                 'message' => 'The ' . ucwords($resourceTitle) . ' has already deleted or does not exist.',

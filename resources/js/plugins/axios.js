@@ -10,13 +10,21 @@ axios.interceptors.request.use(request => {
   if (token) {
     request.headers.common['Authorization'] = `Bearer ${token}`
   }
+  
+  // const csrftoken = document.head.querySelector('meta[name="csrf-token"]')
+
+  // if (csrftoken) {
+  //     request.headers.common['X-CSRF-TOKEN'] = csrftoken.content;
+  // } else {
+  //     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+  // }
 
   const locale = store.getters['lang/locale']
   if (locale) {
     request.headers.common['Accept-Language'] = locale
   }
 
-  // request.headers['X-Socket-Id'] = Echo.socketId()
+  request.headers['X-Socket-Id'] = router.app.$echo.socketId()
 
   return request
 })
@@ -38,14 +46,6 @@ axios.interceptors.response.use(response => response, error => {
   }
 
   if (status === 404) {
-   // swal({
-   //    type: 'error',
-   //    title: i18n.t('error_alert_title'),
-   //    text: i18n.t('error_alert_text'),
-   //    reverseButtons: true,
-   //    confirmButtonText: i18n.t('ok'),
-   //    cancelButtonText: i18n.t('cancel')
-   //  }) 
     router.to({ component: NotFound })
   }
 

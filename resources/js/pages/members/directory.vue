@@ -106,7 +106,6 @@ export default {
 					self.total = response.data.total
 					self.isLoading = false
 					self.isReady = true
-				    window.smoothscroll()
 				})
 			}
 		},

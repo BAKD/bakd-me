@@ -8,12 +8,13 @@
           <img :src="user.photo_url" class="is-v-centered image is-64x64" style="height: auto; width: 100%; max-width: 64px" />
         </p>
       </figure>
-
+      
+      <form @submit.prevent.keydown="send">
       <div class="media-content">
 
         <div class="field">
           <p class="control">
-            <textarea class="textarea" placeholder="Post a message..."></textarea>
+            <textarea class="textarea" placeholder="Post a message..." v-model="post.message"></textarea>
           </p>
 
           <div class="field has-addons" style="margin-top: 15px;">
@@ -60,22 +61,22 @@
         <nav class="level">
           <div class="level-left">
             <div class="level-item">
-              <!-- Remember Me -->
               <b-checkbox v-model="submitOnEnter" name="submitOnEnter" class="is-size-7">{{ $t('Press enter to submit') }}</b-checkbox>
             </div>
           </div>
 
           <div class="level-right">
             <div class="level-item">
-              <a href="#" class="button is-primary is-rounded is-wide is-fullwidth is-normal">
+              <button type="submit" class="button is-primary is-rounded is-wide is-fullwidth is-normal">
                 <span class="is-size-7"><i class="la la-check" /> Post Message</span>
-              </a>
+              </button>
             </div>
           </div>
 
         </nav>
 
       </div>
+    </form>
     </article>
   </div>
 </template>
@@ -87,12 +88,23 @@ import { mapGetters } from "vuex"
 export default {
 
   data: () => ({
+    post: {
+      message: '',
+      user: this.user
+    },
     submitOnEnter: false
   }),
 
   computed: mapGetters({
     user: 'auth/user'
-  })
+  }),
+
+  methods: {
+    send: function () {
+      this.$parent.$emit('PostCreated', this.post)
+      this.post = {}
+    }
+  }
 
 }
 </script>

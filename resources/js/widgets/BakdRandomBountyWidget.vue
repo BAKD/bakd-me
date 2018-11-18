@@ -28,7 +28,7 @@
         {{ bounty.bounty_reward_type.name || '' | uppercase }} BOUNTY
       </p>
       <div class="box-footer">
-        <router-link :to="{ name: 'bounties.view', params: { id: bounty.id } }" class="button is-primary is-fullwidth is-rounded is-outlined--off is-normal" style="max-width: 140px; margin: 20px auto 5px;">
+        <router-link :to="{ name: 'bounty.view', params: { id: bounty.id } }" class="button is-primary is-fullwidth is-rounded is-outlined--off is-normal" style="max-width: 140px; margin: 20px auto 5px;">
           <span class="is-size-7"><i class="la la-plus" /> View Bounty</span>
         </router-link>
       </div>
@@ -70,7 +70,7 @@ export default {
     },
 
     viewMember: function (event, bountyId) {
-      this.$router.push({ name: 'bounties.show', params: { id: bountyId }})
+      this.$router.push({ name: 'bounty.show', params: { id: bountyId }})
     },
 
     fetchData: function () {

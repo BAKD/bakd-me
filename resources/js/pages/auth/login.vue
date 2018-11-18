@@ -3,7 +3,7 @@
     <div class="column is-two-fifths login-page-wrapper">
       <div class="level-item">
         <panel :title="$t('login')" style="width: 100%;" class="login-wrapper has-shadow">
-          <form @submit.prevent="login" class="control form" style="padding: 5px;" @keyup="form.onKeydown($event)">
+          <form @submit.prevent="login" name="login" class="control form" style="padding: 5px;" @keyup="form.onKeydown($event)">
 
             <!-- Email -->
             <bakd-input 
@@ -35,7 +35,7 @@
             <hr style="margin: 15px 0;" />
             
             <!-- Submit Button -->
-            <v-button class="is-fullwidth" :loading="form.busy" :disabled="this.form.errors.any()" style="margin-bottom: 10px;">
+            <v-button class="is-fullwidth" :loading="form.busy" :disabled="form.errors.any()" style="margin-bottom: 10px;">
               {{ $t('login') }}
             </v-button>
 

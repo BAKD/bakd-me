@@ -16,13 +16,15 @@ class User extends Authenticatable implements JWTSubject
     // use HasRoles;
     use Notifiable;
 
+    protected $table = 'user';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'verified', 'private', 'following_count', 'follower_count', 'reddit', 'bitcoin_talk', 'github', 'google', 'twitter', 'linkedin', 'facebook', 'website', 'wallet', 'bio', 'title', 'currency_id', 'balance'
     ];
 
     /**
@@ -57,7 +59,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getPhotoUrlAttribute()
     {
-        return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email)).'.jpg?s=200&d=mm';
+        return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email)).'.jpg?s=200&d=https://bakd.me/images/branding/social-avatar.jpg';
     }
 
     /**
@@ -108,6 +110,16 @@ class User extends Authenticatable implements JWTSubject
     public function bounties()
     {
         return $this->belongsTo(\BAKD\Bounty::class);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(\BAKD\Post::class);
+    }
+
+    public function social()
+    {
+        return $this->hasOne(\BAKD\Social::class, 'owner_id', 'id');
     }
 
     // Getters/setters/helpers

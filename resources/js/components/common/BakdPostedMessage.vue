@@ -6,7 +6,7 @@
         <!-- AVATAR/INFO -->
         <figure class="media-left has-text-centered" style="width: 64px;">
           <p class="image">
-            <img src="/images/no-avatar.png" class="is-centered-margin image" style="width: 100%; height: auto; max-width: 64px;" />
+            <img :src="post && post.user ? post.user.photo_url : ''" class="is-centered-margin image" style="width: 100%; height: auto; max-width: 64px;" />
           </p>
           <p class="subtitle is-size-7" style="padding-top: 6px;">
             Blockchain Developer
@@ -50,7 +50,7 @@
           <div class="level">
 
             <div class="level-left">
-              <span class="is-bold">Tom Grenier</span>&nbsp;&nbsp;<span class="is-size-7">1 minute ago...</span>
+              <span class="is-bold">{{ user.name }}</span>&nbsp;&nbsp;<span class="is-size-7">{{ post.created_at | fromNow }}...</span>
             </div>
 
             <div class="level-right is-size-7 has-text-right">
@@ -67,7 +67,33 @@
           <!-- Main Message Section -->
           <div class="field" style="margin-bottom: 0;">
             <p class="control" style="padding-top: 0px;">
-              <slot/>
+              <b-message style="margin-bottom: 20px;">
+                {{ post.message }}
+              </b-message>
+
+              <!-- TODO: Setup Tag System -->
+              <ul class="tags field is-grouped">
+                <a href="#">
+                  <li class="tag is-rounded" style="margin-right: 10px;">
+                    #btc 
+                  </li>
+                </a>
+                <a href="#">
+                  <li class="tag is-rounded" style="margin-right: 10px;">
+                    #blockchain
+                  </li>
+                </a>
+                <a href="#">
+                  <li class="tag is-rounded" style="margin-right: 10px;">
+                    #cryptocurrency
+                  </li>
+                </a>
+                <a href="#">
+                  <li class="tag is-rounded" style="margin-right: 10px;">
+                    #p2p
+                  </li>
+                </a>
+              </ul>
             </p>
           </div>
 
@@ -159,10 +185,31 @@
     </div>
 </template>
 
+<script>
+import { mapGetters } from "vuex"
+
+export default {
+
+  props: {
+    post: {
+      type: Object,
+      required: true
+    },
+    user: {
+      type: Object,
+      required: true
+    }
+  },
+
+  data: () => ({
+    submitOnEnter: false
+  }),
+
+}
+</script>
+
 <style lang="scss" scoped>
   .posted-message {
     margin: 0 0 20px 0;
   }
-
-
 </style>

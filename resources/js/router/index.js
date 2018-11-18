@@ -59,6 +59,7 @@ async function beforeEach (to, from, next) {
 
   // Start the loading bar.
   if (components[components.length - 1].loading !== false) {
+    router.app.$root.isLoading = true
     router.app.$nextTick(() => router.app.$loading.start())
   }
 
@@ -74,6 +75,7 @@ async function beforeEach (to, from, next) {
 
     next(...args)
   })
+
 }
 
 /**
@@ -105,6 +107,7 @@ function callMiddleware (middleware, to, from, next) {
     if (args.length > 0 || stack.length === 0) {
       if (args.length > 0) {
         router.app.$loading.finish()
+        router.app.$root.isLoading = false
       }
 
       return next(...args)

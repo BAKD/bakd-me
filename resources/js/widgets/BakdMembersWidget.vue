@@ -3,7 +3,7 @@
 	    <p class="has-text-left title is-size-5">
 	      Latest Members
 	    </p>
-	    <div class="box">
+	    <div class="box" v-if="isReady">
 	      <article class="media is-fullwidth" v-for="member in members" :key="member.id">
 	        <figure class="media-left has-hand-cursor" @click.prevent="viewMember($event, member.id)">
 	          <img :src="member.photo_url || '/images/no-avatar.png'" class="is-v-centered image" style="width: 100%; height: auto; max-width: 56px;" />
@@ -41,6 +41,7 @@ import swal from 'sweetalert2'
 export default {
 	data() {
 		return {
+			isReady: false,
 			members: []
 		}
 	},
@@ -56,7 +57,7 @@ export default {
 		},
 
 		viewMember: function (event, memberId) {
-			this.$router.push({ name: 'members.show.public', params: { id: memberId }})
+			this.$router.push({ name: 'members.show.public', params: { id: memberId } })
 		}
 	},
 
@@ -64,7 +65,10 @@ export default {
 	  	var self = this;
 	    axios
 	      .post('/api/users', { limit: 5 })
-	      .then(function(response) { self.members = response.data })
+	      .then(function(response) { 
+	      	self.members = response.data.data
+	      	self.isReady = true
+	      })
 	}
 }
 </script>

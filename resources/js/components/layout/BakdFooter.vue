@@ -52,7 +52,7 @@
                                 </router-link>
                             </li>
                             <li>
-                                <router-link :to="{ name: 'bounties.all' }">
+                                <router-link :to="{ name: 'bounty.all' }">
                                     <fa icon="chevron-right" class="is-size-7" /> <span>Bounties & Contests</span>
                                 </router-link>
                             </li>

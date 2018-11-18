@@ -14,14 +14,14 @@ class Campaign extends Alpha
      *
      * @var string
      */
-    protected $table = 'campaigns';
+    protected $table = 'campaign';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['user_id', 'organization_id', 'currency_id', 'goal_min', 'goal_max', 'title', 'subtitle', 'description', 'verified', 'start_date', 'end_date'];
 
     /**
      * The attributes that should be hidden for arrays.

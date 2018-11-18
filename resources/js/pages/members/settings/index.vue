@@ -1,21 +1,17 @@
 <template>
-  <panel :title="$t('Member Settings')">
-    <div style="min-height: 400px; margin: 40px 10px; padding: 120px 50px 50px 50px;" class="has-text-centered is-100">
-
-      <div class="is-v-centered">
-        <fa icon="exclamation-triangle" class="has-text-red is-danger has-text-danger fa-2x"/>
-        <br/>
-        <h3 class="is-bold">In Development</h3>
-      </div>
-
-    </div>
-  </panel>
+  <div>
+    dashboard
+  </div>
 </template>
 
 <script>
 export default {
   layout: 'account',
-  
+ 
+  mounted() {
+    this.$root.isLoading = false;
+  },
+   
   metaInfo () {
     return { title: this.$t('Member Settings') }
   }

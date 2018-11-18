@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 Vue.filter('formatDate', function(value) {
   if (value) {
@@ -21,6 +21,6 @@ Vue.filter('calendar', function(value) {
 
 Vue.filter('fromNow', function(value) {
   if (value) {
-    return moment(String(value)).fromNow()
+    return moment(moment.utc(String(value)).local()).fromNow()
   }
 })

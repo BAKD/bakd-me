@@ -87,7 +87,7 @@
                   <hr class="navbar-divider">
                   
                   <!-- <a class="navbar-item"> -->
-                  <router-link :to="{ name: 'bounties.all' }" class="text-dark has-link navbar-item">
+                  <router-link :to="{ name: 'bounty.all' }" class="text-dark has-link navbar-item">
                     <div class="media">
                       <div class="media-left">
                         <i class="la la-trophy is-size-5" style="width: 20px;" />
@@ -173,7 +173,7 @@
                 <b-dropdown v-if="user" class="level-item navbar-item" position="is-bottom-left" hoverable>
                   <a class="media navbar-item profile-photo main-dropdown-link" slot="trigger">
                     <div class="media-left level-item">
-                        0.000 BAKD
+                        {{ user ? user.balance : 0.000 | fixed(8) }} BAKD
                         <!-- {{ user.name }} --> 
                     </div>
                     <div class="media-content level-item">
@@ -185,14 +185,14 @@
                   </a>
 
                   <b-dropdown-item custom>
-                    <router-link :to="{ name: 'members.dashboard' }" class="nav-item has-link has-text-dark">
+                    <router-link :to="{ name: 'members.show.public', params: { id: user.id } }" class="nav-item has-link has-text-dark">
                       <div class="media" style="margin-bottom: -.35rem;">
                           <div class="media-left dropdown-avatar">
                               <img :src="user.photo_url" style="max-height: 2.75rem;"> 
                           </div>
                           <div class="text-dark media-content avatar-info">
                             <h3>{{ user.name }}</h3>
-                            <small>Community Member</small> 
+                            <small>{{ user.type | capitalize }}</small> 
                           </div>
                       </div>
                     </router-link>
@@ -200,17 +200,43 @@
                   
                   <b-dropdown-item separator />
 
+                  <template v-if="user.organization">
+                    <b-dropdown-item has-link>
+                      <router-link :to="{ name: 'organizations.view', params: { id: user.organization.id } }" class="text-dark">
+                        <i class="la la-user is-size-6" style="width: 20px;" />
+                        {{ user.organization.name }}
+                      </router-link>
+                    </b-dropdown-item>                  
+
+                    <b-dropdown-item separator />
+                  </template>
+
+
                   <b-dropdown-item has-link>
-                    <router-link :to="{ name: 'members.profile' }" class="text-dark">
+                    <router-link :to="{ name: 'members.dashboard' }" class="text-dark">
                       <i class="la la-user is-size-6" style="width: 20px;" />
-                      {{ $t('My Profile') }}
+                      {{ $t('My Account') }}
                     </router-link>
                   </b-dropdown-item>
 
                   <b-dropdown-item has-link>
                     <router-link :to="{ name: 'campaigns.directory' }" class="text-dark">
-                      <i class="la la-building is-size-6" style="width: 20px;" />
+                      <i class="la la-line-chart is-size-6" style="width: 20px;" />
                       {{ $t('My Campaigns') }}
+                    </router-link>
+                  </b-dropdown-item>
+
+                  <b-dropdown-item has-link>
+                    <router-link :to="{ name: 'organizations.member' }" class="text-dark">
+                      <i class="la la-building is-size-6" style="width: 20px;" />
+                      {{ $t('My Organizations') }}
+                    </router-link>
+                  </b-dropdown-item>
+
+                  <b-dropdown-item has-link>
+                    <router-link :to="{ name: 'bounty.dashboard' }" class="text-dark">
+                      <i class="la la-trophy is-size-6" style="width: 20px;" />
+                      {{ $t('Bounty Dashboard') }}
                     </router-link>
                   </b-dropdown-item>
 
@@ -218,13 +244,6 @@
                     <router-link :to="{ name: 'members.settings' }" class="text-dark">
                       <i class="la la-cog is-size-6" style="width: 20px;" />
                       {{ $t('Privacy Settings') }}
-                    </router-link>
-                  </b-dropdown-item>
-
-                  <b-dropdown-item has-link>
-                    <router-link :to="{ name: 'bounties.dashboard' }" class="text-dark">
-                      <i class="la la-trophy is-size-6" style="width: 20px;" />
-                      {{ $t('Bounty Dashboard') }}
                     </router-link>
                   </b-dropdown-item>
                   

@@ -23,11 +23,16 @@ Route::name('api.')->group(function () {
             Route::post('password/reset', 'Auth\ResetPasswordController@reset');
         });
 
+        // Realtime Posts
+        Route::get('posts', 'PostController@all')->name('posts.all');
+        Route::post('posts', 'PostController@create')->name('posts.create');
+
         // Public facing directory pages
         Route::get('bounties', 'Frontend\PageController@bounties')->name('bounties');
         Route::get('campaigns', 'Frontend\PageController@campaigns')->name('campaigns');
         Route::get('members', 'Frontend\PageController@members')->name('members');
         Route::get('u/{id}', 'Frontend\PageController@profile')->name('members.profile');
+        Route::get('u/{id}/posts', 'UserController@posts')->name('members.posts');
 
         // Get the currently logged in user
         Route::get('/user', 'UserController@current')->name('users.current');
@@ -38,29 +43,39 @@ Route::name('api.')->group(function () {
         Route::post('/users', 'UserController@all')->name('users.all');
         Route::post('/bounty/random', 'Member\BountyController@random')->name('bounty.random');
 
+
+
         // Auth'd API Routes
         Route::middleware(['auth:api', 'throttle'])->group(function () {
             // Logout
             Route::post('logout', 'Auth\LoginController@logout');
 
             // User Settings
-            Route::patch('settings/profile', 'Settings\ProfileController@update');
-            Route::patch('settings/password', 'Settings\PasswordController@update');
+            Route::patch('/settings/profile', 'Settings\ProfileController@update');
+            Route::patch('/settings/password', 'Settings\PasswordController@update');
 
             // Bounties
-            Route::get('/bounty', 'Member\BountyController@index')->name('bounty.home');
+            Route::get('/bounty/dashboard', 'Member\BountyController@dashboard')->name('bounty.dashboard');
+            Route::get('/bounty/dashboard/stats', 'Member\BountyController@stats')->name('bounty.stats');
+            Route::get('/bounty/claims/pending', 'Member\BountyClaimController@pending')->name('bounty.claims.pending');
+            Route::get('/bounty/claims/approved', 'Member\BountyClaimController@approved')->name('bounty.claims.approved');
+            Route::get('/bounty/claims/rejected', 'Member\BountyClaimController@rejected')->name('bounty.claims.rejected');
             Route::get('/bounty/{id}', 'Member\BountyController@show')->name('bounty.show');
-
-            // Claims for All Bounties Related to Auth'd User
-            Route::get('/claims', 'Member\BountyClaimController@all')->name('claims.all');
-
-            // Claims For Specific Bounties
-            Route::get('/bounty/{id}/claims', 'Member\BountyClaimController@index')->name('bounty.claims');
-            Route::get('/bounty/{id}/claim', 'Member\BountyClaimController@create')->name('bounty.claim');
+            Route::get('/bounty/{id}/stats', 'Member\BountyController@stats')->name('bounty.stats');
+            Route::get('/bounty/{id}/claims', 'Member\BountyClaimController@bounty')->name('bounty.claim.user_bounty');
             Route::get('/bounty/claim/{id}', 'Member\BountyClaimController@show')->name('bounty.claim.show');
             Route::post('/bounty/{id}/claim', 'Member\BountyClaimController@store')->name('bounty.claim.save');
             Route::post('/bounty/claim/{id}/edit', 'Member\BountyClaimController@update')->name('bounty.claim.edit.save');
             Route::delete('/bounty/claim/{id}/cancel', 'Member\BountyClaimController@destroy')->name('bounty.claim.cancel');
+
+
+
+
+            // Claims for All Bounties Related to Auth'd User
+            // Route::get('/claims', 'Member\BountyClaimController@all')->name('claims.all');
+
+            // Claims For Specific Bounties
+            // Route::get('/bounty/{id}/claims', 'Member\BountyClaimController@index')->name('bounty.claims');
         });
 
     // });

@@ -1,5 +1,5 @@
 <template>
-	<router-link :to="{ name: 'members.profile' }">
+	<router-link :to="{ name: 'members.show.public', params: { id: member.id } }">
 		<div class="card has-shadow has-hover member-card-wrapper wow fadeIn">
 		  <div class="card-image">
 		    <figure class="image is-16x9">

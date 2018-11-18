@@ -2,42 +2,16 @@
 	<section class="homepage-realtime-tab">
 
 		<!-- POST MESSAGE -->
-		<bakd-post-message/>
+		<bakd-post-message :user="user" />
 
 		<!-- TODO: REALTIME MESSAGE WALL -->
-		<div v-for="n in 10" :key="n">
-		  <bakd-posted-message class="wow fadeIn">
-		  	<b-message style="margin-bottom: 20px;">
-				Lorem ipsum dolor sit amet, <a href="#">#consectetur</a> adipisicing elit. Eligendi corporis, sed enim inventore perspiciatis tempore animi ex distinctio modi.
-			</b-message>
-
-			<!-- TODO: Setup Tag System -->
-			<ul class="tags field is-grouped">
-				<a href="#">
-					<li class="tag is-rounded" style="margin-right: 10px;">
-						#btc 
-					</li>
-				</a>
-				<a href="#">
-					<li class="tag is-rounded" style="margin-right: 10px;">
-						#blockchain
-					</li>
-				</a>
-				<a href="#">
-					<li class="tag is-rounded" style="margin-right: 10px;">
-						#cryptocurrency
-					</li>
-				</a>
-				<a href="#">
-					<li class="tag is-rounded" style="margin-right: 10px;">
-						#p2p
-					</li>
-				</a>
-			</ul>
-			
-		  </bakd-posted-message>
-
-		</div>
+		<template v-if="hasPosts">
+			<div v-for="post in posts" :key="post.id">
+			    <transition name="page" mode="out-in" appear>
+				  <bakd-posted-message class="wow fadeIn" :user="post.user || {}" :post="post"/>
+				</transition>
+			</div>
+  	    </template>
 
 		<div class="button-wrapper has-text-centered" style="margin-bottom: 40px;">
 		  <a class="button is-wide is-primary is-rounded is-medium wow fadeInUp" style="max-width: 220px;">
@@ -49,6 +23,9 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { mapGetters } from 'vuex'
+
 import BakdPostMessage from '~/components/common/BakdPostMessage'
 import BakdPostedMessage from '~/components/common/BakdPostedMessage'
 
@@ -58,6 +35,60 @@ export default {
 	components: {
 		BakdPostMessage,
 		BakdPostedMessage
-	}
+	},
+
+	data () {
+		return {
+			posts: [],
+			isReady: false,
+		}
+	},
+
+	computed: {
+		hasPosts: function () {
+			return this.isReady && this.posts.length
+		},
+
+		...mapGetters({
+			user: 'auth/user',
+		}),
+	},
+
+	methods: {
+
+		fetchPosts: function () {
+		    var self = this;
+	        this.isLoading = true;
+	        axios
+		        .get('/api/posts', { limit: 20 })
+		        .then(function(response) {
+		          self.posts = response.data
+		          self.isLoading = false;
+		          self.isReady = true
+		        })
+		        .catch(function(err) {
+		        	console.log(err)
+		        })
+		},
+	},
+
+	mounted () {
+		var self = this;
+		this.fetchPosts()
+		this.$on('PostCreated', function (post) {
+			axios.post('/api/posts', post)
+		})
+
+		// Ping the post list every 30 seconds for now to hackishly update the timestamps
+		setInterval(function () {
+			self.fetchPosts()
+		}, 30000)
+
+		this.$echo.channel('wall')
+			.listen('.wall.post.created', function(e) {
+				console.log(e);
+				self.posts.unshift(Object.assign(e.post, { user: e.user }))
+			})
+	},
 }
 </script>

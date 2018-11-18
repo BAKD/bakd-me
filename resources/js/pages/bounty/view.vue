@@ -72,9 +72,9 @@
 					</div>
 					<div class="panel-block">
 						<div class="has-text-right is-100">
-							<a class="button is-rounded is-medium is-wide is-primary is-normal" style="max-width: 140px; margin: 5px;">
+							<router-link :to="{ name: 'bounty.claim', params: { id: bounty.id } }" class="button is-rounded is-medium is-wide is-primary is-normal" style="max-width: 140px; margin: 5px;">
 								<span class="is-size-6">Claim</span>
-						 	</a>
+						 	</router-link>
 						</div>
 					</div>
 				</nav>
@@ -82,11 +82,11 @@
 			</div>
 			<!-- END BOUNTY INFO -->
 				
-			<bakd-bounty-stakes-stats :bounty="bounty" />
+			<bakd-bounty-stakes-stats :bounty="bounty" :is-ready="isReady" v-if="isStakesBounty" />
 			
 			<bakd-bounty-stats :bounty="bounty" :reward="reward" :is-ready="isReady" />
 
-			<bakd-bounty-my-claims v-if="hasClaims" :claims="claims" :is-ready="isReady" />
+			<bakd-bounty-my-claims v-if="hasClaims" :claims="claims" :bounty="bounty" />
 
 			<bakd-bounty-reward-types/>
 			
@@ -148,11 +148,19 @@ export default {
 
   computed: {
     reward: function () {
-      if (this.isReady && this.bounty.bounty_reward_type.name.toLowerCase() === 'stakes') {
+      if (this.isReady && this.isStakesBounty) {
         return this.bounty.reward_total.toLocaleString()
       }
 
       return this.isReady ? this.bounty.reward.toLocaleString() : '-'
+    },
+
+    isStakesBounty: function () {
+    	if (this.isReady && this.bounty.bounty_reward_type.name.toLowerCase() === 'stakes') {
+    		return true
+    	}
+
+    	return false;
     }
   },
 
@@ -177,7 +185,7 @@ export default {
     },
   },
 
-  beforeMount () {
+  mounted () {
     this.fetchData()
   }
 }

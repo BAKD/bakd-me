@@ -10,6 +10,11 @@ import VueWaypoint from 'vue-waypoint'
 import $ from 'jquery'
 import { WOW } from 'wowjs'
 import Odometer from 'odometer'
+import Echo from 'laravel-echo'
+import Pusher from 'pusher-js'
+import VueEcho from 'vue-echo';
+import swal from 'sweetalert2'
+import axios from 'axios'
 
 import '~/plugins'
 import '~/components'
@@ -19,10 +24,14 @@ import '~/filters'
 
 // import 'buefy/dist/buefy.css'
 
+window.Pusher = Pusher
 window.$ = window.jQuery = $
 window.helpers = Helpers
 window.WOW = WOW
 window.Odometer = Odometer
+window.swal = swal
+window.axios = axios
+
 
 // window.odometerOptions = {
 //   auto: true, // Don't automatically initialize everything with class 'odometer'
@@ -34,12 +43,16 @@ window.Odometer = Odometer
 //                      // use it when you're looking for something more subtle.
 // };
  
+Vue.use(VueEcho, {
+    broadcaster: 'pusher',
+    key: '7ed6780f73928e173778',
+    cluster: 'us2'
+});
+
 // Waypoint plugin
 Vue.use(VueWaypoint)
 Vue.use(Buefy)
-Vue.use(VeeValidate, {
-    events: ''
-})
+Vue.use(VeeValidate)
 
 Vue.config.productionTip = false
 

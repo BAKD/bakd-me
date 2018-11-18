@@ -195,7 +195,7 @@ class PageController extends FrontendController
     public function profile(Request $request, $id)
     {
         $view = [];
-        $view['member'] = \BAKD\User::findOrFail($id);
+        $view['member'] = \BAKD\User::with('social')->findOrFail($id);
         return response()->json([
             'status' => 'success',
             'message' => 'Successfully fetched member data.',

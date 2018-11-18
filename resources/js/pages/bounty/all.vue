@@ -77,7 +77,7 @@
 
 					<div v-for="bounty in bounties.active" :key="bounty.id" style="margin-bottom: 20px;">
 
-						<router-link :to="{ name: 'bounties.view', params: { id: bounty.id } }" class="bounty-card">
+						<router-link :to="{ name: 'bounty.view', params: { id: bounty.id } }" class="bounty-card">
 							<div class="box has-hover">
 								<div class="level is-fullwidth">
 									<div class="level-item is-margin-centered" style="max-width: 120px;">

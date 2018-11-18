@@ -19,7 +19,14 @@ export const getters = {
 export const mutations = {
   [types.SAVE_TOKEN] (state, { token, remember }) {
     state.token = token
-    Cookies.set('token', token, { expires: remember ? 365 : null })
+
+    // If we're in production, make sure this token is stored securely
+    var secure = false
+    if (process.env.NODE_ENV === 'production') {
+      secure = true
+    }
+
+    Cookies.set('token', token, { secure, expires: remember ? 365 : null })
   },
 
   [types.FETCH_USER_SUCCESS] (state, { user }) {

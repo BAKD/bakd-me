@@ -4,27 +4,33 @@
 			<fa icon="list" class="is-size-6" />&nbsp;<span class="is-size-5 is-bold">Bounty Details</span>
 		</div>
 		<div class="panel-block">
-		    <table class="table is-fullwidth is-size-7" v-if="isReady">
+		    <table class="table is-fullwidth is-size-6" v-if="isReady">
 				<tr>
-					<td style="width: 27.5%; text-align: right; padding: 10px;"><span class="is-uppercase is-bold">Total Reward Pool</span></td>
-					<td class="has-text-centered">
+					<td style="width: 20%; text-align: right; padding: 10px;"><span class="is-uppercase is-bold">Bounty Reward</span></td>
+					<td style="width: 80%;" class="has-text-centered is-bold">
 						{{ reward }}<i class="has-bakd-coins" />
 					</td>
 				</tr>
 				<tr>
-					<td style="width: 27.5%; text-align: right; padding: 10px;"><span class="is-uppercase is-bold">Reward Type</span></td>
+					<td style="width: 20%; text-align: right; padding: 10px;"><span class="is-uppercase is-bold">Total Reward Pool</span></td>
+					<td class="has-text-centered is-bold">
+						{{ bounty.reward_total.toLocaleString() }}<i class="has-bakd-coins" />
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 20%; text-align: right; padding: 10px;"><span class="is-uppercase is-bold">Reward Type</span></td>
 					<td class="has-text-centered">
 						{{ bounty.bounty_reward_type.name }}
 					</td>
 				</tr>
 				<tr>
-					<td style="width: 27.5%; text-align: right; padding: 10px;"><span class="is-uppercase is-bold">Category</span></td>
+					<td style="width: 20%; text-align: right; padding: 10px;"><span class="is-uppercase is-bold">Category</span></td>
 					<td class="has-text-centered">
 						{{ bounty.type.name }}
 					</td>
 				</tr>
 				<tr>
-					<td style="width: 27.5%; text-align: right; padding: 10px;"><span class="is-uppercase is-bold">Start Date</span></td>
+					<td style="width: 20%; text-align: right; padding: 10px;"><span class="is-uppercase is-bold">Start Date</span></td>
 					<td class="has-text-centered">
 						{{ bounty.start_date | formatDate }}
 					</td>

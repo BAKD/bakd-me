@@ -1,17 +1,23 @@
 <template>
   <b-field :label="label"
       :label-for="name"
-      :type="{ 'is-danger has-text-danger': form.errors.has(name) }"
-      :message="form.errors.get(name)">
+      :type="{ 'is-danger has-text-danger': form.errors.has(name) ||  errors.has(name)  }"
+      :message="form.errors.get(name) || errors.first(name)">
       <b-input :type="type"
           :name="name"
           :placeholder="placeholder"
-          :class="{ 'is-danger has-text-danger': form.errors.has(name) }"
+          :class="{ 'is-danger has-text-danger': form.errors.has(name) ||  errors.has(name) }"
           v-model="form[name]"
           :password-reveal="passwordReveal"
-          :expanded="expanded">
+          :expanded="expanded"
+          :required="required"
+          :form="form"
+          :minlength="minlength"
+          :maxlength="maxlength"
+          :rows="rows"
+          v-validate="validate"
+          >
       </b-input>
-      <!-- <has-error :form="form" field="email" /> -->
   </b-field>
 </template>
 
@@ -47,11 +53,24 @@ export default {
     expanded: {
       type: Boolean,
       default: false
+    },
+    required: {
+      type: Boolean,
+      default: false
+    },
+    minlength: {
+      type: String
+    },
+    maxlength: {
+      type: String
+    },
+    rows: {
+      type: Number
+    },
+    validate: {
+      type: String,
+      default: ''
     }
   },
 }
 </script>
-
-<style lang="scss">
-
-</style>

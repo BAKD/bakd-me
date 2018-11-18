@@ -1,5 +1,5 @@
 <template>
-  <panel :title="$t('bounty_dashboard')">
+  <panel :title="$t('Member Dashboard')">
 	<div style="min-height: 400px; margin: 40px 10px; padding: 120px 50px 50px 50px;" class="has-text-centered is-100">
 		<div class="is-v-centered">
 			<fa icon="exclamation-triangle" class="has-text-red is-danger has-text-danger fa-2x"/>
@@ -14,9 +14,13 @@
 export default {
   layout: 'account',
   middleware: 'auth',
-	
+
+  mounted() {
+  	this.$root.isLoading = false
+  },
+
   metaInfo () {
-    return { title: this.$t('bounty_dashboard') }
+    return { title: this.$t('Member Dashboard') }
   }
 }
 </script>
