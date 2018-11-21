@@ -50,7 +50,7 @@ export default {
 
         &:before {
             position: absolute;
-            opacity: 0.5;
+            opacity: 0.35;
             content: '';
             background: #000;
             width: 100%;

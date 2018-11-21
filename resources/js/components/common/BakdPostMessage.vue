@@ -5,7 +5,7 @@
       
       <figure class="media-left">
         <p class="image is-64x64">
-          <img :src="user.photo_url" class="is-v-centered image is-64x64" style="height: auto; width: 100%; max-width: 64px" />
+          <img :src="user ? user.avatar_url : ''" class="is-v-centered image is-64x64" style="height: auto; width: 100%; max-width: 64px" />
         </p>
       </figure>
       
@@ -14,7 +14,7 @@
 
         <div class="field">
           <p class="control">
-            <textarea class="textarea" placeholder="Post a message..." v-model="post.message"></textarea>
+            <textarea id="post-box" class="textarea" placeholder="Post a message..." v-model="post.message"></textarea>
           </p>
 
           <div class="field has-addons" style="margin-top: 15px;">
@@ -84,6 +84,8 @@
 
 <script>
 import { mapGetters } from "vuex"
+import twitter from '~/plugins/twitter-text'
+      // var twitter = require('twitter-text')
 
 export default {
 
@@ -99,9 +101,22 @@ export default {
     user: 'auth/user'
   }),
 
+  mounted() {
+document.getElementById("post-box").contentEditable='true'; 
+      // var test = twitter.autoLink(twitter.htmlEscape('#hello < @world >'))
+      // console.log(test)
+  },
+
   methods: {
     send: function () {
-      this.$parent.$emit('PostCreated', this.post)
+      var twittered = twitter.autoLink(twitter.htmlEscape(this.post.message))
+
+      var self = this
+      this.$parent.$emit('PostCreated', {
+        message: twittered,
+        user: self.post.user
+      })
+
       this.post = {}
     }
   }

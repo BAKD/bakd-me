@@ -1,23 +1,21 @@
 <template>
   <div class="main-layout">
     <navbar/>
-    <div class="container" style="padding-top: 80px;">
+    <bakd-page-header class="has-text-centered is-small" style="margin-top: 65px;">
+       <h1 class="title is-white wow fadeInRight is-size-2">Member <span class="is-primary">Dashboard</span></h1>
+       <h2 class="hidden-mobile subtitle is-white is-size-5 wow fadeInLeft">Find team members for your next project or just meet new people</h2>
+    </bakd-page-header>
+    <div class="container" style="margin-top: 30px;">
       <div class="columns">
 
-        <!-- SIDEBAR -->
-        <div class="column is-3">
-          <bakd-account-sidebar/>
+        <div class="column is-3 is-clipped">
+          <div class="sticky-menu">
+            <bakd-account-sidebar />
+          </div>
         </div>
 
-        <!-- MAIN -->
-        <div class="column is-9">
-          <div class="breadcrumb" aria-label="breadcrumbs">
-            <ul>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Members</a></li>
-              <li class="is-active"><a href="#" aria-current="page">Dashboard</a></li>
-            </ul>
-          </div>
+        <div class="column is-9" id="main-content">
+          <bakd-account-breadcrumbs/>
           <child @after-enter="afterEnter" />
         </div>
 
@@ -40,6 +38,12 @@ import BakdAccountSidebar from '~/layouts/partials/account-sidebar'
 export default {
   name: 'AccountLayout',
   middleware: 'auth',
+  
+  data() {
+    return {
+      offset: { top: 330, bottom: 60 }
+    }
+  },
 
   methods: {
     afterEnter () {
@@ -47,7 +51,7 @@ export default {
       this.$root.isLoading = false;   
     },
   },
-  
+
   components: {
     Navbar,
     NavbarHeader,
@@ -58,3 +62,46 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .sticky-menu {
+     width: 315px;
+  }
+
+  .account-sidebar {
+     width: 100%; 
+     width: 315px;
+  }
+
+  @media (max-width: 1471px) {
+    .sticky-menu {
+      width: 273px;
+    }
+
+    .account-sidebar {
+     max-width: 273px;
+    }
+  }
+
+
+  @media (max-width: 1279px) {
+    .sticky-menu {
+      width: 230px;
+    }
+
+    .account-sidebar {
+     max-width: 230px;
+    }
+  }
+
+  @media (max-width: 996px) {
+    .sticky-menu {
+      position: relative;
+      width: auto;
+    }
+    .account-sidebar {
+      width: auto;
+      max-width: unset;
+    }
+  }
+</style>

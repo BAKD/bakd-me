@@ -1,5 +1,5 @@
 <template>
-  <aside class="menu">
+  <aside class="menu account-sidebar">
 	<template v-for="(section, sectionIndex) in links">
 		<p class="menu-label">
 			{{ sectionIndex | uppercase }}
@@ -19,6 +19,7 @@
 
 <script>
 export default {
+
 	data() {
 	    return {
 	      links: {
@@ -144,3 +145,9 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss" scoped>
+	.account-sidebar {
+		padding-bottom: 80px;
+	}
+</style>

@@ -180,7 +180,7 @@ export default {
 	
 	async claimed () {
       try {
-        const { data } = await this.form.patch(`/api/bounty/claim/${this.$route.params.claim_id}/edit`)
+        const { data } = await this.form.post(`/api/bounty/claim/${this.$route.params.claim_id}/edit`)
 
         if (data.status === 'error') {
         	helpers.alert({type: 'error', title: data.message })

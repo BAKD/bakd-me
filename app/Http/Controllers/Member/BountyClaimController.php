@@ -104,7 +104,7 @@ class BountyClaimController extends MemberController
         $view['stats'] = [
             'earned' => $user->totalCoinsEarned(),
             'stakes' => $user->totalStakesEarned(),
-            'claims' => $user->totalClaimsApproved(),
+            'approved' => $user->totalClaimsApproved(),
         ];
 
         return response()->json([

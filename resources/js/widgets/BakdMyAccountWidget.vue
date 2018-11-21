@@ -9,7 +9,7 @@
 				
 				<article class="media">
 					<div class="media-left is-64x64">
-						<img :src="user ? user.photo_url : ''" class="is-v-centered image is-64x64" style="height: auto; width: 100%; max-width: 64px" />
+						<img :src="user ? user.avatar_url : ''" class="is-v-centered image is-64x64" style="height: auto; width: 100%; max-width: 64px" />
 					</div>
 					<div class="media-content">
 						<div class="user-info">

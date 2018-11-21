@@ -10,7 +10,7 @@
 		    <div class="media">
 		      <div class="media-left">
 		        <figure class="image is-48x48">
-		          <img :src="member.photo_url || '/images/no-avatar.png'" />
+		          <img :src="member.avatar_url || member.photo_url" />
 		        </figure>
 		      </div>
 		      <div class="media-content">

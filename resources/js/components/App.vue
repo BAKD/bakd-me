@@ -34,7 +34,7 @@ export default {
     layout: null,
     isLoading: true,
     defaultLayout: 'default',
-    hasHeader: false
+    hasHeader: false,
   }),
 
   metaInfo () {

@@ -44,11 +44,14 @@ Route::name('api.')->group(function () {
         Route::post('/bounty/random', 'Member\BountyController@random')->name('bounty.random');
 
 
-
         // Auth'd API Routes
         Route::middleware(['auth:api', 'throttle'])->group(function () {
             // Logout
             Route::post('logout', 'Auth\LoginController@logout');
+
+            // Uploads
+            Route::post('/upload/avatar', 'UploadController@avatar');
+            Route::post('/upload/cover', 'UploadController@cover');
 
             // User Settings
             Route::patch('/settings/profile', 'Settings\ProfileController@update');
@@ -56,7 +59,7 @@ Route::name('api.')->group(function () {
 
             // Bounties
             Route::get('/bounty/dashboard', 'Member\BountyController@dashboard')->name('bounty.dashboard');
-            Route::get('/bounty/dashboard/stats', 'Member\BountyController@stats')->name('bounty.stats');
+            Route::get('/bounty/claims/stats', 'Member\BountyClaimController@stats')->name('bounty.stats');
             Route::get('/bounty/claims/pending', 'Member\BountyClaimController@pending')->name('bounty.claims.pending');
             Route::get('/bounty/claims/approved', 'Member\BountyClaimController@approved')->name('bounty.claims.approved');
             Route::get('/bounty/claims/rejected', 'Member\BountyClaimController@rejected')->name('bounty.claims.rejected');
@@ -67,15 +70,6 @@ Route::name('api.')->group(function () {
             Route::post('/bounty/{id}/claim', 'Member\BountyClaimController@store')->name('bounty.claim.save');
             Route::post('/bounty/claim/{id}/edit', 'Member\BountyClaimController@update')->name('bounty.claim.edit.save');
             Route::delete('/bounty/claim/{id}/cancel', 'Member\BountyClaimController@destroy')->name('bounty.claim.cancel');
-
-
-
-
-            // Claims for All Bounties Related to Auth'd User
-            // Route::get('/claims', 'Member\BountyClaimController@all')->name('claims.all');
-
-            // Claims For Specific Bounties
-            // Route::get('/bounty/{id}/claims', 'Member\BountyClaimController@index')->name('bounty.claims');
         });
 
     // });

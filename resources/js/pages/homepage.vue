@@ -4,9 +4,8 @@
     <bakd-main-searchbar/>
 
     <div class="container">
- 
-      <div class="columns">
 
+      <div class="columns">
         <!-- START LEFT COLUMN -->
         <div class="column is-3 hidden-mobile">
           <!-- AUTH'D SIDEBAR -->

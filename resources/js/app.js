@@ -15,7 +15,7 @@ import Pusher from 'pusher-js'
 import VueEcho from 'vue-echo';
 import swal from 'sweetalert2'
 import axios from 'axios'
-
+ 
 import '~/plugins'
 import '~/components'
 import '~/filters'

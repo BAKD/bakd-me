@@ -20,7 +20,7 @@
 				<br />
 
 		        <b-pagination
-		        	class="is-centered"
+		        	class="is-pulled-right"
 		            :total="total"
 		            :current.sync="current"
 		            :order="order"

@@ -6,7 +6,7 @@
         <!-- AVATAR/INFO -->
         <figure class="media-left has-text-centered" style="width: 64px;">
           <p class="image">
-            <img :src="post && post.user ? post.user.photo_url : ''" class="is-centered-margin image" style="width: 100%; height: auto; max-width: 64px;" />
+            <img :src="user ? user.avatar_url : ''" class="is-centered-margin image" style="width: 100%; height: auto; max-width: 64px;" />
           </p>
           <p class="subtitle is-size-7" style="padding-top: 6px;">
             Blockchain Developer
@@ -67,9 +67,7 @@
           <!-- Main Message Section -->
           <div class="field" style="margin-bottom: 0;">
             <p class="control" style="padding-top: 0px;">
-              <b-message style="margin-bottom: 20px;">
-                {{ post.message }}
-              </b-message>
+              <b-message style="margin-bottom: 20px; padding: 20px;" v-html="post.message"></b-message>
 
               <!-- TODO: Setup Tag System -->
               <ul class="tags field is-grouped">

@@ -18,3 +18,4 @@ yarn-error.log
 /public/mix-manifest.json
 phpunit.dusk.xml
 /LOCAL
+/public/uploads

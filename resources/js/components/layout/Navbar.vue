@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar is-fixed">
+    <nav class="navbar is-fixed" style="z-index: 999;">
       <div class="container">
         <div class="navbar-brand">
             <!-- BAKD Branding -->
@@ -8,8 +8,8 @@
             </router-link>
 
             <!-- Navbar Hamburgler -->
-            <!-- TODo: Wire me up -->
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMainMenu">
+            <!-- TODO: Wire me up -->
+            <a role="button" @click.prevent="openSidebar" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMainMenu">
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
@@ -177,7 +177,7 @@
                         <!-- {{ user.name }} --> 
                     </div>
                     <div class="media-content level-item">
-                      <img :src="user.photo_url"> 
+                      <img :src="user.avatar_url || user.photo_url"> 
                     </div>
                     <div class="media-right level-item">
                         <b-icon icon="chevron-down"></b-icon>
@@ -188,7 +188,7 @@
                     <router-link :to="{ name: 'members.show.public', params: { id: user.id } }" class="nav-item has-link has-text-dark">
                       <div class="media" style="margin-bottom: -.35rem;">
                           <div class="media-left dropdown-avatar">
-                              <img :src="user.photo_url" style="max-height: 2.75rem;"> 
+                              <img :src="user.avatar_url || user.photo_url" style="max-height: 2.75rem;"> 
                           </div>
                           <div class="text-dark media-content avatar-info">
                             <h3>{{ user.name }}</h3>
@@ -203,7 +203,7 @@
                   <template v-if="user.organization">
                     <b-dropdown-item has-link>
                       <router-link :to="{ name: 'organizations.view', params: { id: user.organization.id } }" class="text-dark">
-                        <i class="la la-user is-size-6" style="width: 20px;" />
+                        <i class="la la-plus is-size-6" style="width: 20px;" />
                         {{ user.organization.name }}
                       </router-link>
                     </b-dropdown-item>                  
@@ -301,10 +301,6 @@ export default {
 
       // Redirect to login.
       this.$router.push({ name: 'login' })
-    },
-
-    viewUserProfile() {
-        // TODO...    
     },
   }
 }

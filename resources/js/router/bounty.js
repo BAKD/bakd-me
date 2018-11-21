@@ -11,5 +11,27 @@ export default [
 	{ path: '/bounty/view/:id', name: 'bounty.view', component: BountyView },
 	{ path: '/bounty/:id/claim', name: 'bounty.claim', component: BountyClaim },
 	{ path: '/bounty/:id/claim/:claim_id', name: 'bounty.claim.edit', component: BountyClaimEdit },
-	{ path: '/bounty/dashboard', name: 'bounty.dashboard', component: BountyDashboard }
+	{ 
+		path: '/bounty/dashboard', 
+		name: 'bounty.dashboard', 
+		component: BountyDashboard,
+		meta: { 
+		  breadcrumbs: [
+	        {
+	          name: 'Home',
+	          to: 'homepage',
+	          active: false
+	        },
+	        {
+	          name: 'Members',
+	          to: 'members.dashboard',
+	          active: false
+	        },
+	        {
+	          name: 'Bounty Dashboard',
+	          active: true
+	        }
+	      ],
+  		}
+	}
 ]
