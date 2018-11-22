@@ -38,27 +38,27 @@
 		            <b-table-column label="Actions" centered>
 		            	<template v-if="parseInt(props.row.confirmed, 10) === 0">
 							<router-link :to="{ name: 'bounty.claim.edit', params: { id: bounty.id, claim_id: props.row.id } }">
-								<i class="la la-edit" /> Edit Claim
+								<i class="la la-edit" /> Edit
 							</router-link>
 							&nbsp;&nbsp;
 							<a @click.prevent="cancelClaim($event, props.row.id, bounty.id)">
-								<i class="la la-trash" /> Cancel Claim
+								<i class="la la-trash" /> Cancel
 							</a>
 		    			</template>
 						
 		            	<template v-if="parseInt(props.row.confirmed, 10) === 1">
 							<router-link :to="{ name: 'bounty.claim.edit', params: { id: bounty.id, claim_id: props.row.id } }">
-								<i class="la la-eye" /> View Claim
+								<i class="la la-eye" /> View
 							</router-link>
 						</template>
 
 		            	<template v-if="parseInt(props.row.confirmed, 10) === 2">
 							<router-link :to="{ name: 'bounty.claim.edit', params: { id: bounty.id, claim_id: props.row.id } }">
-								<i class="la la-cogs" /> Fix Claim
+								<i class="la la-cogs" /> Fix
 							</router-link>
 							&nbsp;&nbsp;
 							<a @click.prevent="cancelClaim($event, props.row.id, bounty.id)">
-								<i class="la la-trash" /> Cancel Claim
+								<i class="la la-trash" /> Cancel
 							</a>
 						</template>
 		            </b-table-column>

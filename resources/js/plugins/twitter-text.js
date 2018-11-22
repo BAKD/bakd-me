@@ -1398,8 +1398,8 @@ var autoLinkEntities = function (text, entities, options) {
   options.cashtagUrlBase = options.cashtagUrlBase || 'https://bakd.me/search?q=%24';
   options.listClass = options.listClass || DEFAULT_LIST_CLASS;
   options.usernameClass = options.usernameClass || DEFAULT_USERNAME_CLASS;
-  options.usernameUrlBase = options.usernameUrlBase || 'https://bakd.me/';
-  options.listUrlBase = options.listUrlBase || 'https://bakd.me/';
+  options.usernameUrlBase = options.usernameUrlBase || 'https://bakd.me/u/';
+  options.listUrlBase = options.listUrlBase || 'https://bakd.me/l/';
   options.htmlAttrs = extractHtmlAttrsFromOptions(options);
   options.invisibleTagAttrs = options.invisibleTagAttrs || "style='position:absolute;left:-9999px;'";
 

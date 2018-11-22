@@ -21,11 +21,14 @@
 								<span class="is-bold is-green is-size-7">+10,200</span>
 							</b-tooltip>
 						<!-- </div> -->
-							<p class="subtitle is-size-7 has-text-gray-light is-marginless">
-								Blockchain Developer
-							</p>
+							<!-- <p class="subtitle is-size-7 has-text-gray-light is-marginless">
+					            {{ user.type | capitalize }}
+							</p> -->
 							<p class="user-trust is-size-7" style="padding-top: 3px;">
-								<span class="tag is-green is-small is-size-7" style="height: unset; padding-top: .1rem; padding-bottom: .1rem;"><fa icon="star"/>&nbsp;&nbsp;VERIFIED</span>
+								<b-taglist attached>
+									<b-tag type="is-dark"><i class="fa fa-ban"></i></b-tag>
+									<b-tag type="is-danger">UNVERIFIED</b-tag>
+								</b-taglist>
 							</p>
 						</div>
 					</div>

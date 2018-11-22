@@ -47,6 +47,14 @@ export const mutations = {
 
   [types.UPDATE_USER] (state, { user }) {
     state.user = user
+  },
+
+  [types.UPDATE_USER_AVATAR] (state, { avatar }) {
+    state.user.avatar_url = avatar
+  },
+
+  [types.UPDATE_USER_COVER] (state, { cover }) {
+    state.user.cover_url = cover
   }
 }
 
@@ -68,6 +76,16 @@ export const actions = {
 
   updateUser ({ commit }, payload) {
     commit(types.UPDATE_USER, payload)
+  },
+
+  updateUserAvatar ({ commit }, payload) {
+    console.log(payload)
+
+    commit(types.UPDATE_USER_AVATAR, payload)
+  },
+
+  updateUserCover ({ commit }, payload) {
+    commit(types.UPDATE_USER_COVER, payload)
   },
 
   async logout ({ commit }) {

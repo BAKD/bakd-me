@@ -66,7 +66,7 @@ class UserController extends Controller
      */
     public function posts($id)
     {
-        $data = \BAKD\Post::where('user_id', $id)->orderBy('id', 'desc')->paginate(20);
+        $data = \BAKD\Post::with('user')->where('user_id', $id)->orderBy('id', 'desc')->paginate(20);
         return response()->json($data);
     }
 

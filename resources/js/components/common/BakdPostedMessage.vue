@@ -6,10 +6,10 @@
         <!-- AVATAR/INFO -->
         <figure class="media-left has-text-centered" style="width: 64px;">
           <p class="image">
-            <img :src="user ? user.avatar_url : ''" class="is-centered-margin image" style="width: 100%; height: auto; max-width: 64px;" />
+            <img :src="user.avatar_url || user.photo_url" class="is-centered-margin image" style="width: 100%; height: auto; max-width: 64px;" />
           </p>
           <p class="subtitle is-size-7" style="padding-top: 6px;">
-            Blockchain Developer
+            {{ post.user.type | capitalize }}
           </p>
           <p class="trust-widget is-size-7 has-text-centered">
             <span class="is-bold">Trust:</span> <span class="is-green is-bold">+10,200</span>
@@ -50,7 +50,7 @@
           <div class="level">
 
             <div class="level-left">
-              <span class="is-bold">{{ user.name }}</span>&nbsp;&nbsp;<span class="is-size-7">{{ post.created_at | fromNow }}...</span>
+              <span class="is-bold">{{ post.user.name }}</span>&nbsp;&nbsp;<span class="is-size-7">{{ post.created_at | fromNow }}...</span>
             </div>
 
             <div class="level-right is-size-7 has-text-right">
@@ -193,15 +193,28 @@ export default {
       type: Object,
       required: true
     },
-    user: {
-      type: Object,
-      required: true
-    }
   },
 
   data: () => ({
+    avatar: '',
+    user: {},
     submitOnEnter: false
   }),
+
+  computed: {
+    ...mapGetters({
+      authdUser: 'auth/user'
+    })
+  },
+
+  mounted() {
+    if (this.authdUser.id == this.$props.post.user.id) {
+      this.user = this.authdUser
+    } else {
+      this.user = this.$props.post.user
+    }
+    this.avatar = this.user.avatar_url || this.user.photo_url
+  }
 
 }
 </script>

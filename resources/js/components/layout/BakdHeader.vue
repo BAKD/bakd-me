@@ -3,7 +3,7 @@
 
     <div class="container" style="margin-top: 90px; margin-bottom: -160px;">
       <b-message type="is-danger" has-icon style="z-index: 20; position: relative;">
-        <strong>BAKD</strong> is still in active development, and updates frequently. There is a high probability that you will run in to issues from time to time, as well as unfinished pages. We are working dilligently to get things to a production-ready state, and will continue to update our community as we progress. <a href="https://bakd.io" class="is-bold" target="_blank">Learn More...</a>
+        <strong>BAKD</strong> is still in it is's alpha/proof of concept stage. The site is being actively developed, and therefor updates frequently. There is a high probability that you will run in to issues from time to time, as well as unfinished pages. We are working dilligently to get things to a production-ready state, and will continue to update our community as we progress. <a href="https://bakd.io" class="is-bold" target="_blank">Learn More...</a>
       </b-message>
     </div>
 

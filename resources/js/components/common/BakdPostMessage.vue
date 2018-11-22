@@ -9,7 +9,7 @@
         </p>
       </figure>
       
-      <form @submit.prevent.keydown="send">
+      <form @submit.prevent.keydown="send" class="is-100">
       <div class="media-content">
 
         <div class="field">

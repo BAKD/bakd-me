@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar is-fixed" style="z-index: 999;">
+    <nav class="navbar is-fixed" style="z-index: 29;">
       <div class="container">
         <div class="navbar-brand">
             <!-- BAKD Branding -->
@@ -140,16 +140,20 @@
                                       <li class="columns">
                                         <div class="column is-8">
                                           <p class="title is-size-6">
-                                            Tom Grenier
+                                            {{ user.name }}
                                           </p>
-                                          <br />
-                                          <p class="subtitle is-size-7 has-text-grey-light">
-                                            This is a fake test subject...
+                                          <p class="subtitle is-size-6 is-bold has-text-grey-light">
+                                            Test Subject
                                           </p>
                                         </div>
                                         <div class="column is-4">
                                           <span class="is-size-7">21 minutes ago...</span>
                                         </div>
+                                      </li>
+                                      <li>
+                                        <p>
+                                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero quas et debitis dolores consequuntur in ratione veniam, omnis, maxime sequi minima aperiam est repellat accusantium asperiores, tempore nulla distinctio. Porro.
+                                        </p>
                                       </li>
                                     </ul>
                                 </section>
@@ -290,9 +294,11 @@ export default {
     appName: window.config.appName,
   }),
 
-  computed: mapGetters({
-    user: 'auth/user'
-  }),
+  computed: {
+      ...mapGetters({
+          user: 'auth/user'
+      }),
+  },
 
   methods: {
     async logout () {

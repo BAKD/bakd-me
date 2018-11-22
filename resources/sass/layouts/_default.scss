@@ -8,6 +8,24 @@ body {
 	overflow-x: hidden;
 }
 
+.file-uploads.file-uploads-html4 input[type=file], 
+.file-uploads.file-uploads-html5 label {
+  &:hover {
+    cursor: pointer !important;
+
+	&:before {
+		content: '';
+		display: block;
+		z-index: 31;
+		height: 100%;
+		width: 100vw;
+		background: #000;
+		opacity: 0.2;	
+	}
+  
+  }
+}
+
 .dropdown-trigger-icon {
 	&:hover {
 		cursor: pointer;

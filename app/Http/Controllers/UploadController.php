@@ -28,17 +28,19 @@ class UploadController extends Controller
 			// Handle file
 			$filename = time() . '.' . request()->avatar->getClientOriginalExtension();
 			$uploadPath = self::UPLOAD_DIR . '/avatars/' . $user->id;
-			$fullPath = request()->avatar->move(public_path($uploadPath), $filename);
+			request()->avatar->move(public_path($uploadPath), $filename);
+			$fullPath = $uploadPath . '/' . $filename;
 
 			// Update user
-			$user->avatar_url = $uploadPath . '/' . $filename;
+			$user->avatar_url = $fullPath;
 			$user->save();
 
-			return response()->json([
-				'status' => 'success',
-				'message' => 'User avatar successfully uploaded and saved.',
-				'data' => $filename
-			]);
+			// return response()->json([
+			// 	'status' => 'success',
+			// 	'message' => 'User avatar successfully uploaded and saved.',
+			// 	'data' => $fullPath
+			// ]);
+			return response()->json($fullPath);
 		} else {
 			return response()->json([
 				'status' => 'error',
@@ -65,17 +67,19 @@ class UploadController extends Controller
 			// Handle file
 			$filename = time() . '.' . request()->cover->getClientOriginalExtension();
 			$uploadPath = self::UPLOAD_DIR . '/covers/' . $user->id;
-			$fullPath = request()->cover->move(public_path($uploadPath), $filename);
+			request()->cover->move(public_path($uploadPath), $filename);
+			$fullPath = $uploadPath . '/' . $filename;
 
 			// Update user
-			$user->cover_url = $uploadPath . '/' . $filename;
+			$user->cover_url = $fullPath;
 			$user->save();
 
-			return response()->json([
-				'status' => 'success',
-				'message' => 'User cover successfully uploaded and saved.',
-				'data' => $filename
-			]);
+			// return response()->json([
+			// 	'status' => 'success',
+			// 	'message' => 'User cover successfully uploaded and saved.',
+			// 	'data' => $fullPath
+			// ]);
+			return response()->json($fullPath);
 		} else {
 			return response()->json([
 				'status' => 'error',
