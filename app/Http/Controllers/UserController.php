@@ -21,6 +21,7 @@ class UserController extends Controller
         return response()->json($data);
     }
 
+
     /**
      * Show random list of users
      *

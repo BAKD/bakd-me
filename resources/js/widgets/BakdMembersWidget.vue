@@ -1,7 +1,7 @@
 <template>
 	<div class="widget">
 	    <p class="has-text-left title is-size-5">
-	      Latest Members
+	      Members
 	    </p>
 	    <div class="box" v-if="isReady">
 	      <article class="media is-fullwidth" v-for="member in members" :key="member.id">
@@ -13,16 +13,26 @@
 	            {{ member.name }}
 	          </p>
 	          <p class="subtitle is-size-7 has-text-grey-light">
-	            <!-- Fix me -->
-	            Blockchain Developer 
+	            {{ member.type | capitalize }}
 	          </p>
 	        </div>
 	        <p class="media-right is-pulled-right has-text-right is-v-centered">
-		        <b-tooltip label="Follow" type="is-dark">
-		          <a class="is-v-centered" @click.prevent="followMember($event, member.id)">
-		            <i class="la la-plus-square la-2x"/>
-		          </a>
-				</b-tooltip>
+				
+				<template v-if="!member.isFollowing">
+			        <b-tooltip label="Follow" type="is-dark">
+			          <a class="is-v-centered" @click.prevent="followMember($event, member.id)">
+			            <i class="la la-plus-square la-2x"/>
+			          </a>
+					</b-tooltip>
+				</template>
+				<template v-else>
+					<b-tooltip label="Unfollow" type="is-dark">
+			          <a class="is-v-centered" @click.prevent="unfollowMember($event, member.id)">
+			            <i class="la la-minus-square la-2x"/>
+			          </a>
+					</b-tooltip>
+				</template>
+
 	        </p>
 	      </article>
 	      <div class="box-footer">
@@ -39,21 +49,49 @@ import axios from 'axios'
 import swal from 'sweetalert2'
 
 export default {
+
+	props: {
+		type: { 
+			type: String,
+			required: false 
+		}
+	},
+
 	data() {
 		return {
+			isFollowing: false,
 			isReady: false,
 			members: []
 		}
 	},
 
 	methods: {
-		followMember: function (event, memberId) {
-			console.log(event);
-			swal({
-				type: 'info',
-				title: 'Coming soon',
-				text: 'action:follow, user:' + memberId
-			})
+		followMember: async function (event, memberId) {
+			var self = this
+
+			var { data } = await axios.post(`/api/user/follow`, { follow_id: memberId })
+
+			if (data && data.status !== 'error') {
+				this.isFollowing = true;			
+				this.userFollowers = data.data.followers
+				this.userFollowing = data.data.following
+			}
+
+	        helpers.toast({type: data.status, title: data.message })
+		},
+
+		unfollowMember: async function (event, memberId) {
+			var self = this
+
+			var { data } = await axios.post(`/api/user/unfollow`, { unfollow_id: memberId })
+
+			if (data && data.status !== 'error') {
+				this.isFollowing = false;			
+				this.userFollowers = data.data.followers
+				this.userFollowing = data.data.following
+			}
+
+	        helpers.toast({type: data.status, title: data.message })
 		},
 
 		viewMember: function (event, memberId) {
@@ -62,11 +100,12 @@ export default {
 	},
 
 	mounted () {
-	  	var self = this;
+	  	var self = this
+
 	    axios
-	      .post('/api/users', { limit: 5 })
+	      .post('/api/users/random', { limit: 5 })
 	      .then(function(response) { 
-	      	self.members = response.data.data
+	      	self.members = response.data
 	      	self.isReady = true
 	      })
 	}

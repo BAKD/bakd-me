@@ -28,7 +28,7 @@
 						<div class="columns" style="padding: 30px 10px 10px;">
 							<div class="column is-6 has-text-centered">
 								<p class="title is-size-3">
-									{{ member.follower_count }}
+									{{ userFollowers }}
 								</p>
 								<p class="subtitle is-size-6 has-text-grey-light">
 									Followers
@@ -36,7 +36,7 @@
 							</div>
 							<div class="column is-6 has-text-centered">
 								<p class="title is-size-3">
-									{{ member.following_count }}
+									{{ userFollowing }}
 								</p>
 								<p class="subtitle is-size-6 has-text-grey-light">
 									Following
@@ -102,28 +102,32 @@
 
 
 					<!-- Start Social Box -->
-					<p class="has-text-left title is-size-5">
-						Social Media
-					</p>
-					<div class="box">
-						<ul class="social-list" v-if="member.social">
-							
-							<template v-for="(network, index) in member.social">
-								<li class="level is-marginless" v-if="network && !['id', 'owner_id', 'owner_type', 'created_at', 'updated_at'].includes(index)" :key="index">
-									<a class="level-left" :href="network || ''">
-										<div class="icon">
-											<b-icon :icon="index" pack="fab" :class="getIconClass(index)" />
-										</div>
-										<span class="is-v-centered" style="padding-left: 5px;">
-											{{ network || '' }}
-										</span>
-									</a>
-								</li>
-							</template>
-							
-						</ul>
-					</div>
+					<template v-if="member.social">
+						<p class="has-text-left title is-size-5">
+							Social Media
+						</p>
+						<div class="box">
+							<ul class="social-list">
+								
+								<template v-for="(network, index) in member.social">
+									<li class="level is-marginless" v-if="network && !['id', 'owner_id', 'owner_type', 'created_at', 'updated_at'].includes(index)" :key="index">
+										<a class="level-left" :href="network || ''">
+											<div class="icon">
+												<b-icon :icon="index" pack="fab" :class="getIconClass(index)" />
+											</div>
+											<span class="is-v-centered" style="padding-left: 5px;">
+												{{ network || '' }}
+											</span>
+										</a>
+									</li>
+								</template>
+								
+							</ul>
+						</div>
+					</template>
 					<!-- End Social Box -->
+
+					<br />
 
 				</div>
 
@@ -135,22 +139,59 @@
 					
 			            <b-tab-item label="Realtime" icon="comment">
 							
-							<template v-for="(post, index) in posts">
-								<bakd-posted-message :post="post" :key="index" />
+							<template v-if="posts.length > 0">
+								<template v-for="(post, index) in posts">
+									<bakd-posted-message :post="post" :key="index" />
+								</template>
+							</template>
+			            	<template v-else>
+			            		<div class="has-text-centered is-100 mt-50">
+					            	<b-icon icon="emoticon-sad" size="is-large" class="has-text-danger" />
+					                <p class="title">No Posts</p>
+								</div>
+								<div class="has-text-centered btn-group mt-50">
+									<router-link :to="{ name: 'homepage' }" class="button is-wide is-primary">
+										<i class="la la-home" />&nbsp;Join the Conversation
+									</router-link>
+								</div>
 							</template>
 
 			            </b-tab-item>
 
 			            <b-tab-item label="Followers" icon="account">
-			                No results
+			            	<div class="has-text-centered is-100 mt-50">
+				            	<b-icon icon="emoticon-sad" size="is-large" class="has-text-danger" />
+				                <p class="title">No Followers</p>
+							</div>
+							<div class="has-text-centered btn-group mt-50">
+								<router-link :to="{ name: 'homepage' }" class="button is-wide is-primary">
+									<i class="la la-user-plus" />&nbsp;Start Networking
+								</router-link>
+							</div>
 			            </b-tab-item>
 
 			            <b-tab-item label="Following" icon="account-plus">
-			                No results
+			                <div class="has-text-centered is-100 mt-50">
+				            	<b-icon icon="emoticon-sad" size="is-large" class="has-text-danger" />
+				                <p class="title">No Follows</p>
+							</div>
+							<div class="has-text-centered btn-group mt-50">
+								<router-link :to="{ name: 'homepage' }" class="button is-wide is-primary">
+									<i class="la la-users" />&nbsp;Search the Directory
+								</router-link>
+							</div>
 			            </b-tab-item>
 
 			            <b-tab-item label="Campaigns" icon="chart-bar">
-			                No results
+			                <div class="has-text-centered is-100 mt-50">
+				            	<b-icon icon="emoticon-sad" size="is-large" class="has-text-danger" />
+				                <p class="title">No Campaigns</p>
+							</div>
+							<div class="has-text-centered btn-group mt-50">
+								<router-link :to="{ name: 'homepage' }" class="button is-wide is-primary">
+									<i class="la la-bar-chart" />&nbsp;Start a Campaign
+								</router-link>
+							</div>
 			            </b-tab-item>
 
 		        	</b-tabs>
@@ -159,8 +200,12 @@
 
 
 				<div class="column is-3">
+	
+					<br />
+					
+		            <bakd-members-widget type="random" />
 
-				<br />
+					<br />
 
 				</div> <!-- .is-3 -->
 
@@ -184,6 +229,8 @@ import BakdPostedMessage from '~/components/common/BakdPostedMessage'
 import BakdAvatarUpload from '~/components/user/BakdAvatarUpload'
 import BakdCoverUpload from '~/components/user/BakdCoverUpload'
 
+import BakdMembersWidget from '~/widgets/BakdMembersWidget'
+
 export default {
 	layout: 'default',
 
@@ -192,7 +239,8 @@ export default {
 		BakdPageHeader,
 		BakdCoverUpload,
 		BakdAvatarUpload,
-		BakdPostedMessage
+		BakdPostedMessage,
+		BakdMembersWidget
 	},
 
 	metaInfo () {
@@ -203,7 +251,9 @@ export default {
 		member: {},
 		posts: [],
 		activeTab: '',
-		isFollowing: false // is the auth'd user following this person
+		userFollowers: 0,
+		userFollowing: 0,
+		isFollowing: false // is the auth'd user following this person?
 	}),
 
 	computed: {
@@ -235,6 +285,8 @@ export default {
 			var { data } = await axios.get(`/api/u/${this.$route.params.id}`)
 			this.member = data.data.member
 			this.isFollowing = data.data.isFollowing
+			this.userFollowers = this.member.follower_count
+			this.userFollowing = this.member.following_count
 			console.log(data.data.member)
 		},
 
@@ -255,11 +307,11 @@ export default {
 
 			if (data && data.status !== 'error') {
 				this.isFollowing = true;			
+				this.userFollowers = data.data.followers
+				this.userFollowing = data.data.following
 			}
 
 	        helpers.toast({type: data.status, title: data.message })
-
-			console.log(data)
 		},
 
 		unfollowUser: async function () {
@@ -269,15 +321,18 @@ export default {
 
 			if (data && data.status !== 'error') {
 				this.isFollowing = false;			
+				this.userFollowers = data.data.followers
+				this.userFollowing = data.data.following
 			}
-			
+
 	        helpers.toast({type: data.status, title: data.message })
-			
-			console.log(data)
 		},
 
 		messageUser: async function () {
-			console.log('Message user')
+			swal({
+				type: 'info',
+				text: 'Coming Soon'
+			})
 		},
 
 	    getIconClass(network) {
@@ -310,5 +365,8 @@ export default {
 
 .profile-container {
 	z-index: 28;
+}
+.mt-50 {
+	margin-top: 50px;
 }
 </style>

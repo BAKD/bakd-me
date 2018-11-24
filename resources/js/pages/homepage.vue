@@ -178,7 +178,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .b-tabs:not(:last-child) {
     margin-bottom: -15px;
 }
@@ -203,8 +203,6 @@ hr {
 
 .how-it-works {
   margin: 0 auto;
-  // max-width: 1100px;
-  // width: 100%;
   padding: 10px 40px;
 
   .tile {
@@ -213,14 +211,5 @@ hr {
     width: 100%;
     margin-bottom: 70px;
   }
-}
-.how-it-works {
-  // display: block;
-  // height: 100%;
-  // width: 100%;
-  // background-color: #fff;
-  // background-image: url('/images/footer-bg-sm.png');
-  // background-size: contain;
-  // background-position: center;
 }
 </style>

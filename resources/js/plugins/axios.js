@@ -52,10 +52,8 @@ axios.interceptors.response.use(response => response, error => {
     swal({
       type: 'error',
       title: i18n.t('error_alert_title'),
-      text: 'Whoa there killer. Way too many requests! Back it down a notch. You\'ll be able to use the site again shortly.',
-      reverseButtons: true,
+      text: 'Whoa there killa. Way too many requests! Back it down a notch. You\'ll be able to use the site again shortly.',
       confirmButtonText: i18n.t('ok'),
-      cancelButtonText: i18n.t('cancel')
     })
   }
 
