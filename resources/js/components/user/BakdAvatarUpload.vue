@@ -1,6 +1,6 @@
 <template>
-    <div class="avatar-wrapper has-text-centered">
-      <div class="avatar-upload" v-show="!editing">
+  <div class="avatar-wrapper has-text-centered">
+    <div class="avatar-upload" v-show="!editing">
 
       <template v-if="isUsersPage">
         <div class="avatar-image-wrapper"> 
@@ -78,7 +78,7 @@ export default {
     }),
     
     isUsersPage: function () {
-      if (this.authdUser.id === this.$route.params.id) {
+      if (this.authdUser.id === this.$props.user.id) {
         return true
       }
       return false

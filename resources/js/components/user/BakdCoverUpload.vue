@@ -19,7 +19,7 @@
           <img :src="cover.length ? cover[0].url : (user.cover_url ? user.cover_url : '')" class="cover-photo" />
           <div class="cover-edit" v-show="cover.length && editing">
             <div class="cover-edit-image" v-if="cover.length">
-              <img ref="coverUpload" :src="cover[0].url" />
+              <img ref="coverUploadEdit" :src="cover[0].url" />
             </div>
           </div>
         </div>
@@ -30,14 +30,9 @@
       </div>
     </template>
   
+    <!-- Read Only Cover -->
     <template v-else>
-      <!-- Read Only Cover -->
       <img :src="user ? user.cover_url : ''" class="cover-photo" />
-        <div class="cover-edit" v-show="cover.length && editing">
-          <div class="cover-edit-image" v-if="cover.length">
-            <img ref="coverUploadEdit" :src="cover[0].url" />
-          </div>
-        </div>
     </template>
 
   </div>
@@ -78,7 +73,7 @@ export default {
     }),
 
     isUsersPage: function () {
-      if (this.authdUser.id === this.$route.params.id) {
+      if (this.authdUser.id === this.$props.user.id) {
         return true
       }
       return false
@@ -93,6 +88,7 @@ export default {
             return
           }
           let cropper = new Cropper(this.$refs.coverUploadEdit, {
+            aspectRatio: 'free',
             dragMode: 'move',
             viewMode: 3,
             autoCropArea: 1

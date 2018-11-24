@@ -127,7 +127,7 @@
               <template v-if="user">              
                 <!-- MESSAGES NAV DROPDOWN -->
                 <b-dropdown position="is-bottom-left" class="navbar-messages-dropdown">
-                    <a href="javascript: void(0);" class="navbar-item text-dark is-dark" slot="trigger">
+                    <a href="javascript: void(0);" class="messages-icon navbar-item text-dark is-dark" slot="trigger">
                       <i class="la la-envelope is-size-4" />
                       <!-- <b-icon icon="menu-down"></b-icon> -->
                     </a>
@@ -341,6 +341,17 @@ nav {
     max-width: 130px;
     max-height: 45px;
   }
+}
+
+.messages-icon {
+
+  &:active,
+  &:focus,
+  &:hover {
+    background: none !important;
+    background-color: none !important;
+  }
+
 }
 
 .main-dropdown-link,
