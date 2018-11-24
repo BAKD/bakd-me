@@ -33,6 +33,105 @@ class UserController extends Controller
         return response()->json($data);
     }
 
+
+    /**
+     * Auth'd user follow
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function follow(Request $request)
+    {
+        $user = request()->user();
+        $followId = request()->get('follow_id');
+
+        // Check if user id maps to a valid user
+        $followUser = \BAKD\User::find($followId);
+
+        if (!$followUser) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User does not exist!'
+            ]);
+        }
+
+        if ($user->isFollowing($followId)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Already following ' . $followUser->name
+            ]);
+        }
+
+        // TODO: Add check for if user is blocked/etc
+
+        // TODO: Broadcast pusher event
+
+        // TODO: Log action
+
+        // TODO: Add notification
+
+        $user->follow($followId);
+        $user->increaseFollowingCount();
+        $followUser->increaseFollowerCount();
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'You\'ve successfully followed ' . $followUser->name,
+            'data' => [
+                'followers' => $followUser->follower_count,
+                'following' => $followUser->following_count
+            ]
+        ]);
+    }
+
+
+    /**
+     * Auth'd user unfollow
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function unfollow(Request $request)
+    {
+        $user = request()->user();
+        $unfollowId = request()->get('unfollow_id');
+
+        // Check if user id maps to a valid user
+        $unfollowUser = \BAKD\User::find($unfollowId);
+
+        if (!$unfollowUser) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User does not exist!'
+            ]);
+        }
+
+        if (! $user->isFollowing($unfollowId)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You aren\'t following ' . $unfollowUser->name
+            ]);
+        }
+
+        $user->unfollow($unfollowId);
+        $user->decreaseFollowingCount();
+        $unfollowUser->decreaseFollowerCount();
+
+        // TODO: Broadcast pusher event
+
+        // TODO: Log action
+
+        // TODO: Add notification
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'You\'ve successfully unfollowed ' . $unfollowUser->name,
+            'data' => [
+                'followers' => $unfollowUser->follower_count,
+                'following' => $unfollowUser->following_count
+            ]
+        ]);
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -62,12 +161,23 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $data = \BAKD\User::findOrFail($id);
-        $data = array_merge($data, ['organization' => [
-            'id' => 1,
-            'name' => 'Test Organization',
-        ]]);
-        return response()->json($data);
+        $authdUser = request()->user();
+        $user = \BAKD\User::findOrFail($id);
+        $isFollowing = false;
+
+        if ($authdUser->id !== $user->id) {
+            $isFollowing = $authdUser->isFollowing($user->id);
+        }
+
+        $payload = array_merge($user, [
+            'isFollowing' => $isfollowing,
+            'organization' => [
+                'id' => 1,
+                'name' => 'Test Organization',
+            ]
+        ]);
+
+        return response()->json($payload);
     }
 
     /**

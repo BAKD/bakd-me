@@ -1,6 +1,5 @@
 <template>
-  <div> <!-- TODO: Change to transition -->
-
+  <section>
     <!-- Editable Cover -->
     <template v-if="isUsersPage">
       <file-upload
@@ -31,11 +30,11 @@
     </template>
   
     <!-- Read Only Cover -->
-    <template v-else>
-      <img :src="user ? user.cover_url : ''" class="cover-photo" />
-    </template>
+    <div class="cover-wrapper" v-else>
+      <img :class="{ 'orange-bg': !user.cover }" :src="user.cover_url || default_cover" class="cover-photo" />
+    </div>
 
-  </div>
+  </section>
 </template>
 
 <script>
@@ -63,6 +62,8 @@ export default {
       cover: [],
       editing: false,
       cropper: false,
+      // default_cover: '/images/branding/social-cover.jpg',
+      default_cover: ''
     }
   },
 
@@ -219,5 +220,8 @@ export default {
 }
 .cover-edit-image {
   height: 300px;
+}
+.orange-bg {
+  background-color: #F59118;
 }
 </style>

@@ -26,7 +26,7 @@
       </template>
 
       <template v-else>
-        <img :src="avatar.length ? avatar[0].url : (user ? user.avatar_url : user.photo_url)" class="is-rounded member-avatar-img no-edit" />
+        <img :src="user.avatar_url || user.photo_url" class="is-rounded member-avatar-img no-edit" />
       </template>
     </div>
 

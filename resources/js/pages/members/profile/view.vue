@@ -7,8 +7,6 @@
 
 			<div class="columns member-avatar">
 				
-				
-
 				<div class="column is-3">
 					
 					<div class="box" style="margin-top: 0px;">
@@ -22,6 +20,9 @@
 								<b-tag type="is-dark"><i class="fa fa-ban"></i></b-tag>
 								<b-tag type="is-danger">UNVERIFIED</b-tag>
 							</b-taglist>
+							<p>
+								{{ member.type }}
+							</p>
 						</div>
 
 						<div class="columns" style="padding: 30px 10px 10px;">
@@ -49,14 +50,37 @@
 						</p>
 
 						<br />
+						
+						<!-- AUTHENTICATED BUTTONS -->
+						<template v-if="!isUsersPage">
+							<!-- FOLLOW/UNFOLLOW BUTTONS -->
+							<template v-if="!isFollowing">
+								<button @click.prevent="followUser" class="is-fluid button is-rounded is-medium is-wide is-primary is-margin-centered" style="margin-bottom: 8px;">
+									<span class="is-size-6"><i class="la la-plus-circle"></i>&nbsp;Follow</span>
+								</button>
+							</template>
+							<template v-else>
+								<button @click.prevent="unfollowUser" class="is-fluid button is-rounded is-medium is-wide is-danger is-margin-centered" style="margin-bottom: 8px;">
+									<span class="is-size-6"><i class="la la-minus-circle"></i>&nbsp;Unfollow</span>
+								</button>
+							</template>							
+							
+							<!-- MESSAGING BUTTONS -->
+							<button @click.prevent="messageUser" class="button is-fluid is-rounded is-medium is-wide is-secondary is-margin-centered">
+								<span class="is-size-6"><i class="la la-envelope"></i>&nbsp;Message</span>
+							</button>
+						</template>
 
-						<button class="is-fluid button is-rounded is-medium is-wide is-primary is-margin-centered" style="margin-bottom: 8px;">
-							<span class="is-size-6"><i class="la la-plus-circle"></i>&nbsp;Follow</span>
-						</button>
-						<button class="button is-fluid is-rounded is-medium is-wide is-secondary is-margin-centered">
-							<span class="is-size-6"><i class="la la-envelope"></i>&nbsp;Message</span>
-						</button>
-					
+						<!-- GUEST BUTTONS -->
+						<template v-else>
+							<router-link :to="{ name: 'members.settings.profile' }" class="is-fluid button is-rounded is-medium is-wide is-primary is-margin-centered" style="margin-bottom: 8px;">
+								<span class="is-size-6"><i class="la la-edit"></i>&nbsp;Edit Profile</span>
+							</router-link>
+							<!-- <button class="button is-fluid is-rounded is-medium is-wide is-danger is-margin-centered"> -->
+								<!-- <span class="is-size-6"><i class="la la-trash"></i>&nbsp;Delete Account</span> -->
+							<!-- </button> -->
+						</template>
+
 					</div>
 
 
@@ -111,22 +135,22 @@
 					
 			            <b-tab-item label="Realtime" icon="comment">
 							
-							<template v-for="post in posts">
-								<bakd-posted-message :post="post" :key="post.id" />
+							<template v-for="(post, index) in posts">
+								<bakd-posted-message :post="post" :key="index" />
 							</template>
 
 			            </b-tab-item>
 
 			            <b-tab-item label="Followers" icon="account">
-			                You have no followers
+			                No results
 			            </b-tab-item>
 
 			            <b-tab-item label="Following" icon="account-plus">
-			                You aren't following anyone yet
+			                No results
 			            </b-tab-item>
 
 			            <b-tab-item label="Campaigns" icon="chart-bar">
-			                You have no campaigns
+			                No results
 			            </b-tab-item>
 
 		        	</b-tabs>
@@ -178,7 +202,8 @@ export default {
 	data: () => ({
 		member: {},
 		posts: [],
-		activeTab: ''
+		activeTab: '',
+		isFollowing: false // is the auth'd user following this person
 	}),
 
 	computed: {
@@ -188,7 +213,7 @@ export default {
 		}),
 
 		isUsersPage: function () {
-			if (this.member.id == this.$route.params.id) {
+			if (this.user.id === parseInt(this.$route.params.id, 10)) {
 				return true
 			}
 			return false
@@ -208,8 +233,9 @@ export default {
 	methods: {
 		fetchUserData: async function () {
 			var { data } = await axios.get(`/api/u/${this.$route.params.id}`)
-			this.member = data.data.member;
-			console.log(data.data.member);
+			this.member = data.data.member
+			this.isFollowing = data.data.isFollowing
+			console.log(data.data.member)
 		},
 
 		fetchUserPosts: async function () {
@@ -220,6 +246,38 @@ export default {
 			} catch (err) {
 				alert(err)
 			}
+		},
+
+		followUser: async function () {
+			var self = this
+
+			var { data } = await axios.post(`/api/user/follow`, { follow_id: self.member.id })
+
+			if (data && data.status !== 'error') {
+				this.isFollowing = true;			
+			}
+
+	        helpers.toast({type: data.status, title: data.message })
+
+			console.log(data)
+		},
+
+		unfollowUser: async function () {
+			var self = this
+
+			var { data } = await axios.post(`/api/user/unfollow`, { unfollow_id: self.member.id })
+
+			if (data && data.status !== 'error') {
+				this.isFollowing = false;			
+			}
+			
+	        helpers.toast({type: data.status, title: data.message })
+			
+			console.log(data)
+		},
+
+		messageUser: async function () {
+			console.log('Message user')
 		},
 
 	    getIconClass(network) {

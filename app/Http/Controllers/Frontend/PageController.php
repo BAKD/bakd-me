@@ -194,14 +194,30 @@ class PageController extends FrontendController
      */
     public function profile(Request $request, $id)
     {
-        $view = [];
-        $view['member'] = \BAKD\User::with('social')->findOrFail($id);
+        $authdUser = request()->user();
+        $user = \BAKD\User::with('social')->findOrFail($id);
+        $isFollowing = false;
+
+        // Check that we're not on the auth'd user's page.
+        if ($authdUser->id !== $user->id) {
+            $isFollowing = $authdUser->isFollowing($user->id);
+        }
+
+        // TODO: Implement organizations
+        $payload = [
+            'member' => $user,
+            'isFollowing' => $isFollowing,
+            'organization' => [
+                'id' => 1,
+                'name' => 'Test Organization',
+            ]
+        ];
+
         return response()->json([
             'status' => 'success',
             'message' => 'Successfully fetched member data.',
-            'data' => $view
+            'data' => $payload
         ]);
-        // return view('frontend/profile/index', $view);
     }
 
 

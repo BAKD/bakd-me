@@ -130,17 +130,11 @@ class User extends Authenticatable implements JWTSubject
         return "//www.gravatar.com/avatar/{$email}?s={$size}";
     }
 
-    // TODO: Finish me.
-    public function getFollowingCount()
-    {
-        return number_format(rand(200, 5000));
-    }
 
-    // TODO: Finish me.
-    public function getFollowerCount()
-    {
-        return number_format(rand(100, 100000));
-    }
+
+    // ------------------------
+    // BOUNTY METHODS
+    // ------------------------
 
     // TODO: Refactor into single query
     public function totalCoinsEarned()
@@ -203,4 +197,136 @@ class User extends Authenticatable implements JWTSubject
             $query->where('bounty_id', $bountyId);
         })->get();
     }
+
+
+
+
+    // ------------------------
+    // FOLLOW/UNFOLLOW METHODS
+    // ------------------------
+
+
+    /**
+     * Get formatted user "following" count
+     *
+     * @return bool
+     */
+    public function getFollowingCount()
+    {
+        return number_format($this->following_count);
+    }
+
+    /**
+     * Get formatted user "follower" count
+     *
+     * @return bool
+     */
+    public function getFollowerCount()
+    {
+        return number_format($this->follower_count);
+    }
+
+    /**
+     * Check if the user in context is following the other user id
+     *
+     * @return bool
+     */
+    public function isFollowing($userId)
+    {
+        return \BAKD\UserFollower::where('follower_user_id', $this->id)
+            ->where('user_id', $userId)
+            ->exists();
+    }
+
+    /**
+     * Check if the user in context is followed by the other user id
+     *
+     * @return bool
+     */
+    public function isFollowedBy($userId)
+    {
+        return \BAKD\UserFollower::where('follower_user_id', $userId)
+            ->where('user_id', $this->id)
+            ->exists();
+    }
+
+    /**
+     * Follow another user
+     *
+     * @return 
+     */
+    public function follow($userId)
+    {
+        if ($this->isFollowing($userId)) {
+            throw new \Exception('Already following user.');
+        }
+
+        // Create new row
+        $userFollower = new \BAKD\UserFollower;
+        $userFollower->user_id = $userId;
+        $userFollower->follower_user_id = $this->id;
+        $userFollower->save();
+    }
+
+    /**
+     * Follower count helper
+     *
+     * @return 
+     */
+    public function increaseFollowerCount()
+    {
+        $this->follower_count == $this->follower_count++;
+        $this->save();
+    }
+
+    /**
+     * Follower count helper
+     *
+     * @return 
+     */
+    public function decreaseFollowerCount()
+    {
+        $this->follower_count == $this->follower_count--;
+        $this->save();
+    }
+
+    /**
+     * Following count helper
+     *
+     * @return 
+     */
+    public function increaseFollowingCount()
+    {
+        $this->following_count == $this->following_count++;
+        $this->save();
+    }
+
+    /**
+     * Following count helper
+     *
+     * @return 
+     */
+    public function decreaseFollowingCount()
+    {
+        $this->following_count == $this->following_count--;
+        $this->save();
+    }
+
+    /**
+     * Unfollow another user
+     *
+     * @return 
+     */
+    public function unfollow($userId)
+    {
+        if (! $this->isFollowing($userId)) {
+            throw new \Exception('Not following user.');
+        }
+
+        // Find and delete row
+        $userFollower = \BAKD\UserFollower::where('follower_user_id', $this->id)
+            ->where('user_id', $userId)
+            ->delete();
+    }
+
 }

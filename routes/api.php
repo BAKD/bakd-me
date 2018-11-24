@@ -59,6 +59,10 @@ Route::name('api.')->group(function () {
             Route::patch('/settings/profile', 'Settings\ProfileController@update');
             Route::patch('/settings/password', 'Settings\PasswordController@update');
 
+            // Follow/Unfollow
+            Route::post('/user/follow', 'UserController@follow');
+            Route::post('/user/unfollow', 'UserController@unfollow');
+
             // Bounties
             Route::get('/bounty/dashboard', 'Member\BountyController@dashboard')->name('bounty.dashboard');
             Route::get('/bounty/claims/stats', 'Member\BountyClaimController@stats')->name('bounty.stats');

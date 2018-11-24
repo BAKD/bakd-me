@@ -177,7 +177,7 @@
                 <b-dropdown v-if="user" class="level-item navbar-item" position="is-bottom-left" hoverable>
                   <a class="media navbar-item profile-photo main-dropdown-link" slot="trigger">
                     <div class="media-left level-item">
-                        {{ user ? user.balance : 0.000 | fixed(8) }} BAKD
+                        {{ user ? user.balance : 0.000 | fixed(6) }} BAKD
                         <!-- {{ user.name }} --> 
                     </div>
                     <div class="media-content level-item">
@@ -421,7 +421,7 @@ span.tag {
 }
 
 .dropdown-avatar img {
-    border: 1px solid #cdcdcd;
+    // border: 1px solid #cdcdcd;
     border-radius: 3px;
 }
 

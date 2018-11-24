@@ -28,12 +28,14 @@ axios.interceptors.request.use(request => {
 
   return request
 })
+
 const NotFound = () => import('~/pages/errors/404').then(m => m.default || m)
 
 // Response interceptor
 axios.interceptors.response.use(response => response, error => {
   const { status } = error.response
 
+  // Server error interceptor
   if (status >= 500) {
     swal({
       type: 'error',
@@ -45,10 +47,24 @@ axios.interceptors.response.use(response => response, error => {
     })
   }
 
+  // Throttle exception interceptor
+  if (status === 429) {
+    swal({
+      type: 'error',
+      title: i18n.t('error_alert_title'),
+      text: 'Whoa there killer. Way too many requests! Back it down a notch. You\'ll be able to use the site again shortly.',
+      reverseButtons: true,
+      confirmButtonText: i18n.t('ok'),
+      cancelButtonText: i18n.t('cancel')
+    })
+  }
+
+  // Api 404 interceptor
   if (status === 404) {
     router.to({ component: NotFound })
   }
 
+  // Auth check interceptor
   if (status === 401 && store.getters['auth/check']) {
     swal({
       type: 'warning',

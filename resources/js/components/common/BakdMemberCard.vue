@@ -2,8 +2,7 @@
 	<router-link :to="{ name: 'members.show.public', params: { id: member.id } }">
 		<div class="card has-shadow has-hover member-card-wrapper wow fadeIn">
 		  <div class="card-image">
-		    <figure class="image is-16x9" :style="'background: url(' + (member ? member.cover_url : '') + '); background-position: center center; background-size: cover; background-color: #dadada; width: 100%; max-width: 400px; height: 120px; overflow: hidden;'">
-		      <!-- <img :src="member ? member.cover_url : ''" style="background-color: #dadada; width: 400px; height: 180px;"> -->
+		    <figure class="image is-16x9" :class="{ 'orange-bg': !member.cover_url }" :style="'background-image: url(' + (member ? member.cover_url : '') + '); background-position: 50% 50%; background-size: cover; background-repeat: no-repeat; width: 100%; max-width: 400px; height: 120px; overflow: hidden;'">
 		    </figure>
 		  </div>
 		  <div class="card-content">
@@ -58,16 +57,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	.member-card-wrapper {
-		padding: 0px;
-		max-width: 320px;
-		margin: auto;
-	}
-	.member-username,
-	.member-name {
-		text-overflow: ellipsis;
-		overflow: hidden;
-		max-width: 100%;
-		white-space: nowrap;
-	}
+.member-card-wrapper {
+	padding: 0px;
+	max-width: 320px;
+	margin: auto;
+}
+.member-username,
+.member-name {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	max-width: 100%;
+	white-space: nowrap;
+}
+.orange-bg {
+	background: none !important;
+	background-image: none !important;
+	background-color: #F59118 !important;
+}
 </style>
