@@ -69,6 +69,7 @@
           <div class="field" style="margin-bottom: 0;">
             <p class="control" style="padding-top: 0px;">
               <b-message style="margin-bottom: 20px; padding: 20px;" v-html="post.message"></b-message>
+              
               <!-- TODO: Setup Tag System -->
               <ul class="tags field is-grouped">
                 <a href="#">

@@ -18,13 +18,25 @@ class PostController extends Controller
      */
     public function all(Request $request)
     {
-        // $limit = request()->get('limit', 20);
-        // $offset = request()->get('offset', 0);
+        $limit = request()->get('limit', 10);
+        $offset = request()->get('offset', 0);
         // $page = request()->get('page', 1);
-        // $order = request()->get('order', 'desc');
-        // // $data = \BAKD\Post::with('user')->orderBy('id', $order)->paginate($limit);
+        $order = request()->get('order', 'desc');
+        // $data = \BAKD\Post::with('user')->orderBy('id', $order)->paginate($limit);
 
-        $data = \BAKD\Post::with('user')->orderBy('created_at', 'desc')->limit(20)->get();
+        $data = \BAKD\Post::with('user')->orderBy('created_at', 'desc')->skip($offset)->take($limit)->get();
+        return response()->json($data);
+    }
+
+    /**
+     * Ping the following post id's to update stats/timestamps 
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ping(Request $request)
+    {
+        $ids = request()->get('ids');
+        $data = \BAKD\Post::with('user')->orderBy('created_at', 'desc')->whereIn('id', $ids)->get();
         return response()->json($data);
     }
 

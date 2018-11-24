@@ -26,6 +26,7 @@ Route::name('api.')->group(function () {
         // Realtime Posts
         Route::get('posts', 'PostController@all')->name('posts.all');
         Route::post('posts', 'PostController@create')->name('posts.create');
+        Route::post('posts/ping', 'PostController@ping')->name('posts.ping');
 
         // Public facing directory pages
         Route::get('bounties', 'Frontend\PageController@bounties')->name('bounties');
@@ -41,6 +42,7 @@ Route::name('api.')->group(function () {
         Route::post('/user', 'UserController@show')->name('users.show');
         
         Route::post('/users', 'UserController@all')->name('users.all');
+        Route::post('/users/random', 'UserController@random')->name('users.random');
         Route::post('/bounty/random', 'Member\BountyController@random')->name('bounty.random');
 
 

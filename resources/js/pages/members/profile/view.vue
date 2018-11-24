@@ -7,35 +7,7 @@
 
 			<div class="columns member-avatar">
 				
-				<div class="column is-9">
-
-					<br />
-
-					<b-tabs v-model="activeTab">
-					
-			            <b-tab-item label="Realtime" icon="comment">
-							
-							<template v-for="post in posts">
-								<bakd-posted-message :post="post" :key="post.id" />
-							</template>
-
-			            </b-tab-item>
-
-			            <b-tab-item label="Followers" icon="account">
-			                You have no followers
-			            </b-tab-item>
-
-			            <b-tab-item label="Following" icon="account-plus">
-			                You aren't following anyone yet
-			            </b-tab-item>
-
-			            <b-tab-item label="Campaigns" icon="chart-bar">
-			                You have no campaigns
-			            </b-tab-item>
-
-		        	</b-tabs>
-
-				</div> <!-- .is-9 -->
+				
 
 				<div class="column is-3">
 					
@@ -130,6 +102,45 @@
 					<!-- End Social Box -->
 
 				</div>
+
+				<div class="column is-6">
+
+					<br />
+
+					<b-tabs v-model="activeTab">
+					
+			            <b-tab-item label="Realtime" icon="comment">
+							
+							<template v-for="post in posts">
+								<bakd-posted-message :post="post" :key="post.id" />
+							</template>
+
+			            </b-tab-item>
+
+			            <b-tab-item label="Followers" icon="account">
+			                You have no followers
+			            </b-tab-item>
+
+			            <b-tab-item label="Following" icon="account-plus">
+			                You aren't following anyone yet
+			            </b-tab-item>
+
+			            <b-tab-item label="Campaigns" icon="chart-bar">
+			                You have no campaigns
+			            </b-tab-item>
+
+		        	</b-tabs>
+
+				</div> <!-- .is-6 -->
+
+
+				<div class="column is-3">
+
+				<br />
+
+				</div> <!-- .is-3 -->
+
+
 			</div>
 
 		</div>

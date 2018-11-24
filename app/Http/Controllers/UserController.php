@@ -22,6 +22,18 @@ class UserController extends Controller
     }
 
     /**
+     * Show random list of users
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function random(Request $request)
+    {
+        $limit = request()->get('limit', 5);
+        $data = \BAKD\User::inRandomOrder()->limit($limit)->get();
+        return response()->json($data);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
