@@ -59,7 +59,27 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getPhotoUrlAttribute()
     {
-        return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email)).'.jpg?s=200&d=https://bakd.me/images/branding/social-avatar.jpg';
+        return 'https://www.gravatar.com/avatar/' . md5(strtolower($this->email)) . '.jpg?s=200&d=https://bakd.me/images/branding/social-avatar.jpg';
+    }
+
+    /**
+     * Get a users followers
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function followers()
+    {
+        return $this->hasMany(UserFollower::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get a users follows
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function follows()
+    {
+        return $this->hasMany(UserFollower::class, 'follower_user_id', 'id');
     }
 
     /**
@@ -336,9 +356,13 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getFollowers($paginate = false, $limit = 10, $offset = 0)
     {
-        $query = \BAKD\UserFollower::where('user_id', $this->id)->join('user', function ($join) {
-            $join->on('user.id', '=', 'user_follower.follower_user_id');
-        })->skip($offset);
+        // $query = \BAKD\UserFollower::with(['follower, following'])->where('user_id', $this->id)->join('user', function ($join) {
+        //     $join->on('user.id', '=', 'user_follower.follower_user_id');
+        // })->skip($offset);
+        
+        $query = $this->followers()
+            ->with(['follower'])
+            ->skip($offset);
 
         if ($paginate) {
             return $query->paginate($limit);
@@ -355,9 +379,13 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getFollowing($paginate = false, $limit = 10, $offset = 0)
     {
-        $query = \BAKD\UserFollower::where('follower_user_id', $this->id)->join('user', function ($join) {
-            $join->on('user.id', '=', 'user_follower.user_id');
-        })->skip($offset);
+        // $query = \BAKD\UserFollower::with(['following', 'follower'])->where('follower_user_id', $this->id)->join('user', function ($join) {
+        //     $join->on('user.id', '=', 'user_follower.user_id');
+        // })->skip($offset);
+        
+        $query = $this->follows()
+            ->with(['following'])
+            ->skip($offset);
 
         if ($paginate) {
             return $query->paginate($limit);

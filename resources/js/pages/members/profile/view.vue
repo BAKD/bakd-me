@@ -179,7 +179,7 @@
 							<template v-if="followers.length > 0">
 								<div class="columns is-multiline has-text-left">
 								    <div class="column is-one-half" style="width: 50% !important; max-width: 50%;" v-for="(follower, index) in followers" :key="index">
-										<bakd-member-card :member="follower" />
+										<bakd-member-card :member="follower.follower" />
 									</div>
 								</div>
 
@@ -212,7 +212,7 @@
 					                <p class="title">No Followers</p>
 								</div>
 								<div class="has-text-centered btn-group mt-50">
-									<router-link :to="{ name: 'homepage' }" class="button is-wide is-primary is-rounded is-medium">
+									<router-link :to="{ name: 'members.directory' }" class="button is-wide is-primary is-rounded is-medium">
 										<span class="is-size-6">
 											<i class="la la-user-plus" />&nbsp;Start Networking
 										</span>
@@ -230,7 +230,7 @@
 							<template v-if="following.length > 0">
 								<div class="columns is-multiline has-text-left">
 								    <div class="column is-one-half" style="width: 50% !important; max-width: 50%;" v-for="(follow, index) in following" :key="index">
-										<bakd-member-card :member="follow" />
+										<bakd-member-card :member="follow.following" />
 									</div>
 								</div>
 
@@ -262,7 +262,7 @@
 					                <p class="title">No Follows</p>
 								</div>
 								<div class="has-text-centered btn-group mt-50">
-									<router-link :to="{ name: 'homepage' }" class="button is-wide is-primary is-rounded is-medium">
+									<router-link :to="{ name: 'members.directory' }" class="button is-wide is-primary is-rounded is-medium">
 										<span class="is-size-6">
 											<i class="la la-users" />&nbsp;Search the Directory
 										</span>
@@ -279,7 +279,7 @@
 				                <p class="title">No Campaigns</p>
 							</div>
 							<div class="has-text-centered btn-group mt-50">
-								<router-link :to="{ name: 'homepage' }" class="button is-wide is-primary is-rounded is-medium">
+								<router-link :to="{ name: 'campaigns.directory' }" class="button is-wide is-primary is-rounded is-medium">
 									<span class="is-size-6">
 										<i class="la la-bar-chart" />&nbsp;Start a Campaign
 									</span>

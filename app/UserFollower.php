@@ -38,4 +38,24 @@ class UserFollower extends Alpha
      * @var array
      */
     protected $dates = ['created_at', 'updated_at'];
+
+    /**
+     * Get the "follower" user data for the pivot row in context
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function follower()
+    {
+        return $this->hasOne(User::class, 'id', 'follower_user_id');
+    }
+
+    /**
+     * Get the "following" user data for the pivot row in context
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function following()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 }
