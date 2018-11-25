@@ -1,6 +1,6 @@
 <template>
 	<router-link :to="{ name: 'members.show.public', params: { id: member.id } }">
-		<div class="card has-shadow has-hover member-card-wrapper wow fadeIn">
+		<div class="card has-shadow has-hover member-card-wrapper animated fadeIn">
 		  <div class="card-image">
 		    <figure class="image is-16x9" :class="{ 'orange-bg': !member.cover_url }" :style="'background-image: url(' + (member ? member.cover_url : '') + '); background-position: 50% 50%; background-size: cover; background-repeat: no-repeat; width: 100%; max-width: 400px; height: 120px; overflow: hidden;'">
 		    </figure>
@@ -60,6 +60,7 @@ export default {
 .member-card-wrapper {
 	padding: 0px;
 	max-width: 320px;
+	min-width: 300px;
 	margin: auto;
 }
 .member-username,

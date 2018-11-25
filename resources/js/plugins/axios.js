@@ -52,7 +52,7 @@ axios.interceptors.response.use(response => response, error => {
     swal({
       type: 'error',
       title: i18n.t('error_alert_title'),
-      text: 'Whoa there killa. Way too many requests! Back it down a notch. You\'ll be able to use the site again shortly.',
+      text: 'You\'ve sent too many requests. Give it a few minutes and you\'ll be able to use the site again.',
       confirmButtonText: i18n.t('ok'),
     })
   }

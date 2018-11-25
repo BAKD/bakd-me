@@ -12,7 +12,7 @@
           </div>
         </b-tooltip>
       </div>
-      <img :src="'/storage/' + bounty.image" class="is-margin-centered is-v-centered image is-rounded" style="padding: 5px 30px 15px 30px;" />
+      <img :src="'/storage/' + bounty.image" class="is-margin-centered is-v-centered image is-rounded" style="padding: 5px 30px 15px 30px; max-width: 300px; margin: 0 auto;" />
       <h2 class="title is-size-5">
         {{ bounty.name || '' | uppercase }}
       </h2>

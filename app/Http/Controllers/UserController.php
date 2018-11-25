@@ -30,7 +30,18 @@ class UserController extends Controller
     public function random(Request $request)
     {
         $limit = request()->get('limit', 5);
-        $data = \BAKD\User::inRandomOrder()->limit($limit)->get();
+        $user = request()->user();
+
+        // Get random users that are not the logged in user, and who are not 
+        // already being followed by the logged in user
+        $data = \BAKD\User::where('id', '!=', $user->id)
+            ->whereNotExists( function ($query) use ($user) {
+                $query->select('*')
+                ->from('user_follower')
+                ->whereRaw('`user_follower`.`user_id` = `user`.`id`')
+                ->where('user_follower.follower_user_id', '=', $user->id);
+            })->inRandomOrder()->limit($limit)->get();
+
         return response()->json($data);
     }
 
@@ -132,6 +143,59 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Get authd users followers
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function followers(Request $request, $userId = null)
+    {
+        $user = request()->user();
+
+        $limit = request()->get('limit', 10);
+        $offset = request()->get('offset', 0);
+        
+        // If we have a user id to work with, find the user,
+        // otherwise just use the currently auth'd user
+        if (! is_null($userId)) {
+            $user = \BAKD\User::find($userId);
+        }
+
+        $data = $user->getFollowers(false, $limit, $offset);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched users followers.',
+            'data' => $data
+        ]);
+    }
+
+    /**
+     * Get authd users follows
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function following(Request $request, $userId = null)
+    {
+        $user = request()->user();
+
+        $limit = request()->get('limit', 10);
+        $offset = request()->get('offset', 0);
+
+        // If we have a user id to work with, find the user,
+        // otherwise just use the currently auth'd user
+        if (! is_null($userId)) {
+            $user = \BAKD\User::find($userId);
+        }
+
+        $data = $user->getFollowing(false, $limit, $offset);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched users follows.',
+            'data' => $data
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -182,14 +246,24 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display posts specific to a user
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function posts($id)
     {
-        $data = \BAKD\Post::with('user')->where('user_id', $id)->orderBy('id', 'desc')->paginate(20);
+        $limit = request()->get('limit', 10);
+        $offset = request()->get('offset', 0);
+        $order = request()->get('order', 'desc');
+        $data = \BAKD\Post::with('user')
+            ->where('user_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->skip($offset)
+            ->take($limit)
+            ->get();
+
+        // $data = \BAKD\Post::with('user')->where('user_id', $id)->orderBy('id', 'desc')->paginate(20);
         return response()->json($data);
     }
 

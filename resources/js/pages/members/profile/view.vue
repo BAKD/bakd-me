@@ -137,50 +137,141 @@
 
 					<b-tabs v-model="activeTab">
 					
+						<!-- POSTS/REALTIME TAB CONTENT -->
 			            <b-tab-item label="Realtime" icon="comment">
 							
+							<!-- USER POSTS -->
 							<template v-if="posts.length > 0">
 								<template v-for="(post, index) in posts">
 									<bakd-posted-message :post="post" :key="index" />
 								</template>
+
+								<!-- LOAD MORE POSTS BUTTON -->
+								<div class="button-wrapper has-text-centered" style="margin-bottom: 40px;" v-if="loadMoreButtons.posts">
+								  <a :class="{ 'is-loading': isLoading }" @click.prevet="loadMorePosts" class="button is-wide is-primary is-rounded is-medium animated fadeInUp" style="max-width: 220px;">
+								    <span class="is-size-6"><i class="la la-refresh" /> Load More...</span>
+								  </a>
+								</div>
 							</template>
+
+							<!-- NO POSTS -->
 			            	<template v-else>
 			            		<div class="has-text-centered is-100 mt-50">
 					            	<b-icon icon="emoticon-sad" size="is-large" class="has-text-danger" />
 					                <p class="title">No Posts</p>
 								</div>
 								<div class="has-text-centered btn-group mt-50">
-									<router-link :to="{ name: 'homepage' }" class="button is-wide is-primary">
-										<i class="la la-home" />&nbsp;Join the Conversation
+									<router-link :to="{ name: 'homepage' }" class="button is-wide is-primary is-rounded is-medium">
+										<span class="is-size-6">
+											<i class="la la-home" />&nbsp;Join the Conversation
+										</span>
 									</router-link>
 								</div>
 							</template>
 
 			            </b-tab-item>
+			            <!-- END POSTS/REALTIME TAB CONTENT -->
 
+						<!-- FOLLOWERS TAB -->
 			            <b-tab-item label="Followers" icon="account">
-			            	<div class="has-text-centered is-100 mt-50">
-				            	<b-icon icon="emoticon-sad" size="is-large" class="has-text-danger" />
-				                <p class="title">No Followers</p>
-							</div>
-							<div class="has-text-centered btn-group mt-50">
-								<router-link :to="{ name: 'homepage' }" class="button is-wide is-primary">
-									<i class="la la-user-plus" />&nbsp;Start Networking
-								</router-link>
-							</div>
-			            </b-tab-item>
 
-			            <b-tab-item label="Following" icon="account-plus">
-			                <div class="has-text-centered is-100 mt-50">
-				            	<b-icon icon="emoticon-sad" size="is-large" class="has-text-danger" />
-				                <p class="title">No Follows</p>
-							</div>
-							<div class="has-text-centered btn-group mt-50">
-								<router-link :to="{ name: 'homepage' }" class="button is-wide is-primary">
-									<i class="la la-users" />&nbsp;Search the Directory
-								</router-link>
-							</div>
+			            	<!-- FOLLOWER MEMBER CARDS -->
+							<template v-if="followers.length > 0">
+								<div class="columns is-multiline has-text-left">
+								    <div class="column is-one-half" style="width: 50% !important; max-width: 50%;" v-for="(follower, index) in followers" :key="index">
+										<bakd-member-card :member="follower" />
+									</div>
+								</div>
+
+								<!-- LOAD MORE FOLLOWERS BUTTON -->
+								<div class="button-wrapper has-text-centered" style="margin-bottom: 40px;" v-if="loadMoreButtons.followers">
+								  <a :class="{ 'is-loading': isLoading }" @click.prevet="loadMoreFollowers" class="button is-wide is-primary is-rounded is-medium animated fadeInUp" style="max-width: 220px;">
+								    <span class="is-size-6"><i class="la la-refresh" /> Load More...</span>
+								  </a>
+								</div>
+
+								<br />
+
+								<!-- <b-pagination
+								    class="is-pulled-right"
+								    :total="total"
+								    :current.sync="current"
+								    :order="order"
+								    :size="size"
+								    :simple="isSimple"
+								    :rounded="isRounded"
+								    :per-page="perPage"
+								    @change="fetchMembers($event)">
+								</b-pagination> -->
+							</template>
+
+							<!-- FOLLOWERS EMPTY -->
+							<template v-else>
+				            	<div class="has-text-centered is-100 mt-50">
+					            	<b-icon icon="emoticon-sad" size="is-large" class="has-text-danger" />
+					                <p class="title">No Followers</p>
+								</div>
+								<div class="has-text-centered btn-group mt-50">
+									<router-link :to="{ name: 'homepage' }" class="button is-wide is-primary is-rounded is-medium">
+										<span class="is-size-6">
+											<i class="la la-user-plus" />&nbsp;Start Networking
+										</span>
+									</router-link>
+								</div>
+							</template>
+
 			            </b-tab-item>
+			            <!-- END FOLLOWERS TAB CONTENT -->
+
+						<!-- FOLLOWING TAB CONTENT -->
+			            <b-tab-item label="Following" icon="account-plus">
+
+			            	<!-- FOLLOWING MEMBER CARDS -->
+							<template v-if="following.length > 0">
+								<div class="columns is-multiline has-text-left">
+								    <div class="column is-one-half" style="width: 50% !important; max-width: 50%;" v-for="(follow, index) in following" :key="index">
+										<bakd-member-card :member="follow" />
+									</div>
+								</div>
+
+								<!-- LOAD MORE FOLLOWS BUTTON -->
+								<div class="button-wrapper has-text-centered" style="margin-bottom: 40px;" v-if="loadMoreButtons.following">
+								  <a :class="{ 'is-loading': isLoading }" @click.prevet="loadMoreFollowing" class="button is-wide is-primary is-rounded is-medium animated fadeInUp" style="max-width: 220px;">
+								    <span class="is-size-6"><i class="la la-refresh" /> Load More...</span>
+								  </a>
+								</div>
+
+								<br />
+
+								<!-- <b-pagination
+								    class="is-pulled-right"
+								    :total="total"
+								    :current.sync="current"
+								    :order="order"
+								    :size="size"
+								    :simple="isSimple"
+								    :rounded="isRounded"
+								    :per-page="perPage"
+								    @change="fetchMembers($event)">
+								</b-pagination> -->
+							</template>
+
+							<template v-else>
+				                <div class="has-text-centered is-100 mt-50">
+					            	<b-icon icon="emoticon-sad" size="is-large" class="has-text-danger" />
+					                <p class="title">No Follows</p>
+								</div>
+								<div class="has-text-centered btn-group mt-50">
+									<router-link :to="{ name: 'homepage' }" class="button is-wide is-primary is-rounded is-medium">
+										<span class="is-size-6">
+											<i class="la la-users" />&nbsp;Search the Directory
+										</span>
+									</router-link>
+								</div>
+							</template>
+
+			            </b-tab-item>
+			            <!-- END FOLLOWING TAB CONTENT -->
 
 			            <b-tab-item label="Campaigns" icon="chart-bar">
 			                <div class="has-text-centered is-100 mt-50">
@@ -188,8 +279,10 @@
 				                <p class="title">No Campaigns</p>
 							</div>
 							<div class="has-text-centered btn-group mt-50">
-								<router-link :to="{ name: 'homepage' }" class="button is-wide is-primary">
-									<i class="la la-bar-chart" />&nbsp;Start a Campaign
+								<router-link :to="{ name: 'homepage' }" class="button is-wide is-primary is-rounded is-medium">
+									<span class="is-size-6">
+										<i class="la la-bar-chart" />&nbsp;Start a Campaign
+									</span>
 								</router-link>
 							</div>
 			            </b-tab-item>
@@ -230,6 +323,7 @@ import BakdAvatarUpload from '~/components/user/BakdAvatarUpload'
 import BakdCoverUpload from '~/components/user/BakdCoverUpload'
 
 import BakdMembersWidget from '~/widgets/BakdMembersWidget'
+import BakdMemberCard from '~/components/common/BakdMemberCard'
 
 export default {
 	layout: 'default',
@@ -240,7 +334,8 @@ export default {
 		BakdCoverUpload,
 		BakdAvatarUpload,
 		BakdPostedMessage,
-		BakdMembersWidget
+		BakdMembersWidget,
+		BakdMemberCard
 	},
 
 	metaInfo () {
@@ -250,10 +345,22 @@ export default {
 	data: () => ({
 		member: {},
 		posts: [],
+		followers: [],
+		following: [],
+		campaigns: [],
 		activeTab: '',
+		isLoading: false,
 		userFollowers: 0,
 		userFollowing: 0,
-		isFollowing: false // is the auth'd user following this person?
+		isFollowing: false, // is the auth'd user following this person?
+
+		// Flags used to show/hide the load more buttons
+		loadMoreButtons: {
+			posts: true,
+			followers: true,
+			following: true,
+			campaigns: true,
+		}
 	}),
 
 	computed: {
@@ -271,15 +378,26 @@ export default {
 	},
 
 	watch: {
-		$route: function () {
+		// Handle same component/route but different param
+		$route: function (to, from) {
 			var self = this
 			this.fetchUserData().then(function () {
-		    	self.fetchUserPosts()
+				self.fetchUserPosts(6, 0, true)
+				self.fetchFollowers(10, 0, true)
+				self.fetchFollowing(10, 0, true)
 				self.$root.isLoading = false
 			})
+
+			this.loadMoreButtons = {
+				posts: true,
+				followers: true,
+				following: true,
+				campaigns: true,
+			}
 		},
 	},
 
+	// TODO: Combine all the fetch requests into one backend request
 	methods: {
 		fetchUserData: async function () {
 			var { data } = await axios.get(`/api/u/${this.$route.params.id}`)
@@ -290,16 +408,153 @@ export default {
 			console.log(data.data.member)
 		},
 
-		fetchUserPosts: async function () {
+		fetchFollowers: async function (limit = 10, offset = 0, initialFetch = false) {
+			var userId = this.$route.params.id;
+
+	        this.isLoading = true;
+
 			try {
-				var { data } = await axios.get(`/api/u/${this.$route.params.id}/posts`)
-				this.posts = data.data
-				console.log(data.data)
+				var { data } = await axios.get(`/api/user/followers/${userId}?limit=${limit}&offset=${offset}`)
+
+				if (initialFetch === true) {
+					this.followers = data.data
+				} else {
+					this.followers = [...this.followers, ...data.data];
+				}
+			
+				// Show/hide the load more button
+				if (data.data.length < limit) {
+					this.loadMoreButtons.followers = false
+				} else {
+					this.loadMoreButtons.followers = true
+				}
+
+				this.isLoading = false;
+				this.isReady = true
+
+				console.log(data.data.data)
+
+				return data.data
 			} catch (err) {
-				alert(err)
+				console.log(err)
 			}
 		},
 
+		fetchFollowing: async function (limit = 10, offset = 0, initialFetch = false) {
+			var userId = this.$route.params.id;
+
+	        this.isLoading = true;
+
+			try {
+				var { data } = await axios.get(`/api/user/following/${userId}?limit=${limit}&offset=${offset}`)
+
+				if (initialFetch === true) {
+					this.following = data.data
+				} else {
+					this.following = [...this.following, ...data.data];
+				}
+
+				this.isLoading = false;
+				this.isReady = true
+
+				// Show/hide the load more button
+				if (data.data.length < limit) {
+					this.loadMoreButtons.following = false
+				} else {
+					this.loadMoreButtons.following = true
+				}
+
+				console.log(data.data.data)
+
+				return data.data
+			} catch (err) {
+				console.log(err)
+			}
+		},
+
+		fetchUserPosts: function (limit = 6, offset = 0, initialFetch = false) {
+		    var self = this;
+	        
+	        this.isLoading = true;
+
+	        return axios
+	        	.get(`/api/u/${this.$route.params.id}/posts?limit=${limit}&offset=${offset}`)
+		        .then(function (response) {
+					if (initialFetch === true) {
+						self.posts = response.data
+					} else {
+						self.posts = [...self.posts, ...response.data];
+					}
+
+					self.isLoading = false;
+					self.isReady = true
+
+					// Show/hide the load more button
+					if (response.data.length < limit) {
+						self.loadMoreButtons.posts = false
+					} else {
+						self.loadMoreButtons.posts = true
+					}
+
+					return response
+		        })
+		        .catch(function(err) {
+		        	console.log(err)
+		        })
+		},
+
+		loadMorePosts: async function () {
+			var limit = 6
+			var offset = this.posts.length
+			var response = await this.fetchUserPosts(limit, offset);
+
+			console.log(response)
+
+			if (response.data.length < limit) {
+				this.loadMoreButtons.posts = false
+				console.log('No more posts left to display.')
+			}
+		},
+
+		loadMoreFollowers: async function () {
+			var limit = 10
+			var offset = this.followers.length
+			var response = await this.fetchFollowers(limit, offset);
+
+			console.log(response)
+
+			if (response.length < limit) {
+				this.loadMoreButtons.followers = false
+				console.log('No more followers left to display.')			
+			}
+		},
+
+		loadMoreFollowing: async function () {
+			var limit = 10
+			var offset = this.following.length
+			var response = await this.fetchFollowing(limit, offset);
+
+			console.log(response)
+
+			if (response.length < limit) {
+				this.loadMoreButtons.following = false
+				console.log('No more follows left to display.')			
+			}
+		},
+
+		loadMoreCampaigns: async function () {
+			// var offset = this.campaigns.length
+			// var response = await this.fetchUserPosts(6, offset);
+			
+			// console.log(response)
+
+			// if (response.length < limit) {
+			// 	this.loadMoreButtons.campaigns = false
+			// 	console.log('No more campaigns left to display.')			
+			// }
+		},
+
+		// Move to a helper or vuex
 		followUser: async function () {
 			var self = this
 
@@ -345,8 +600,11 @@ export default {
 	},
 
 	mounted () {
+		// Grab 6 posts, offset 0, set the posts data attr as well
 		this.fetchUserData()
-		this.fetchUserPosts()
+		this.fetchUserPosts(6, 0, true)
+		this.fetchFollowers(10, 0, true)
+		this.fetchFollowing(10, 0, true)
 	}
 }
 </script>

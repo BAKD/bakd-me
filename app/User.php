@@ -328,5 +328,41 @@ class User extends Authenticatable implements JWTSubject
             ->where('user_id', $userId)
             ->delete();
     }
+    
+    /**
+     * Get users followers
+     *
+     * @return 
+     */
+    public function getFollowers($paginate = false, $limit = 10, $offset = 0)
+    {
+        $query = \BAKD\UserFollower::where('user_id', $this->id)->join('user', function ($join) {
+            $join->on('user.id', '=', 'user_follower.follower_user_id');
+        })->skip($offset);
 
+        if ($paginate) {
+            return $query->paginate($limit);
+        }
+
+        return $query->limit($limit)->get();
+    }
+
+    
+    /**
+     * Get users follows
+     *
+     * @return 
+     */
+    public function getFollowing($paginate = false, $limit = 10, $offset = 0)
+    {
+        $query = \BAKD\UserFollower::where('follower_user_id', $this->id)->join('user', function ($join) {
+            $join->on('user.id', '=', 'user_follower.user_id');
+        })->skip($offset);
+
+        if ($paginate) {
+            return $query->paginate($limit);
+        }
+
+        return $query->limit($limit)->get();
+    }
 }

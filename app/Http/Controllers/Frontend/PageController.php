@@ -111,9 +111,6 @@ class PageController extends FrontendController
             'status' => 'success',
             'message' => 'Your message was sent successfully!',
         ]);
-
-        // \BAKD\Helpers\FrontendHelper::success('Your message was sent successfully!');
-        // return redirect()->back();
     }
 
 
@@ -157,8 +154,6 @@ class PageController extends FrontendController
             'message' => 'Successfully fetched bounty data.',
             'data' => $view
         ]);
-
-        // return view('frontend/bounties', $view);
     }
 
 
@@ -173,17 +168,11 @@ class PageController extends FrontendController
 
         $view['members'] = \BAKD\User::orderBy('created_at', 'DESC')->paginate(12);
 
-        // if ($request->ajax()) {
-        //     return view('frontend/members-results', $view);
-        // }
-
         return response()->json([
             'status' => 'success',
             'message' => 'Successfully fetched member data.',
             'data' => $view
         ]);
-
-        // return view('frontend/members', $view);
     }
 
 
@@ -199,7 +188,7 @@ class PageController extends FrontendController
         $isFollowing = false;
 
         // Check that we're not on the auth'd user's page.
-        if ($authdUser->id !== $user->id) {
+        if ($authdUser && $authdUser->id !== $user->id) {
             $isFollowing = $authdUser->isFollowing($user->id);
         }
 
@@ -235,6 +224,5 @@ class PageController extends FrontendController
             'message' => 'Successfully fetched campaign data.',
             'data' => $view
         ]);
-        // return view('frontend/campaigns', $view);
     }
 }

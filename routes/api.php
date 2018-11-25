@@ -16,7 +16,7 @@ Route::name('api.')->group(function () {
     // Route::prefix('v1')->group(function () {
 
         // Guest only API Routes
-        Route::middleware(['guest:api', 'throttle'])->group(function () {
+        Route::middleware(['guest:api', 'throttle:100'])->group(function () {
             Route::post('login', 'Auth\LoginController@login');
             Route::post('register', 'Auth\RegisterController@register');
             Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
@@ -37,6 +37,8 @@ Route::name('api.')->group(function () {
 
         // Get the currently logged in user
         Route::get('/user', 'UserController@current')->name('users.current');
+        Route::get('/user/followers/{userId?}', 'UserController@followers')->name('users.followers');
+        Route::get('/user/following/{userId?}', 'UserController@following')->name('users.following');
 
         // Get a specific user based on the param passed
         Route::post('/user', 'UserController@show')->name('users.show');
@@ -47,7 +49,7 @@ Route::name('api.')->group(function () {
 
 
         // Auth'd API Routes
-        Route::middleware(['auth:api', 'throttle'])->group(function () {
+        Route::middleware(['auth:api', 'throttle:100'])->group(function () {
             // Logout
             Route::post('logout', 'Auth\LoginController@logout');
 
