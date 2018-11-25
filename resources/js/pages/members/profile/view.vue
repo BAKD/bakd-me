@@ -370,7 +370,7 @@ export default {
 		}),
 
 		isUsersPage: function () {
-			if (this.user.id === parseInt(this.$route.params.id, 10)) {
+			if (this.authenticated && this.user.id === parseInt(this.$route.params.id, 10)) {
 				return true
 			}
 			return false

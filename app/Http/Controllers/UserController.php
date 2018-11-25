@@ -32,10 +32,38 @@ class UserController extends Controller
         $limit = request()->get('limit', 5);
         $user = request()->user();
 
-        // Get random users that are not the logged in user, and who are not 
+        if (! $user) {
+            $data = \BAKD\User::inRandomOrder()->limit($limit)->get();
+        } else {
+            // Get random users that are not the logged in user, and who are not 
+            // already being followed by the logged in user
+            $data = \BAKD\User::where('id', '!=', $user->id)
+                ->whereNotExists(function ($query) use ($user) {
+                    $query->select('*')
+                    ->from('user_follower')
+                    ->whereRaw('`user_follower`.`user_id` = `user`.`id`')
+                    ->where('user_follower.follower_user_id', '=', $user->id);
+                })->inRandomOrder()->limit($limit)->get();
+        }
+
+        return response()->json($data);
+    }
+
+
+    /**
+     * Show featured list of users
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function featured(Request $request)
+    {
+        $limit = request()->get('limit', 3);
+        $user = request()->user();
+
+        // Get featured users list that are not the logged in user, and who are not 
         // already being followed by the logged in user
         $data = \BAKD\User::where('id', '!=', $user->id)
-            ->whereNotExists( function ($query) use ($user) {
+            ->whereNotExists(function ($query) use ($user) {
                 $query->select('*')
                 ->from('user_follower')
                 ->whereRaw('`user_follower`.`user_id` = `user`.`id`')

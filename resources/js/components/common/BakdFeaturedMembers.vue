@@ -5,7 +5,7 @@
       <div class="columns has-text-centered" style="margin: 0 auto;">
         
         <!-- Member Card -->
-        <template v-if="members && members.length > 0">
+        <template v-if="members.length > 0">
           <div class="column level-item wow fadeIn" v-for="(member, index) in members" :key="member.id">
             <router-link :to="{ name: 'members.show.public', params: { id: member.id } }">
               <img :src="member.avatar_url || member.photo_url" class="image member-image" />

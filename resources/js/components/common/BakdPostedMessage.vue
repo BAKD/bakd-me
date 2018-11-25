@@ -182,7 +182,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      authdUser: 'auth/user'
+      authdUser: 'auth/user',
+      authenticated: 'auth/check'
     })
   },
 
@@ -190,7 +191,7 @@ export default {
     // If this post belongs to the currently auth'd user, use the vuex store
     // value for user instead of the ajax response data so when a new avatar
     // is uploaded, it is reactive
-    if (this.authdUser.id == this.$props.post.user.id) {
+    if (this.authenticated && this.authdUser.id === parseInt(this.$props.post.user.id, 10)) {
       // Vuex user
       this.user = this.authdUser
     } else {

@@ -71,10 +71,11 @@ export default {
 
     ...mapGetters({
       authdUser: 'auth/user',
+      authenticated: 'auth/check'
     }),
 
     isUsersPage: function () {
-      if (this.authdUser.id === this.$props.user.id) {
+      if (this.authenticated && this.authdUser.id === this.$props.user.id) {
         return true
       }
       return false
