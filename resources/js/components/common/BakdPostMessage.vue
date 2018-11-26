@@ -14,7 +14,11 @@
 
         <div class="field">
           <p class="control">
-            <textarea id="post-box" class="textarea" placeholder="Post a message..." v-model="post.message"></textarea>
+            
+            <!-- POST TEXT -->
+            <div id="post-box" @keyup="parse" class="textarea is-clipped"></div>
+
+            <!-- <textarea id="post-box" class="textarea" placeholder="Post a message..." v-model="post.message"></textarea> -->
           </p>
 
           <div class="field has-addons" style="margin-top: 15px;">
@@ -85,9 +89,10 @@
 <script>
 import { mapGetters } from "vuex"
 import twitter from '~/plugins/twitter-text'
-      // var twitter = require('twitter-text')
+import TwitterBox from '~/components/elements/TwitterBox'
 
 export default {
+  name: 'bakd-posted-message',
 
   data: () => ({
     post: {
@@ -97,27 +102,66 @@ export default {
     submitOnEnter: false
   }),
 
+  components: {
+    TwitterBox
+  },
+
   computed: mapGetters({
     user: 'auth/user'
   }),
 
   mounted() {
-document.getElementById("post-box").contentEditable='true'; 
-      // var test = twitter.autoLink(twitter.htmlEscape('#hello < @world >'))
-      // console.log(test)
+      if ($('#post-box').length > 0) {
+        $('#post-box').get(0).contentEditable = true
+      }
   },
 
   methods: {
+
+    parse: function (event) {
+      var $post = $('#post-box')
+      var parsed = twitter.autoLink($post.text())
+      $post.html(parsed)
+      this.post.message = parsed
+      // this.placeCaretAtEnd($post.get(0))
+    },
+
+    // c/o stack overflow:
+    // 
+    // https://stackoverflow.com/questions/4233265/contenteditable-set-caret-at-the-end-of-the-text-cross-browser/4238971#4238971
+    placeCaretAtEnd: function (el) {
+        el.focus();
+        if (typeof window.getSelection != "undefined"
+                && typeof document.createRange != "undefined") {
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            range.collapse(false);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+        } else if (typeof document.body.createTextRange != "undefined") {
+            var textRange = document.body.createTextRange();
+            textRange.moveToElementText(el);
+            textRange.collapse(false);
+            textRange.select();
+        }
+    },
+
     send: function () {
-      var twittered = twitter.autoLink(twitter.htmlEscape(this.post.message))
-
       var self = this
-      this.$parent.$emit('PostCreated', {
-        message: twittered,
-        user: self.post.user
-      })
+      
+      // var twittered = twitter.autoLink(twitter.htmlEscape(this.post.message))
 
-      this.post = {}
+      if (this.post.message.length < 1) {
+        helpers.toast({ type: 'error', title: 'Post can not be empty.' })
+      } else {
+        this.$parent.$emit('PostCreated', {
+          message: self.post.message,
+          user: self.post.user
+        })
+
+        this.post = {}
+      }
     }
   }
 

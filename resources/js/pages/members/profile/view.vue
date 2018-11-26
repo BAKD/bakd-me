@@ -3,50 +3,77 @@
 
 		<bakd-cover-upload :user="member" />
 
+		<div class="container-fluid">
+			<div class="columns is-marginless">
+				<div class="box column is-12" style="height: 50px !important; display: block;">
+					<div class="container" style="padding-left: 340px; display: block;">
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
 		<div class="container profile-container">
+
 
 			<div class="columns member-avatar">
 				
 				<div class="column is-3">
 					
-					<div class="box" style="margin-top: 0px;">
+					<div class="box" style="margin-top: 20px;">
 
 						<!-- Member Avatar Upload -->
-						<bakd-avatar-upload :user="member" style="margin-top: -120px;" />
+						<bakd-avatar-upload :user="member" style="margin-top: -115px;" />
 
 						<div class="has-text-centered">
-							<h2 v-text="member.name" class="is-size-3 is-dark" />
-							<b-taglist attached style="justify-content: center;">
+							<h2 v-text="member.name" class="is-size-4 is-bold is-dark" />
+							<p>
+								@{{ member.username || member.id }}
+							</p>
+							<!-- <p>
+								{{ member.type }}
+							</p> -->
+							<!-- <b-taglist attached style="justify-content: center;">
 								<b-tag type="is-dark"><i class="fa fa-ban"></i></b-tag>
 								<b-tag type="is-danger">UNVERIFIED</b-tag>
-							</b-taglist>
-							<p>
-								{{ member.type }}
-							</p>
+							</b-taglist> -->
 						</div>
 
-						<div class="columns" style="padding: 30px 10px 10px;">
-							<div class="column is-6 has-text-centered">
-								<p class="title is-size-3">
-									{{ userFollowers }}
+						<div class="columns" style="padding: 20px 10px 0px;">
+							<div class="column is-one-third has-text-centered">
+								<p class="subtitle is-size-7 has-text-grey-light">
+									Tweets
 								</p>
-								<p class="subtitle is-size-6 has-text-grey-light">
-									Followers
+								<p class="title is-size-5">
+									0
 								</p>
 							</div>
-							<div class="column is-6 has-text-centered">
-								<p class="title is-size-3">
-									{{ userFollowing }}
+							<div class="column is-one-third has-text-centered">
+								<p class="subtitle is-size-7 has-text-grey-light">
+									Followers
 								</p>
-								<p class="subtitle is-size-6 has-text-grey-light">
+								<p class="title is-size-5">
+									{{ userFollowers }}
+								</p>
+							</div>
+							<div class="column is-one-third has-text-centered">
+								<p class="subtitle is-size-7 has-text-grey-light">
 									Following
+								</p>
+								<p class="title is-size-5">
+									{{ userFollowing }}
 								</p>
 							</div>
 						</div>
 
 						<p class="has-text-left">
-							<h3 v-text="member.title || 'Add a title'" class="is-size-5 is-title is-dark" />
-							<h4 v-text="member.bio || 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio saepe iure quaerat veniam accusantium ipsum blanditiis odit et, laborum, neque quas, veritatis recusandae quibusdam quia? Cupiditate nemo voluptates in quaerat!'" class="is-size-6 is-subtitle is-dark" />
+							<h3 v-text="member.title || 'Add a title'" class="is-size-5 is-title is-dark is-bold" />
+							<h4 v-text="member.bio || 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio saepe iure quaerat veniam accusantium ipsum blanditiis odit et!'" class="is-size-6 is-subtitle is-dark" />
+							<a v-if="member.website" :href="member.website" target="_blank">
+								{{ member.website }}
+							</a>
 						</p>
 
 						<br />
@@ -135,7 +162,7 @@
 
 					<br />
 
-					<b-tabs v-model="activeTab">
+					<b-tabs v-model="activeTab" style="margin-top: 0px;">
 					
 						<!-- POSTS/REALTIME TAB CONTENT -->
 			            <b-tab-item label="Realtime" icon="comment">
@@ -296,7 +323,7 @@
 	
 					<br />
 					
-		            <bakd-members-widget type="random" />
+		            <bakd-members-widget :title="false" type="random" />
 
 					<br />
 
@@ -401,11 +428,17 @@ export default {
 	methods: {
 		fetchUserData: async function () {
 			var { data } = await axios.get(`/api/u/${this.$route.params.id}`)
-			this.member = data.data.member
-			this.isFollowing = data.data.isFollowing
-			this.userFollowers = this.member.follower_count
-			this.userFollowing = this.member.following_count
-			console.log(data.data.member)
+			// Check if we have a user before loading anything else
+			if (! data.hasOwnProperty('data') || data.data.member === null) {
+				this.$router.push({ name: '404' })
+				throw new Error('User not found')
+			} else {
+				this.member = data.data.member
+				this.isFollowing = data.data.isFollowing
+				this.userFollowers = this.member.follower_count
+				this.userFollowing = this.member.following_count
+				console.log(data.data.member)
+			}
 		},
 
 		fetchFollowers: async function (limit = 10, offset = 0, initialFetch = false) {
@@ -423,7 +456,7 @@ export default {
 				}
 			
 				// Show/hide the load more button
-				if (data.data.length < limit) {
+				if (! data.hasOwnProperty('data') || data.data.length < limit) {
 					this.loadMoreButtons.followers = false
 				} else {
 					this.loadMoreButtons.followers = true
@@ -436,7 +469,8 @@ export default {
 
 				return data.data
 			} catch (err) {
-				console.log(err)
+				// console.log(err)
+				helpers.toast({ type: 'error', title: err.message })
 			}
 		},
 
@@ -458,7 +492,7 @@ export default {
 				this.isReady = true
 
 				// Show/hide the load more button
-				if (data.data.length < limit) {
+				if (! data.hasOwnProperty('data') || data.data.length < limit) {
 					this.loadMoreButtons.following = false
 				} else {
 					this.loadMoreButtons.following = true
@@ -468,7 +502,8 @@ export default {
 
 				return data.data
 			} catch (err) {
-				console.log(err)
+				// console.log(err)
+				helpers.toast({ type: 'error', title: err.message })
 			}
 		},
 
@@ -490,7 +525,7 @@ export default {
 					self.isReady = true
 
 					// Show/hide the load more button
-					if (response.data.length < limit) {
+					if (! response.hasOwnProperty('data') || response.data.length < limit) {
 						self.loadMoreButtons.posts = false
 					} else {
 						self.loadMoreButtons.posts = true
@@ -499,7 +534,8 @@ export default {
 					return response
 		        })
 		        .catch(function(err) {
-		        	console.log(err)
+					// console.log(err)
+					helpers.toast({ type: 'error', title: err.message })
 		        })
 		},
 
@@ -600,11 +636,15 @@ export default {
 	},
 
 	mounted () {
+		var self = this;
 		// Grab 6 posts, offset 0, set the posts data attr as well
-		this.fetchUserData()
-		this.fetchUserPosts(6, 0, true)
-		this.fetchFollowers(10, 0, true)
-		this.fetchFollowing(10, 0, true)
+		this.fetchUserData().then(function () {
+			self.fetchUserPosts(6, 0, true)
+			self.fetchFollowers(10, 0, true)
+			self.fetchFollowing(10, 0, true)
+		}).catch(function (err) {
+			helpers.toast({ type: 'error', title: err.message })
+		})
 	}
 }
 </script>

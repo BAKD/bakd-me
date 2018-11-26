@@ -30,9 +30,11 @@
     </template>
   
     <!-- Read Only Cover -->
-    <div class="cover-wrapper" v-else>
-      <img :class="{ 'orange-bg': !user.cover }" :src="user.cover_url || default_cover" class="cover-photo" />
-    </div>
+    <template v-else>
+      <div class="cover-wrapper">
+        <img :class="{ 'orange-bg': !user.cover }" :src="user.cover_url || default_cover" class="cover-photo" />
+      </div>
+    </template> 
 
   </section>
 </template>

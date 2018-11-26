@@ -1,23 +1,57 @@
 <template>
 	<router-link :to="{ name: 'members.show.public', params: { id: member.id } }">
-		<div class="card has-shadow has-hover member-card-wrapper animated fadeIn">
+		<div class="card has-shadow has-hover member-card-wrapper animated fadeIn" style="margin-bottom: .65rem;">
 		  <div class="card-image">
-		    <figure class="image is-16x9" :class="{ 'orange-bg': !member.cover_url }" :style="'background-image: url(' + (member ? member.cover_url : '') + '); background-position: 50% 50%; background-size: cover; background-repeat: no-repeat; width: 100%; max-width: 400px; height: 120px; overflow: hidden;'">
+		    <figure class="image is-16x9" :class="{ 'orange-bg': !member.cover_url }" :style="'background-image: url(' + (member ? member.cover_url : '') + '); background-position: 50% 50%; background-size: cover; background-repeat: no-repeat; width: 100%; max-width: 400px; height: 100px; overflow: hidden; border-radius: 2px;'">
 		    </figure>
 		  </div>
-		  <div class="card-content">
-		    <div class="media">
+		  <div class="card-content" style="padding-bottom: 0;">
+		    <div class="media" style="margin-top: -50px;">
 		      <div class="media-left">
-		        <figure class="image is-48x48">
-		          <img :src="member.avatar_url || member.photo_url" />
+		        <figure class="image is-96x96 is-rounded">
+		          <img :src="member.avatar_url || member.photo_url" class="is-rounded" style="border: 6px solid #fff;" />
 		        </figure>
 		      </div>
-		      <div class="media-content is-paddingless is-clipped">
-		        <p class="title is-5 member-name">{{ member.name }}</p>
-		        <p class="subtitle is-6 member-username">@{{ member.name | slugify }}</p>
+		      <div class="media-content is-paddingless is-clipped is-v-centered">
+		        <p class="title is-5 member-name" style="margin-top: .25rem; margin-bottom: 1rem;">{{ member.name }}</p>
+		        <p class="subtitle is-6 member-username" style="margin-top: -1rem;">@{{ member.username || member.id }}</p>
 		      </div>
 		    </div>
 		  </div>
+
+			<!-- <div class="card-footer"> -->
+				<div class="columns" style="padding: 10px 10px 10px;">
+					<div class="column is-one-third has-text-centered">
+						<p class="subtitle is-size-7 has-text-grey-light">
+							Tweets
+						</p>
+						<p class="title is-size-6">
+							0
+						</p>
+					</div>
+					<div class="column is-one-third has-text-centered">
+						<p class="subtitle is-size-7 has-text-grey-light">
+							Followers
+						</p>
+						<p class="title is-size-6">
+							{{ member.follower_count || 0 }}
+						</p>
+					</div>
+					<div class="column is-one-third has-text-centered">
+						<p class="subtitle is-size-7 has-text-grey-light">
+							Following
+						</p>
+						<p class="title is-size-6">
+							{{ member.following_count || 0 }}
+						</p>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
 		  <!-- <div class="has-text-centered">
 			<hr class="is-marginless" />
 		  	<div class="columns" style="padding-top: 10px;">

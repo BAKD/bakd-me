@@ -3,7 +3,7 @@
     <navbar/>
     <bakd-page-header class="has-text-centered is-small" style="margin-top: 65px;">
        <h1 class="title is-white wow fadeInRight is-size-2">Member <span class="is-primary">Dashboard</span></h1>
-       <h2 class="hidden-mobile subtitle is-white is-size-5 wow fadeInLeft">Find team members for your next project or just meet new people</h2>
+       <h2 class="hidden-mobile subtitle is-white is-size-5 wow fadeInLeft">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h2>
     </bakd-page-header>
     <div class="container" style="margin-top: 30px;">
       <div class="columns">

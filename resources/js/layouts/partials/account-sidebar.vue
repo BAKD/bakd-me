@@ -50,18 +50,18 @@ export default {
 	            to: 'members.settings.privacy',
 	            isActive: false,
 	          },
-	          {
-	            name: 'Followers',
-	            slug: 'followers',
-	            to: 'members.followers',
-	            isActive: false,
-	          },
-	          {
-	            name: 'Following',
-	            slug: 'following',
-	            to: 'members.following',
-	            isActive: false,
-	          },
+	          // {
+	          //   name: 'Followers',
+	          //   slug: 'followers',
+	          //   to: 'members.followers',
+	          //   isActive: false,
+	          // },
+	          // {
+	          //   name: 'Following',
+	          //   slug: 'following',
+	          //   to: 'members.following',
+	          //   isActive: false,
+	          // },
 	          {
 	            name: 'Bounty Dashboard',
 	            slug: 'bounty_dashboard',

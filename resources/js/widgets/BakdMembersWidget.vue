@@ -1,6 +1,6 @@
 <template>
 	<div class="widget">
-	    <p class="has-text-left title is-size-5">
+	    <p class="has-text-left title is-size-5" v-show="title">
 	      Members
 	    </p>
 	    <div class="box">
@@ -60,6 +60,11 @@ export default {
 		type: { 
 			type: String,
 			required: false 
+		},
+		title: {
+			type: Boolean,
+			required: false,
+			default: true
 		}
 	},
 

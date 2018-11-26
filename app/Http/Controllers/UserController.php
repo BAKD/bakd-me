@@ -48,6 +48,62 @@ class UserController extends Controller
         return response()->json($data);
     }
 
+    /**
+     * Get dropdown list of possible user types
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function types(Request $request)
+    {
+        // TODO: Add these to database, create model, etc
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully fetched user types.',
+            'data' => [
+                [
+                    'id' => 1,
+                    'name' => 'INVESTOR',
+                ],
+                [ 
+                    'id' => 2,
+                    'name' => 'ADVISOR',
+                ],
+                [
+                    'id' => 3,
+                    'name' => 'MENTOR',
+                ],
+                [
+                    'id' => 4,
+                    'name' => 'DEVELOPER',
+                ],
+                [
+                    'id' => 5,
+                    'name' => 'MARKETER',
+                ],
+                [
+                    'id' => 6,
+                    'name' => 'DESIGNER',
+                ],
+                [
+                    'id' => 7,
+                    'name' => 'LAWYER',
+                ],
+                [
+                    'id' => 8,
+                    'name' => 'MANAGEMENT',
+                ],
+                [
+                    'id' => 9,
+                    'name' => 'SOCIAL_MEDIA',
+                ],
+                [
+                    'id' => 10,
+                    'name' => 'CUSTOMER_SUPPORT'
+                ]
+            ]
+        ]);
+    }
+
 
     // /**
     //  * Show featured list of users
@@ -174,7 +230,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function followers(Request $request, $userId = null)
+    public function followers(Request $request, $usernameOrId = null)
     {
         $user = request()->user();
 
@@ -183,16 +239,24 @@ class UserController extends Controller
         
         // If we have a user id to work with, find the user,
         // otherwise just use the currently auth'd user
-        if (! is_null($userId)) {
-            $user = \BAKD\User::find($userId);
+        if (! is_null($usernameOrId)) {
+            $user = \BAKD\User::getUser($usernameOrId);
+            // $user = \BAKD\User::find($usernameOrId);
         }
 
-        $data = $user->getFollowers(false, $limit, $offset);
+        if ($user) {
+            $data = $user->getFollowers(false, $limit, $offset);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Successfully fetched users followers.',
+                'data' => $data
+            ]);
+        }
 
         return response()->json([
-            'status' => 'success',
-            'message' => 'Successfully fetched users followers.',
-            'data' => $data
+            'status' => 'error',
+            'message' => 'Unable to find users followers.',
         ]);
     }
 
@@ -201,7 +265,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function following(Request $request, $userId = null)
+    public function following(Request $request, $usernameOrId = null)
     {
         $user = request()->user();
 
@@ -210,16 +274,24 @@ class UserController extends Controller
 
         // If we have a user id to work with, find the user,
         // otherwise just use the currently auth'd user
-        if (! is_null($userId)) {
-            $user = \BAKD\User::find($userId);
+        if (! is_null($usernameOrId)) {
+            $user = \BAKD\User::getUser($usernameOrId);
+            // $user = \BAKD\User::find($usernameOrId);
         }
 
-        $data = $user->getFollowing(false, $limit, $offset);
+        if ($user) {
+            $data = $user->getFollowing(false, $limit, $offset);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Successfully fetched users follows.',
+                'data' => $data
+            ]);
+        }
 
         return response()->json([
-            'status' => 'success',
-            'message' => 'Successfully fetched users follows.',
-            'data' => $data
+            'status' => 'error',
+            'message' => 'Unable to find users follows.',
         ]);
     }
 
@@ -253,8 +325,10 @@ class UserController extends Controller
     public function show($id)
     {
         $authdUser = request()->user();
-        $user = \BAKD\User::findOrFail($id);
         $isFollowing = false;
+
+        $user = \BAKD\User::getUser($id);
+        // $user = \BAKD\User::findOrFail($id);
 
         if ($authdUser->id !== $user->id) {
             $isFollowing = $authdUser->isFollowing($user->id);

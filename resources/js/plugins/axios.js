@@ -62,7 +62,7 @@ axios.interceptors.response.use(response => response, error => {
     router.to({ component: NotFound })
   }
 
-  // Auth check interceptor
+  // Expired session check
   if (status === 401 && store.getters['auth/check']) {
     swal({
       type: 'warning',
@@ -76,6 +76,12 @@ axios.interceptors.response.use(response => response, error => {
 
       router.push({ name: 'login' })
     })
+  }
+
+  if (status === 401) {
+      store.commit('auth/LOGOUT')
+      helpers.toast({ type: 'error', title: 'Please log in or register to continue'})
+      router.push({ name: 'login' })
   }
 
   return Promise.reject(error)

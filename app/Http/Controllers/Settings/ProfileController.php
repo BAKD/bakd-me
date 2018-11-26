@@ -19,9 +19,20 @@ class ProfileController extends Controller
 
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$user->id,
+            'email' => 'required|email|unique:user,email,' . $user->id,
+            'title' => 'max:255',
+            'bio' => 'max:300',
+            'wallet' => 'max: 255',
+            'website' => 'url',
+            'username' => 'max:18|regex:/^[a-zA-Z]/i|required|alpha_num|unique:user,username,' . $user->id,
         ]);
 
-        return tap($user)->update($request->only('name', 'email'));
+        $data = tap($user)->update($request->only('name', 'email', 'title', 'bio', 'wallet', 'website', 'username'));
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'You successfully updated your profile details',
+            'data' => $data
+        ]); 
     }
 }

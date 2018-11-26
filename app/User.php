@@ -24,7 +24,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'verified', 'private', 'following_count', 'follower_count', 'reddit', 'bitcoin_talk', 'github', 'google', 'twitter', 'linkedin', 'facebook', 'website', 'wallet', 'bio', 'title', 'currency_id', 'balance'
+        'name', 'email', 'password', 'verified', 'private', 'following_count', 'follower_count', 'reddit', 'bitcoin_talk', 'github', 'google', 'twitter', 'linkedin', 'facebook', 'website', 'wallet', 'bio', 'title', 'currency_id', 'balance', 'username'
     ];
 
     /**
@@ -51,6 +51,25 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $dates = ['created_at', 'updated_at'];
+
+    /**
+     * Get a user object from either a numeric ID or a unique username string
+     * which can NOT start with a digit.
+     * 
+     * Since usernames are forbidden to start with a number, check if this
+     * string is numeric, if it is, we have a regular id lookup. If it's not
+     * numeric, we're using a username lookup. N.B. usernames are/must be unique.
+     *
+     * @return string
+     */
+    public static function getUser($usernameOrId, array $eagerRelationships = array('social')) 
+    {
+        if (is_numeric($usernameOrId) || is_int($usernameOrId)) {
+            return self::with($eagerRelationships)->find($usernameOrId);
+        } else {
+            return self::with($eagerRelationships)->where('username', '=', $usernameOrId)->first();
+        }
+    }
 
     /**
      * Get the profile photo URL attribute.

@@ -26,7 +26,12 @@
       </template>
 
       <template v-else>
-        <img :src="user.avatar_url || user.photo_url" class="is-rounded member-avatar-img no-edit" />
+        <div class="avatar-image-wrapper"> 
+          <label for="avatar">
+            <img :src="user.avatar_url || user.photo_url" class="is-rounded member-avatar-img no-edit" />
+          </label>
+        </div>
+        <br />
       </template>
     </div>
 
@@ -175,8 +180,10 @@ export default {
 .avatar-edit {
   margin: 0 auto 40px; 
   display: block; 
-  height: 200px; 
-  width: 200px;
+  max-height: 200px; 
+  max-width: 200px;
+  height: auto;
+  width: 100%;
 }
 .member-avatar .drop-active {
   top: 0;
@@ -194,9 +201,10 @@ export default {
   background: #fff;
   border: 2px solid #dadada; 
   margin: 0 auto; 
-  height: 200px; 
-  width: 200px;
-  max-width: 100%;
+  max-height: 200px; 
+  max-width: 200px;
+  height: auto;
+  width: 100%;
   transition: all .2s ease;
   
   &.has-hover {
@@ -211,16 +219,20 @@ export default {
   border-radius: 500px; 
   text-align: center; 
   margin: 0 auto; 
-  width: 200px; 
-  height: 200px; 
+  max-height: 200px; 
+  max-width: 200px;
+  height: auto;
+  width: 100%;
   background: #fff; 
   position: relative; 
   z-index: 99;
 }
 .avatar-crop-image {
   display: block; 
-  height: 200px; 
-  width: 200px;
+  max-height: 200px; 
+  max-width: 200px;
+  height: auto;
+  width: 100%;
 }
 .avatar-image-wrapper {
   &:hover {

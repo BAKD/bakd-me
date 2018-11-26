@@ -32,13 +32,14 @@ Route::name('api.')->group(function () {
         Route::get('bounties', 'Frontend\PageController@bounties')->name('bounties');
         Route::get('campaigns', 'Frontend\PageController@campaigns')->name('campaigns');
         Route::get('members', 'Frontend\PageController@members')->name('members');
-        Route::get('u/{id}', 'Frontend\PageController@profile')->name('members.profile');
+        Route::get('u/{usernameOrId}', 'Frontend\PageController@profile')->name('members.profile');
         Route::get('u/{id}/posts', 'UserController@posts')->name('members.posts');
 
         // Get the currently logged in user
         Route::get('/user', 'UserController@current')->name('users.current');
         Route::get('/user/followers/{userId?}', 'UserController@followers')->name('users.followers');
         Route::get('/user/following/{userId?}', 'UserController@following')->name('users.following');
+        Route::get('/user/types', 'UserController@types')->name('users.types');
 
         // Get a specific user based on the param passed
         Route::post('/user', 'UserController@show')->name('users.show');

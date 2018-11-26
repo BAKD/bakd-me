@@ -1,47 +1,47 @@
 <template>
-  <!-- <div class="level-item"> -->
-  <nav class="panelszz zzhas-shadow">
-    <div class="panelsd-block is-size-4">
-      <i class="la la-lock is-size-4" />&nbsp;<span class="is-size-5 is-bold">Update Password</span>
-        <hr style="margin: 15px 0;" />
-    </div>
-    <div class="paneldds-block">
-    <!-- <panel :title="$t('your_password')" style="width: 100%;"> -->
-      <form class="control form" @submit.prevent="update" @keyup="form.onKeydown($event)">
+  <section>
+    <nav class="panel has-shadow">
+      <div class="panel-block is-size-4">
+        <i class="la la-lock is-size-4" />&nbsp;<span class="is-size-5 is-bold">Update Password</span>
+          <hr style="margin: 15px 0;" />
+      </div>
+      <div class="panel-block" style="padding: 35px;">
+        <form class="control form" @submit.prevent="update" @keyup="form.onKeydown($event)">
 
-        <bakd-alert-success :form="form" :message="$t('password_updated')"/>
+          <!-- <bakd-alert-success :form="form" :message="$t('password_updated')"/> -->
 
-        <!-- Password -->
-        <bakd-input 
-          name="password" 
-          type="password" 
-          :placeholder="$t('new_password')" 
-          :label="$t('password')" 
-          :form="form" 
-          password-reveal
-          v-model="form.password" />
+          <!-- Password -->
+          <bakd-input 
+            name="password" 
+            type="password" 
+            :placeholder="$t('new_password')" 
+            :label="$t('password')" 
+            :form="form" 
+            password-reveal
+            v-model="form.password" />
 
-        <!-- Password Confirmation -->
-        <bakd-input 
-          name="password_confirmation" 
-          type="password" 
-          :placeholder="$t('confirm_password')" 
-          :label="$t('confirm_password')" 
-          :form="form" 
-          password-reveal
-          v-model="form.password_confirmation" />
+          <!-- Password Confirmation -->
+          <bakd-input 
+            name="password_confirmation" 
+            type="password" 
+            :placeholder="$t('confirm_password')" 
+            :label="$t('confirm_password')" 
+            :form="form" 
+            password-reveal
+            v-model="form.password_confirmation" />
 
-        <!-- <hr style="margin: 15px 0;" /> -->
-        <!-- Submit Button -->
-        <div class="has-text-centered is-100">
-          <v-button class="is-large is-rounded is-wide" :loading="form.busy" style="margin-bottom: 10px; margin-top: 30px;">
-            <span class="is-size-6">{{ $t('update') }}</span>
-          </v-button>
-        </div>
-      </form>
-
-  </div>
+        </form>
+      </div>
     </nav>
+    
+    <!-- Submit Button -->
+    <div class="has-text-centered is-100">
+      <button class="button is-primary is-large is-rounded is-wide" @click.prevent="update" :loading="form.busy" style="margin-bottom: 10px; margin-top: 30px;">
+        <span class="is-size-6">{{ $t('update') }}</span>
+      </button>
+    </div>
+
+  </section>
 </template>
 
 <script>

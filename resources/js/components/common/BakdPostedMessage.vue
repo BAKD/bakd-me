@@ -12,37 +12,14 @@
           <p class="subtitle is-size-7" style="padding-top: 6px;">
             {{ post.user.type | capitalize }}
           </p>
-          <p class="trust-widget is-size-7 has-text-centered">
+          <!-- <p class="trust-widget is-size-7 has-text-centered">
             <span class="is-bold">Trust:</span> <span class="is-green is-bold">+10,200</span>
-          </p>
-
-          <!-- <p>
-            <ul class="has-text-centered">
-              <li class="inline-block">
-                <b-tooltip label="Give Trust" type="is-dark">
-                  <a href="#" class="has-text-dark">
-                    <div class="icon">
-                      <i class="la la-chevron-up" />
-                    </div>
-                  </a>
-                </b-tooltip>
-              </li>
-              <li class="inline-block">
-                <b-tooltip label="Lose Trust" type="is-dark">
-                  <a href="#" class="has-text-dark">
-                    <div class="icon">
-                      <i class="la la-chevron-down" />
-                    </div>
-                  </a>
-                </b-tooltip>
-              </li>
-            </ul>
           </p> -->
         </figure>
 
         <!-- MAIN POST CONTENT -->
         <div class="media-content">
-          <div class="level">
+          <div class="level is-marginless" style="padding-bottom: .5rem;">
             <div class="level-left">
               <span class="is-bold">
               <router-link :to="{ name: 'members.show.public', params: { id: post.user.id } }">
@@ -68,10 +45,11 @@
           <!-- Main Message Section -->
           <div class="field" style="margin-bottom: 0;">
             <p class="control" style="padding-top: 0px;">
-              <b-message style="margin-bottom: 20px; padding: 20px;" v-html="post.message"></b-message>
+              <b-message style="margin-bottom: 10px; padding: 10px 15px;" v-html="post.message"></b-message>
+            </p>
               
               <!-- TODO: Setup Tag System -->
-              <ul class="tags field is-grouped">
+              <!-- <ul class="tags field is-grouped">
                 <a href="#">
                   <li class="tag is-rounded" style="margin-right: 10px;">
                     #btc 
@@ -92,8 +70,7 @@
                     #p2p
                   </li>
                 </a>
-              </ul>
-            </p>
+              </ul> -->
           </div>
         </div>
       </article>
@@ -117,6 +94,7 @@
                     </div>
                   </a>
                 </b-tooltip>
+                <span class="stat likes is-bold is-size-7">0</span>
               </li>
               <li style="margin-right: 10px;">
                 <b-tooltip label="Dislike" type="is-dark" position="is-bottom">
@@ -126,6 +104,7 @@
                     </div>
                   </a>
                 </b-tooltip>
+                <span class="stat dislikes is-bold is-size-7">0</span>
               </li>
               <li style="margin-right: 10px;">
                 <b-tooltip label="Comment" type="is-dark" position="is-bottom">
@@ -135,6 +114,7 @@
                     </div>
                   </a>
                 </b-tooltip>
+                <span class="stat comments is-bold is-size-7">0</span>
               </li>
               <!-- <li style="margin-right: 10px;">
                 <b-tooltip label="Reshare" type="is-dark" position="is-bottom">
@@ -154,6 +134,8 @@
                     <b-dropdown-item><i class="la la-share"/> Reshare</b-dropdown-item>
                     <b-dropdown-item><i class="la la-ban"/> Mute Member</b-dropdown-item>
                     <b-dropdown-item><i class="la la-bell"/> Report Message</b-dropdown-item>
+                    <b-dropdown-item separator/>
+                    <b-dropdown-item><i class="la la-times"/> Delete Message</b-dropdown-item>
                   </b-dropdown>
                 </b-tooltip>
               </li>
@@ -212,5 +194,9 @@ export default {
   }
   .inline-block {
     display: inline-block;
+  }
+  .stat {
+    position: relative;
+    top: -3px;
   }
 </style>

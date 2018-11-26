@@ -181,14 +181,15 @@ class PageController extends FrontendController
      *
      * @return \Illuminate\Http\Response
      */
-    public function profile(Request $request, $id)
+    public function profile(Request $request, $usernameOrId)
     {
         $authdUser = request()->user();
-        $user = \BAKD\User::with('social')->findOrFail($id);
         $isFollowing = false;
 
+        $user = \BAKD\User::getUser($usernameOrId, ['social']);
+
         // Check that we're not on the auth'd user's page.
-        if ($authdUser && $authdUser->id !== $user->id) {
+        if ($authdUser && $user && $authdUser->id !== $user->id) {
             $isFollowing = $authdUser->isFollowing($user->id);
         }
 
@@ -208,7 +209,6 @@ class PageController extends FrontendController
             'data' => $payload
         ]);
     }
-
 
     /**
      * Show the application's campaigns static page.
